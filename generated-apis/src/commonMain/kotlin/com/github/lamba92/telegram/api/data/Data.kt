@@ -1,7 +1,7 @@
 package com.github.lamba92.telegram.api.data
 
-import com.github.lamba92.telegram.api.generated.data.ResponseParameters
-import com.github.lamba92.telegram.api.generated.data.User
+import com.github.lamba92.telegram.api.generated.ResponseParameters
+import com.github.lamba92.telegram.api.generated.User
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.*
@@ -20,7 +20,7 @@ data class TelegramResponse<T>(
     val parameters: ResponseParameters? = null,
 )
 
-inline class TelegramBotApiClient private constructor(val httpClient: HttpClient) {
+class TelegramBotApiClient private constructor(val httpClient: HttpClient) {
 
     companion object {
 
@@ -53,7 +53,7 @@ inline class TelegramBotApiClient private constructor(val httpClient: HttpClient
 
 }
 
-suspend fun TelegramBotApiClient.getMe() =
+suspend fun TelegramBotApiClient.getMe(): TelegramResponse<User> =
     httpClient.get<TelegramResponse<User>> {
         url("https://api.bla bla bla")
 

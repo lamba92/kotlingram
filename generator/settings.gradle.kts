@@ -15,11 +15,4 @@ pluginManagement {
     }
 }
 
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        maven("https://kotlin.bintray.com/kotlinx")
-        maven("https://plugins.gradle.org/m2/")
-    }
-}
+include(":parser", ":parser:cli")

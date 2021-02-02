@@ -5,7 +5,9 @@ plugins {
 }
 
 telegramApiParser {
-    outputDirectory = file("$buildDir/generated/commonMain/kotlin")
+    outputDirectory = file("src/commonMain/kotlin")
+    packageName = "com.github.lamba92.telegram.api.generated"
+    telegramClientPackage = "com.github.lamba92.telegram.api.data"
 }
 
 kotlin {
@@ -45,10 +47,6 @@ kotlin {
                 api("io.ktor:ktor-client-core:$ktorVersion")
                 api("io.ktor:ktor-client-serialization:$ktorVersion")
             }
-            kotlin.srcDir(telegramApiParser.outputDirectory)
-        }
-        all {
-            languageSettings.enableLanguageFeature("InlineClasses")
         }
     }
 

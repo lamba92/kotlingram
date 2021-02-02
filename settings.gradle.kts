@@ -26,3 +26,5 @@ dependencyResolutionManagement {
 rootProject.name = "telegram-bot-kotlin-api"
 
 include(":generated-apis")
+
+includeBuild("generator")

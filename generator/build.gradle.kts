@@ -19,15 +19,6 @@ kotlin.target.compilations.all {
 }
 
 dependencies {
-
-    val ideaExtPluginVersion: String by project
-
-    implementation(kotlin("reflect"))
-    api(
-        "org.jetbrains.gradle.plugin.idea-ext",
-        "org.jetbrains.gradle.plugin.idea-ext.gradle.plugin",
-        ideaExtPluginVersion
-    )
     api(project(":parser"))
 }
 

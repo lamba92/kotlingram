@@ -1,3 +1,5 @@
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
@@ -11,24 +13,25 @@ telegramApiParser {
 }
 
 kotlin {
-
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
+    when {
+        OperatingSystem.current().isWindows -> {
+            jvm {
+                compilations.all {
+                    kotlinOptions.jvmTarget = "1.8"
+                }
+            }
+            js(BOTH) {
+                nodejs()
+            }
+            mingwX64()
+            linuxX64()
+        }
+        OperatingSystem.current().isMacOsX -> {
+            ios()
+            watchos()
+            tvos()
         }
     }
-
-    js(BOTH) {
-        nodejs()
-    }
-
-    mingwX64()
-
-    ios()
-    watchos()
-    tvos()
-
-    linuxX64()
 
     targets.all {
         compilations.all {

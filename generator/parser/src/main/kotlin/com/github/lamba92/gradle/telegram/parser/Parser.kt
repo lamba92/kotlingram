@@ -55,7 +55,7 @@ val passportErrorTypes = listOf(
 val responseTypeRegexes = listOf(
     Regex("An (.*) objects is returned"),
     Regex("Returns (\\w*) on success"),
-    Regex("[Rr]eturns an? (.*) object"),
+    Regex("[Rr]eturns an? (.*?) object"),
     Regex("in form of a (\\w*) object"),
     Regex("[Oo]n success, (\\w*) is returned"),
     Regex("the sent (\\w*) is returned"),
@@ -66,6 +66,8 @@ val responseTypeRegexes = listOf(
     Regex("Returns the (\\w*) of the"),
     Regex("returns the edited (\\w*),"),
     Regex("Returns the uploaded (\\w*) on success"),
+    Regex("Returns the new invite link as (String) on success"),
+    Regex("Returns (.*) on success"),
     Regex("as (\\w*) on success"),
 )
 
@@ -117,6 +119,38 @@ fun Sequence<DocElement>.filterTables() = sequence {
         yield(buffer.toList())
 }
 
+val falsePositiveMethodWithoutBodyTitles = listOf(
+    "InputMedia",
+    "InputFile",
+    "Sending files",
+    "Inline mode objects",
+    "Formatting options",
+    "Inline mode methods",
+    "InlineQueryResult",
+    "InputMessageContent",
+    "PassportElementError"
+)
+
+fun Sequence<DocElement>.filterMethodsWithoutBody() = sequence {
+    var startFound = false
+    val buffer = mutableListOf<DocElement>()
+    forEach { currentElement ->
+        if (currentElement.tagName == "h3" && currentElement.text == "Getting updates")
+            startFound = true
+        val tagNames = buffer.map { it.tagName }
+        if (currentElement.tagName == "h4" && "h4" in tagNames) {
+            if ("table" !in tagNames)
+                yield(buffer.subList(buffer.indexOfLast { it.tagName == "h4" }, buffer.size).toList())
+            buffer.clear()
+        }
+        if (startFound)
+            when (currentElement.tagName) {
+                "h4" -> if (currentElement.text.first().isLowerCase()) buffer.add(currentElement)
+                else -> buffer.add(currentElement)
+            }
+    }
+}
+
 fun Sequence<List<DocElement>>.filterObjects() = filter {
     it.first { it.tagName == "table" }.thead {
         tr {
@@ -137,7 +171,7 @@ fun Sequence<List<DocElement>>.filterMethodsWithBody() = filter {
     } && it.first { it.tagName == "h4" }.text.first().isLowerCase()
 }
 
-fun List<DocElement>.asTelegramMethod(): TelegramMethodWithBody {
+fun List<DocElement>.asTelegramMethodWithBody(): TelegramMethod {
     val tableLines = first { it.tagName == "table" }.tbody {
         tr {
             findAll {
@@ -156,7 +190,16 @@ fun List<DocElement>.asTelegramMethod(): TelegramMethodWithBody {
 
     val name = first { it.tagName == "h4" }.text
 
-    return TelegramMethodWithBody(name, tableLines, description)
+    return TelegramMethod(name, tableLines, description)
+}
+
+fun List<DocElement>.asTelegramMethodWithoutBody(): TelegramMethod {
+    val description = filter { it.tagName == "p" }
+        .joinToString("\n") { it.text }
+
+    val name = first { it.tagName == "h4" }.text
+
+    return TelegramMethod(name, emptyList(), description)
 }
 
 fun List<DocElement>.asTelegramObject(): TelegramObject {
@@ -206,7 +249,7 @@ fun generateDataFile(
 }
 
 fun generateRequestWithBodyFile(
-    data: List<TelegramMethodWithBody>,
+    data: List<TelegramMethod>,
     packageName: String = "",
     telegramClientPackage: String = "",
 ) = buildString {
@@ -259,15 +302,14 @@ fun generateFiles(outputFolderPath: File, packages: String, telegramClientPackag
         .toList()
         .let { File(finalFolder, "Data.kt").writeText(generateDataFile(it, packages, telegramClientPackage)) }
 
-    docs.filterTables()
+    val methods = docs.filterTables()
         .filterMethodsWithBody()
-        .map { it.asTelegramMethod() }
+        .map { it.asTelegramMethodWithBody() }
+        .toList() + docs.filterMethodsWithoutBody()
+        .map { it.asTelegramMethodWithoutBody() }
         .toList()
-        .let {
-            File(finalFolder, "MethodsWithBody.kt")
-                .writeText(generateRequestWithBodyFile(it, packages, telegramClientPackage))
-        }
 
+    File(finalFolder, "Methods.kt").writeText(generateRequestWithBodyFile(methods, packages, telegramClientPackage))
 
     File(finalFolder, "Data.kt").appendText(buildString {
         appendLine()

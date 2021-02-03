@@ -1,11 +1,12 @@
 package com.github.lamba92.telegram.api.generated
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.github.lamba92.telegram.api.data.PassportElementError
+import com.github.lamba92.telegram.api.data.TelegramBotApiClient
+import com.github.lamba92.telegram.api.data.TelegramResponse
 import io.ktor.client.request.*
 import io.ktor.http.*
-import com.github.lamba92.telegram.api.data.TelegramBotApiClient
-import com.github.lamba92.telegram.api.data.*
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
 /**
@@ -27,18 +28,17 @@ data class GetUpdatesRequest(
  * Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
  * Notes 1. This method will not work if an outgoing webhook is set up. 2. In order to avoid getting duplicate updates, recalculate offset after each server response.
  */
-suspend fun TelegramBotApiClient.getUpdates(
-    requestBody: GetUpdatesRequest
-) = httpClient.post<TelegramResponse<List<Update>>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "getUpdates")
+suspend fun TelegramBotApiClient.getUpdates(requestBody: GetUpdatesRequest) =
+    httpClient.post<TelegramResponse<List<Update>>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getUpdates")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -66,18 +66,17 @@ data class SetWebhookRequest(
  * If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. https://www.example.com/<token>. Since nobody else knows your bot's token, you can be pretty sure it's us.
  * Notes 1. You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up. 2. To use a self-signed certificate, you need to upload your public key certificate using certificate parameter. Please upload as InputFile, sending a String will not work. 3. Ports currently supported for Webhooks: 443, 80, 88, 8443. NEW! If you're having any trouble setting up webhooks, please check out this amazing guide to Webhooks.
  */
-suspend fun TelegramBotApiClient.setWebhook(
-    requestBody: SetWebhookRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setWebhook")
+suspend fun TelegramBotApiClient.setWebhook(requestBody: SetWebhookRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setWebhook")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -93,18 +92,17 @@ data class DeleteWebhookRequest(
 /**
  * Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
  */
-suspend fun TelegramBotApiClient.deleteWebhook(
-    requestBody: DeleteWebhookRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "deleteWebhook")
+suspend fun TelegramBotApiClient.deleteWebhook(requestBody: DeleteWebhookRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "deleteWebhook")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -136,18 +134,17 @@ data class SendMessageRequest(
 /**
  * Use this method to send text messages. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendMessage(
-    requestBody: SendMessageRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendMessage")
+suspend fun TelegramBotApiClient.sendMessage(requestBody: SendMessageRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendMessage")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -169,18 +166,17 @@ data class ForwardMessageRequest(
 /**
  * Use this method to forward messages of any kind. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.forwardMessage(
-    requestBody: ForwardMessageRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "forwardMessage")
+suspend fun TelegramBotApiClient.forwardMessage(requestBody: ForwardMessageRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "forwardMessage")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -214,18 +210,17 @@ data class CopyMessageRequest(
 /**
  * Use this method to copy messages of any kind. The method is analogous to the method forwardMessages, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
  */
-suspend fun TelegramBotApiClient.copyMessage(
-    requestBody: CopyMessageRequest
-) = httpClient.post<TelegramResponse<MessageId>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "copyMessage")
+suspend fun TelegramBotApiClient.copyMessage(requestBody: CopyMessageRequest) =
+    httpClient.post<TelegramResponse<MessageId>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "copyMessage")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -257,18 +252,17 @@ data class SendPhotoRequest(
 /**
  * Use this method to send photos. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendPhoto(
-    requestBody: SendPhotoRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendPhoto")
+suspend fun TelegramBotApiClient.sendPhoto(requestBody: SendPhotoRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendPhoto")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -309,18 +303,17 @@ data class SendAudioRequest(
  * Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
  * For sending voice messages, use the sendVoice method instead.
  */
-suspend fun TelegramBotApiClient.sendAudio(
-    requestBody: SendAudioRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendAudio")
+suspend fun TelegramBotApiClient.sendAudio(requestBody: SendAudioRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendAudio")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -356,18 +349,17 @@ data class SendDocumentRequest(
 /**
  * Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
  */
-suspend fun TelegramBotApiClient.sendDocument(
-    requestBody: SendDocumentRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendDocument")
+suspend fun TelegramBotApiClient.sendDocument(requestBody: SendDocumentRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendDocument")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -409,18 +401,17 @@ data class SendVideoRequest(
 /**
  * Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
  */
-suspend fun TelegramBotApiClient.sendVideo(
-    requestBody: SendVideoRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendVideo")
+suspend fun TelegramBotApiClient.sendVideo(requestBody: SendVideoRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendVideo")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -460,18 +451,17 @@ data class SendAnimationRequest(
 /**
  * Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
  */
-suspend fun TelegramBotApiClient.sendAnimation(
-    requestBody: SendAnimationRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendAnimation")
+suspend fun TelegramBotApiClient.sendAnimation(requestBody: SendAnimationRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendAnimation")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -505,18 +495,17 @@ data class SendVoiceRequest(
 /**
  * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
  */
-suspend fun TelegramBotApiClient.sendVoice(
-    requestBody: SendVoiceRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendVoice")
+suspend fun TelegramBotApiClient.sendVoice(requestBody: SendVoiceRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendVoice")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -548,18 +537,17 @@ data class SendVideoNoteRequest(
 /**
  * As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendVideoNote(
-    requestBody: SendVideoNoteRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendVideoNote")
+suspend fun TelegramBotApiClient.sendVideoNote(requestBody: SendVideoNoteRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendVideoNote")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -583,18 +571,17 @@ data class SendMediaGroupRequest(
 /**
  * Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
  */
-suspend fun TelegramBotApiClient.sendMediaGroup(
-    requestBody: SendMediaGroupRequest
-) = httpClient.post<TelegramResponse<List<Message>>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendMediaGroup")
+suspend fun TelegramBotApiClient.sendMediaGroup(requestBody: SendMediaGroupRequest) =
+    httpClient.post<TelegramResponse<List<Message>>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendMediaGroup")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -630,18 +617,17 @@ data class SendLocationRequest(
 /**
  * Use this method to send point on the map. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendLocation(
-    requestBody: SendLocationRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendLocation")
+suspend fun TelegramBotApiClient.sendLocation(requestBody: SendLocationRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendLocation")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -673,18 +659,17 @@ data class EditMessageLiveLocationRequest(
 /**
  * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
  */
-suspend fun TelegramBotApiClient.editMessageLiveLocation(
-    requestBody: EditMessageLiveLocationRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "editMessageLiveLocation")
+suspend fun TelegramBotApiClient.editMessageLiveLocation(requestBody: EditMessageLiveLocationRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "editMessageLiveLocation")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -706,18 +691,17 @@ data class StopMessageLiveLocationRequest(
 /**
  * Use this method to stop updating a live location message before live_period expires. On success, if the message was sent by the bot, the sent Message is returned, otherwise True is returned.
  */
-suspend fun TelegramBotApiClient.stopMessageLiveLocation(
-    requestBody: StopMessageLiveLocationRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "stopMessageLiveLocation")
+suspend fun TelegramBotApiClient.stopMessageLiveLocation(requestBody: StopMessageLiveLocationRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "stopMessageLiveLocation")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -757,18 +741,17 @@ data class SendVenueRequest(
 /**
  * Use this method to send information about a venue. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendVenue(
-    requestBody: SendVenueRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendVenue")
+suspend fun TelegramBotApiClient.sendVenue(requestBody: SendVenueRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendVenue")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -800,18 +783,17 @@ data class SendContactRequest(
 /**
  * Use this method to send phone contacts. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendContact(
-    requestBody: SendContactRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendContact")
+suspend fun TelegramBotApiClient.sendContact(requestBody: SendContactRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendContact")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -859,18 +841,17 @@ data class SendPollRequest(
 /**
  * Use this method to send a native poll. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendPoll(
-    requestBody: SendPollRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendPoll")
+suspend fun TelegramBotApiClient.sendPoll(requestBody: SendPollRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendPoll")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -896,18 +877,17 @@ data class SendDiceRequest(
 /**
  * Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendDice(
-    requestBody: SendDiceRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendDice")
+suspend fun TelegramBotApiClient.sendDice(requestBody: SendDiceRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendDice")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -927,18 +907,17 @@ data class SendChatActionRequest(
  * Example: The ImageBot needs some time to process a request and upload the image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use sendChatAction with action = upload_photo. The user will see a “sending photo” status for the bot.
  * We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.
  */
-suspend fun TelegramBotApiClient.sendChatAction(
-    requestBody: SendChatActionRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendChatAction")
+suspend fun TelegramBotApiClient.sendChatAction(requestBody: SendChatActionRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendChatAction")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -958,18 +937,17 @@ data class GetUserProfilePhotosRequest(
 /**
  * Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
  */
-suspend fun TelegramBotApiClient.getUserProfilePhotos(
-    requestBody: GetUserProfilePhotosRequest
-) = httpClient.post<TelegramResponse<UserProfilePhotos>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "getUserProfilePhotos")
+suspend fun TelegramBotApiClient.getUserProfilePhotos(requestBody: GetUserProfilePhotosRequest) =
+    httpClient.post<TelegramResponse<UserProfilePhotos>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getUserProfilePhotos")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -986,18 +964,17 @@ data class GetFileRequest(
  * Use this method to get basic info about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. On success, a File object is returned. The file can then be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>, where <file_path> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.
  * Note: This function may not preserve the original file name and MIME type. You should save the file's MIME type and name (if available) when the File object is received.
  */
-suspend fun TelegramBotApiClient.getFile(
-    requestBody: GetFileRequest
-) = httpClient.post<TelegramResponse<File>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "getFile")
+suspend fun TelegramBotApiClient.getFile(requestBody: GetFileRequest) =
+    httpClient.post<TelegramResponse<File>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getFile")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1017,18 +994,17 @@ data class KickChatMemberRequest(
 /**
  * Use this method to kick a user from a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
  */
-suspend fun TelegramBotApiClient.kickChatMember(
-    requestBody: KickChatMemberRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "kickChatMember")
+suspend fun TelegramBotApiClient.kickChatMember(requestBody: KickChatMemberRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "kickChatMember")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1048,18 +1024,17 @@ data class UnbanChatMemberRequest(
 /**
  * Use this method to unban a previously kicked user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be removed from the chat. If you don't want this, use the parameter only_if_banned. Returns True on success.
  */
-suspend fun TelegramBotApiClient.unbanChatMember(
-    requestBody: UnbanChatMemberRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "unbanChatMember")
+suspend fun TelegramBotApiClient.unbanChatMember(requestBody: UnbanChatMemberRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "unbanChatMember")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1081,18 +1056,17 @@ data class RestrictChatMemberRequest(
 /**
  * Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.
  */
-suspend fun TelegramBotApiClient.restrictChatMember(
-    requestBody: RestrictChatMemberRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "restrictChatMember")
+suspend fun TelegramBotApiClient.restrictChatMember(requestBody: RestrictChatMemberRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "restrictChatMember")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1128,18 +1102,17 @@ data class PromoteChatMemberRequest(
 /**
  * Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass False for all boolean parameters to demote a user. Returns True on success.
  */
-suspend fun TelegramBotApiClient.promoteChatMember(
-    requestBody: PromoteChatMemberRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "promoteChatMember")
+suspend fun TelegramBotApiClient.promoteChatMember(requestBody: PromoteChatMemberRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "promoteChatMember")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1159,18 +1132,17 @@ data class SetChatAdministratorCustomTitleRequest(
 /**
  * Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success.
  */
-suspend fun TelegramBotApiClient.setChatAdministratorCustomTitle(
-    requestBody: SetChatAdministratorCustomTitleRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setChatAdministratorCustomTitle")
+suspend fun TelegramBotApiClient.setChatAdministratorCustomTitle(requestBody: SetChatAdministratorCustomTitleRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setChatAdministratorCustomTitle")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1188,18 +1160,17 @@ data class SetChatPermissionsRequest(
 /**
  * Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights. Returns True on success.
  */
-suspend fun TelegramBotApiClient.setChatPermissions(
-    requestBody: SetChatPermissionsRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setChatPermissions")
+suspend fun TelegramBotApiClient.setChatPermissions(requestBody: SetChatPermissionsRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setChatPermissions")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1216,18 +1187,17 @@ data class ExportChatInviteLinkRequest(
  * Use this method to generate a new invite link for a chat; any previously generated link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns the new invite link as String on success.
  * Note: Each administrator in a chat generates their own invite links. Bots can't use invite links generated by other administrators. If you want your bot to work with invite links, it will need to generate its own link using exportChatInviteLink — after this the link will become available to the bot via the getChat method. If your bot needs to generate a new invite link replacing its previous one, use exportChatInviteLink again.
  */
-suspend fun TelegramBotApiClient.exportChatInviteLink(
-    requestBody: ExportChatInviteLinkRequest
-) = httpClient.post<TelegramResponse<String>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "exportChatInviteLink")
+suspend fun TelegramBotApiClient.exportChatInviteLink(requestBody: ExportChatInviteLinkRequest) =
+    httpClient.post<TelegramResponse<String>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "exportChatInviteLink")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1245,18 +1215,17 @@ data class SetChatPhotoRequest(
 /**
  * Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
  */
-suspend fun TelegramBotApiClient.setChatPhoto(
-    requestBody: SetChatPhotoRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setChatPhoto")
+suspend fun TelegramBotApiClient.setChatPhoto(requestBody: SetChatPhotoRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setChatPhoto")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1272,18 +1241,17 @@ data class DeleteChatPhotoRequest(
 /**
  * Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
  */
-suspend fun TelegramBotApiClient.deleteChatPhoto(
-    requestBody: DeleteChatPhotoRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "deleteChatPhoto")
+suspend fun TelegramBotApiClient.deleteChatPhoto(requestBody: DeleteChatPhotoRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "deleteChatPhoto")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1301,18 +1269,17 @@ data class SetChatTitleRequest(
 /**
  * Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
  */
-suspend fun TelegramBotApiClient.setChatTitle(
-    requestBody: SetChatTitleRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setChatTitle")
+suspend fun TelegramBotApiClient.setChatTitle(requestBody: SetChatTitleRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setChatTitle")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1330,18 +1297,17 @@ data class SetChatDescriptionRequest(
 /**
  * Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
  */
-suspend fun TelegramBotApiClient.setChatDescription(
-    requestBody: SetChatDescriptionRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setChatDescription")
+suspend fun TelegramBotApiClient.setChatDescription(requestBody: SetChatDescriptionRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setChatDescription")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1361,18 +1327,17 @@ data class PinChatMessageRequest(
 /**
  * Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel. Returns True on success.
  */
-suspend fun TelegramBotApiClient.pinChatMessage(
-    requestBody: PinChatMessageRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "pinChatMessage")
+suspend fun TelegramBotApiClient.pinChatMessage(requestBody: PinChatMessageRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "pinChatMessage")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1390,18 +1355,17 @@ data class UnpinChatMessageRequest(
 /**
  * Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel. Returns True on success.
  */
-suspend fun TelegramBotApiClient.unpinChatMessage(
-    requestBody: UnpinChatMessageRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "unpinChatMessage")
+suspend fun TelegramBotApiClient.unpinChatMessage(requestBody: UnpinChatMessageRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "unpinChatMessage")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1417,18 +1381,17 @@ data class UnpinAllChatMessagesRequest(
 /**
  * Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel. Returns True on success.
  */
-suspend fun TelegramBotApiClient.unpinAllChatMessages(
-    requestBody: UnpinAllChatMessagesRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "unpinAllChatMessages")
+suspend fun TelegramBotApiClient.unpinAllChatMessages(requestBody: UnpinAllChatMessagesRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "unpinAllChatMessages")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1444,18 +1407,17 @@ data class LeaveChatRequest(
 /**
  * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
  */
-suspend fun TelegramBotApiClient.leaveChat(
-    requestBody: LeaveChatRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "leaveChat")
+suspend fun TelegramBotApiClient.leaveChat(requestBody: LeaveChatRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "leaveChat")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1471,18 +1433,17 @@ data class GetChatRequest(
 /**
  * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.
  */
-suspend fun TelegramBotApiClient.getChat(
-    requestBody: GetChatRequest
-) = httpClient.post<TelegramResponse<Chat>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "getChat")
+suspend fun TelegramBotApiClient.getChat(requestBody: GetChatRequest) =
+    httpClient.post<TelegramResponse<Chat>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getChat")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1498,18 +1459,17 @@ data class GetChatAdministratorsRequest(
 /**
  * Use this method to get a list of administrators in a chat. On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.
  */
-suspend fun TelegramBotApiClient.getChatAdministrators(
-    requestBody: GetChatAdministratorsRequest
-) = httpClient.post<TelegramResponse<List<ChatMember>>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "getChatAdministrators")
+suspend fun TelegramBotApiClient.getChatAdministrators(requestBody: GetChatAdministratorsRequest) =
+    httpClient.post<TelegramResponse<List<ChatMember>>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getChatAdministrators")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1525,18 +1485,17 @@ data class GetChatMembersCountRequest(
 /**
  * Use this method to get the number of members in a chat. Returns Int on success.
  */
-suspend fun TelegramBotApiClient.getChatMembersCount(
-    requestBody: GetChatMembersCountRequest
-) = httpClient.post<TelegramResponse<Int>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "getChatMembersCount")
+suspend fun TelegramBotApiClient.getChatMembersCount(requestBody: GetChatMembersCountRequest) =
+    httpClient.post<TelegramResponse<Int>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getChatMembersCount")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1554,18 +1513,17 @@ data class GetChatMemberRequest(
 /**
  * Use this method to get information about a member of a chat. Returns a ChatMember object on success.
  */
-suspend fun TelegramBotApiClient.getChatMember(
-    requestBody: GetChatMemberRequest
-) = httpClient.post<TelegramResponse<ChatMember>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "getChatMember")
+suspend fun TelegramBotApiClient.getChatMember(requestBody: GetChatMemberRequest) =
+    httpClient.post<TelegramResponse<ChatMember>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getChatMember")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1583,18 +1541,17 @@ data class SetChatStickerSetRequest(
 /**
  * Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
  */
-suspend fun TelegramBotApiClient.setChatStickerSet(
-    requestBody: SetChatStickerSetRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setChatStickerSet")
+suspend fun TelegramBotApiClient.setChatStickerSet(requestBody: SetChatStickerSetRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setChatStickerSet")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1610,18 +1567,17 @@ data class DeleteChatStickerSetRequest(
 /**
  * Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
  */
-suspend fun TelegramBotApiClient.deleteChatStickerSet(
-    requestBody: DeleteChatStickerSetRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "deleteChatStickerSet")
+suspend fun TelegramBotApiClient.deleteChatStickerSet(requestBody: DeleteChatStickerSetRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "deleteChatStickerSet")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1646,18 +1602,17 @@ data class AnswerCallbackQueryRequest(
  * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
  * Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via @Botfather and accept the terms. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
  */
-suspend fun TelegramBotApiClient.answerCallbackQuery(
-    requestBody: AnswerCallbackQueryRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "answerCallbackQuery")
+suspend fun TelegramBotApiClient.answerCallbackQuery(requestBody: AnswerCallbackQueryRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "answerCallbackQuery")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1673,18 +1628,17 @@ data class SetMyCommandsRequest(
 /**
  * Use this method to change the list of the bot's commands. Returns True on success.
  */
-suspend fun TelegramBotApiClient.setMyCommands(
-    requestBody: SetMyCommandsRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setMyCommands")
+suspend fun TelegramBotApiClient.setMyCommands(requestBody: SetMyCommandsRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setMyCommands")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1714,18 +1668,17 @@ data class EditMessageTextRequest(
 /**
  * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
  */
-suspend fun TelegramBotApiClient.editMessageText(
-    requestBody: EditMessageTextRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "editMessageText")
+suspend fun TelegramBotApiClient.editMessageText(requestBody: EditMessageTextRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "editMessageText")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1753,18 +1706,17 @@ data class EditMessageCaptionRequest(
 /**
  * Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
  */
-suspend fun TelegramBotApiClient.editMessageCaption(
-    requestBody: EditMessageCaptionRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "editMessageCaption")
+suspend fun TelegramBotApiClient.editMessageCaption(requestBody: EditMessageCaptionRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "editMessageCaption")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1788,18 +1740,17 @@ data class EditMessageMediaRequest(
 /**
  * Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded. Use a previously uploaded file via its file_id or specify a URL. On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
  */
-suspend fun TelegramBotApiClient.editMessageMedia(
-    requestBody: EditMessageMediaRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "editMessageMedia")
+suspend fun TelegramBotApiClient.editMessageMedia(requestBody: EditMessageMediaRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "editMessageMedia")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1821,18 +1772,17 @@ data class EditMessageReplyMarkupRequest(
 /**
  * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
  */
-suspend fun TelegramBotApiClient.editMessageReplyMarkup(
-    requestBody: EditMessageReplyMarkupRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "editMessageReplyMarkup")
+suspend fun TelegramBotApiClient.editMessageReplyMarkup(requestBody: EditMessageReplyMarkupRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "editMessageReplyMarkup")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1852,18 +1802,17 @@ data class StopPollRequest(
 /**
  * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll with the final results is returned.
  */
-suspend fun TelegramBotApiClient.stopPoll(
-    requestBody: StopPollRequest
-) = httpClient.post<TelegramResponse<Poll>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "stopPoll")
+suspend fun TelegramBotApiClient.stopPoll(requestBody: StopPollRequest) =
+    httpClient.post<TelegramResponse<Poll>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "stopPoll")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1882,18 +1831,17 @@ data class DeleteMessageRequest(
  * Use this method to delete a message, including service messages, with the following limitations: - A message can only be deleted if it was sent less than 48 hours ago. - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago. - Bots can delete outgoing messages in private chats, groups, and supergroups. - Bots can delete incoming messages in private chats. - Bots granted can_post_messages permissions can delete outgoing messages in channels. - If the bot is an administrator of a group, it can delete any message there. - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there. Returns True on success.
  * The following methods and objects allow your bot to handle stickers and sticker sets.
  */
-suspend fun TelegramBotApiClient.deleteMessage(
-    requestBody: DeleteMessageRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "deleteMessage")
+suspend fun TelegramBotApiClient.deleteMessage(requestBody: DeleteMessageRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "deleteMessage")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1919,18 +1867,17 @@ data class SendStickerRequest(
 /**
  * Use this method to send static .WEBP or animated .TGS stickers. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendSticker(
-    requestBody: SendStickerRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendSticker")
+suspend fun TelegramBotApiClient.sendSticker(requestBody: SendStickerRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendSticker")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1946,18 +1893,17 @@ data class GetStickerSetRequest(
 /**
  * Use this method to get a sticker set. On success, a StickerSet object is returned.
  */
-suspend fun TelegramBotApiClient.getStickerSet(
-    requestBody: GetStickerSetRequest
-) = httpClient.post<TelegramResponse<StickerSet>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "getStickerSet")
+suspend fun TelegramBotApiClient.getStickerSet(requestBody: GetStickerSetRequest) =
+    httpClient.post<TelegramResponse<StickerSet>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getStickerSet")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -1975,18 +1921,17 @@ data class UploadStickerFileRequest(
 /**
  * Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times). Returns the uploaded File on success.
  */
-suspend fun TelegramBotApiClient.uploadStickerFile(
-    requestBody: UploadStickerFileRequest
-) = httpClient.post<TelegramResponse<File>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "uploadStickerFile")
+suspend fun TelegramBotApiClient.uploadStickerFile(requestBody: UploadStickerFileRequest) =
+    httpClient.post<TelegramResponse<File>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "uploadStickerFile")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2016,18 +1961,17 @@ data class CreateNewStickerSetRequest(
 /**
  * Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker or tgs_sticker. Returns True on success.
  */
-suspend fun TelegramBotApiClient.createNewStickerSet(
-    requestBody: CreateNewStickerSetRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "createNewStickerSet")
+suspend fun TelegramBotApiClient.createNewStickerSet(requestBody: CreateNewStickerSetRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "createNewStickerSet")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2053,18 +1997,17 @@ data class AddStickerToSetRequest(
 /**
  * Use this method to add a new sticker to a set created by the bot. You must use exactly one of the fields png_sticker or tgs_sticker. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.
  */
-suspend fun TelegramBotApiClient.addStickerToSet(
-    requestBody: AddStickerToSetRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "addStickerToSet")
+suspend fun TelegramBotApiClient.addStickerToSet(requestBody: AddStickerToSetRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "addStickerToSet")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2082,18 +2025,17 @@ data class SetStickerPositionInSetRequest(
 /**
  * Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
  */
-suspend fun TelegramBotApiClient.setStickerPositionInSet(
-    requestBody: SetStickerPositionInSetRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setStickerPositionInSet")
+suspend fun TelegramBotApiClient.setStickerPositionInSet(requestBody: SetStickerPositionInSetRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setStickerPositionInSet")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2109,18 +2051,17 @@ data class DeleteStickerFromSetRequest(
 /**
  * Use this method to delete a sticker from a set created by the bot. Returns True on success.
  */
-suspend fun TelegramBotApiClient.deleteStickerFromSet(
-    requestBody: DeleteStickerFromSetRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "deleteStickerFromSet")
+suspend fun TelegramBotApiClient.deleteStickerFromSet(requestBody: DeleteStickerFromSetRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "deleteStickerFromSet")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2142,18 +2083,17 @@ data class SetStickerSetThumbRequest(
  * The following methods and objects allow your bot to work in inline mode. Please see our Introduction to Inline bots for more details.
  * To enable this option, send the /setinline command to @BotFather and provide the placeholder text that the user will see in the input field after typing your bot's name.
  */
-suspend fun TelegramBotApiClient.setStickerSetThumb(
-    requestBody: SetStickerSetThumbRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setStickerSetThumb")
+suspend fun TelegramBotApiClient.setStickerSetThumb(requestBody: SetStickerSetThumbRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setStickerSetThumb")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2181,18 +2121,17 @@ data class AnswerInlineQueryRequest(
 /**
  * Use this method to send answers to an inline query. On success, True is returned. No more than 50 results per query are allowed.
  */
-suspend fun TelegramBotApiClient.answerInlineQuery(
-    requestBody: AnswerInlineQueryRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "answerInlineQuery")
+suspend fun TelegramBotApiClient.answerInlineQuery(requestBody: AnswerInlineQueryRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "answerInlineQuery")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2254,18 +2193,17 @@ data class SendInvoiceRequest(
 /**
  * Use this method to send invoices. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendInvoice(
-    requestBody: SendInvoiceRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendInvoice")
+suspend fun TelegramBotApiClient.sendInvoice(requestBody: SendInvoiceRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendInvoice")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2287,18 +2225,17 @@ data class AnswerShippingQueryRequest(
 /**
  * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
  */
-suspend fun TelegramBotApiClient.answerShippingQuery(
-    requestBody: AnswerShippingQueryRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "answerShippingQuery")
+suspend fun TelegramBotApiClient.answerShippingQuery(requestBody: AnswerShippingQueryRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "answerShippingQuery")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2318,18 +2255,17 @@ data class AnswerPreCheckoutQueryRequest(
 /**
  * Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. On success, True is returned. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
  */
-suspend fun TelegramBotApiClient.answerPreCheckoutQuery(
-    requestBody: AnswerPreCheckoutQueryRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "answerPreCheckoutQuery")
+suspend fun TelegramBotApiClient.answerPreCheckoutQuery(requestBody: AnswerPreCheckoutQueryRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "answerPreCheckoutQuery")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2348,18 +2284,17 @@ data class SetPassportDataErrorsRequest(
  * Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change). Returns True on success.
  * Use this if the data submitted by the user doesn't satisfy the standards your service requires for any reason. For example, if a birthday date seems invalid, a submitted document is blurry, a scan shows evidence of tampering, etc. Supply some details in the error message to make sure the user knows how to correct the issues.
  */
-suspend fun TelegramBotApiClient.setPassportDataErrors(
-    requestBody: SetPassportDataErrorsRequest
-) = httpClient.post<TelegramResponse<Boolean>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setPassportDataErrors")
+suspend fun TelegramBotApiClient.setPassportDataErrors(requestBody: SetPassportDataErrorsRequest) =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setPassportDataErrors")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2385,18 +2320,17 @@ data class SendGameRequest(
 /**
  * Use this method to send a game. On success, the sent Message is returned.
  */
-suspend fun TelegramBotApiClient.sendGame(
-    requestBody: SendGameRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "sendGame")
+suspend fun TelegramBotApiClient.sendGame(requestBody: SendGameRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "sendGame")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2424,18 +2358,17 @@ data class SetGameScoreRequest(
 /**
  * Use this method to set the score of the specified user in a game. On success, if the message was sent by the bot, returns the edited Message, otherwise returns True. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
  */
-suspend fun TelegramBotApiClient.setGameScore(
-    requestBody: SetGameScoreRequest
-) = httpClient.post<TelegramResponse<Message>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "setGameScore")
+suspend fun TelegramBotApiClient.setGameScore(requestBody: SetGameScoreRequest) =
+    httpClient.post<TelegramResponse<Message>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "setGameScore")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
 
 
 
@@ -2458,18 +2391,73 @@ data class GetGameHighScoresRequest(
  * Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. On success, returns an Array of GameHighScore objects.
  * This method will currently return scores for the target user, plus two of their closest neighbors on each side. Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
  */
-suspend fun TelegramBotApiClient.getGameHighScores(
-    requestBody: GetGameHighScoresRequest
-) = httpClient.post<TelegramResponse<List<GameHighScore>>> {
-    url {
-        protocol = apiProtocol
-        host = apiHost
-        port = apiPort
-        path("bot$apiToken", "getGameHighScores")
+suspend fun TelegramBotApiClient.getGameHighScores(requestBody: GetGameHighScoresRequest) =
+    httpClient.post<TelegramResponse<List<GameHighScore>>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getGameHighScores")
+        }
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        body = requestBody
     }
-    header(HttpHeaders.ContentType, ContentType.Application.Json)
-    body = requestBody
-}
+
+
+/**
+ * Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
+ */
+suspend fun TelegramBotApiClient.getWebhookInfo() =
+    httpClient.post<TelegramResponse<WebhookInfo>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getWebhookInfo")
+        }
+    }
+
+
+/**
+ * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.
+ */
+suspend fun TelegramBotApiClient.logOut() =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "logOut")
+        }
+    }
+
+
+/**
+ * Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.
+ */
+suspend fun TelegramBotApiClient.close() =
+    httpClient.post<TelegramResponse<Boolean>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "close")
+        }
+    }
+
+
+/**
+ * Use this method to get the current list of the bot's commands. Requires no parameters. Returns Array of BotCommand on success.
+ */
+suspend fun TelegramBotApiClient.getMyCommands() =
+    httpClient.post<TelegramResponse<List<BotCommand>>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getMyCommands")
+        }
+    }
 
 
 

@@ -21,7 +21,7 @@ data class TelegramObject(val name: String, val fields: List<TelegramField>, val
 }
 
 data class TelegramParameter(val name: String, val type: String, val required: String, val description: String)
-data class TelegramMethodWithBody(val name: String, val parameters: List<TelegramParameter>, val description: String)
+data class TelegramMethod(val name: String, val parameters: List<TelegramParameter>, val description: String)
 
 val sealedClassTypeRegex = Regex("must be ([\\w_]*)")
 
@@ -79,7 +79,7 @@ fun TelegramObject.generateSourceCode() = buildString {
     appendLine()
 }
 
-fun TelegramMethodWithBody.generateSourceCode() = buildString {
+fun TelegramMethod.generateSourceCode() = buildString {
     if (parameters.isNotEmpty()) {
         appendLine("/**")
         appendLine(" * Request body for [$name]")
@@ -125,18 +125,22 @@ fun TelegramMethodWithBody.generateSourceCode() = buildString {
         appendLine(" * $it")
     }
     appendLine(" */")
-    appendLine("suspend fun TelegramBotApiClient.$name(")
-    appendLine("    requestBody: ${name.capitalize()}Request")
-    appendLine(") = httpClient.post<TelegramResponse<$type>> {")
-    appendLine("    url {")
-    appendLine("        protocol = apiProtocol")
-    appendLine("        host = apiHost")
-    appendLine("        port = apiPort")
-    appendLine("        path(\"bot\$apiToken\", \"$name\")")
+    append("suspend fun TelegramBotApiClient.$name(")
+    if (parameters.isNotEmpty())
+        append("requestBody: ${name.capitalize()}Request")
+    appendLine(") =")
+    appendLine("    httpClient.post<TelegramResponse<$type>> {")
+    appendLine("        url {")
+    appendLine("            protocol = apiProtocol")
+    appendLine("            host = apiHost")
+    appendLine("            port = apiPort")
+    appendLine("            path(\"bot\$apiToken\", \"$name\")")
+    appendLine("        }")
+    if (parameters.isNotEmpty()) {
+        appendLine("        header(HttpHeaders.ContentType, ContentType.Application.Json)")
+        appendLine("        body = requestBody")
+    }
     appendLine("    }")
-    appendLine("    header(HttpHeaders.ContentType, ContentType.Application.Json)")
-    appendLine("    body = requestBody")
-    appendLine("}")
     appendLine()
     appendLine()
 }

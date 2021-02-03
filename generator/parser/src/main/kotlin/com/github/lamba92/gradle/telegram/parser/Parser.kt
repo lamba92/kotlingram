@@ -139,7 +139,8 @@ fun Sequence<DocElement>.filterMethodsWithoutBody() = sequence {
             startFound = true
         val tagNames = buffer.map { it.tagName }
         if (currentElement.tagName == "h4" && "h4" in tagNames) {
-            if ("table" !in tagNames)
+            val h4Index = buffer.indexOfLast { it.tagName == "h4" }
+            if ("table" !in tagNames.subList(h4Index, tagNames.size))
                 yield(buffer.subList(buffer.indexOfLast { it.tagName == "h4" }, buffer.size).toList())
             buffer.clear()
         }

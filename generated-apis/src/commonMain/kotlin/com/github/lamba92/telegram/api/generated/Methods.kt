@@ -40,7 +40,24 @@ suspend fun TelegramBotApiClient.getUpdates(requestBody: GetUpdatesRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
+ * Notes 1. This method will not work if an outgoing webhook is set up. 2. In order to avoid getting duplicate updates, recalculate offset after each server response.
+ */
+suspend fun TelegramBotApiClient.getUpdates(
+    offset: Int? = null,
+    limit: Int? = null,
+    timeout: Int? = null,
+    allowedUpdates: List<String> = emptyList(),
+) =
+    getUpdates(
+        GetUpdatesRequest(
+            offset,
+            limit,
+            timeout,
+            allowedUpdates
+        )
+    )
 
 /**
  * Request body for [setWebhook]
@@ -78,7 +95,29 @@ suspend fun TelegramBotApiClient.setWebhook(requestBody: SetWebhookRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
+ * If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. https://www.example.com/<token>. Since nobody else knows your bot's token, you can be pretty sure it's us.
+ * Notes 1. You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up. 2. To use a self-signed certificate, you need to upload your public key certificate using certificate parameter. Please upload as InputFile, sending a String will not work. 3. Ports currently supported for Webhooks: 443, 80, 88, 8443. NEW! If you're having any trouble setting up webhooks, please check out this amazing guide to Webhooks.
+ */
+suspend fun TelegramBotApiClient.setWebhook(
+    url: String,
+    certificate: String? = null,
+    ipAddress: String? = null,
+    maxConnections: Int? = null,
+    allowedUpdates: List<String> = emptyList(),
+    dropPendingUpdates: Boolean? = null,
+) =
+    setWebhook(
+        SetWebhookRequest(
+            url,
+            certificate,
+            ipAddress,
+            maxConnections,
+            allowedUpdates,
+            dropPendingUpdates
+        )
+    )
 
 /**
  * Request body for [deleteWebhook]
@@ -104,7 +143,17 @@ suspend fun TelegramBotApiClient.deleteWebhook(requestBody: DeleteWebhookRequest
         body = requestBody
     }
 
-
+/**
+ * Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.deleteWebhook(
+    dropPendingUpdates: Boolean? = null,
+) =
+    deleteWebhook(
+        DeleteWebhookRequest(
+            dropPendingUpdates
+        )
+    )
 
 /**
  * Request body for [sendMessage]
@@ -146,7 +195,33 @@ suspend fun TelegramBotApiClient.sendMessage(requestBody: SendMessageRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send text messages. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendMessage(
+    chatId: Int,
+    text: String,
+    parseMode: String? = null,
+    entities: List<MessageEntity> = emptyList(),
+    disableWebPagePreview: Boolean? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendMessage(
+        SendMessageRequest(
+            chatId,
+            text,
+            parseMode,
+            entities,
+            disableWebPagePreview,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [forwardMessage]
@@ -178,7 +253,23 @@ suspend fun TelegramBotApiClient.forwardMessage(requestBody: ForwardMessageReque
         body = requestBody
     }
 
-
+/**
+ * Use this method to forward messages of any kind. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.forwardMessage(
+    chatId: Int,
+    fromChatId: Int,
+    disableNotification: Boolean? = null,
+    messageId: Int,
+) =
+    forwardMessage(
+        ForwardMessageRequest(
+            chatId,
+            fromChatId,
+            disableNotification,
+            messageId
+        )
+    )
 
 /**
  * Request body for [copyMessage]
@@ -222,7 +313,35 @@ suspend fun TelegramBotApiClient.copyMessage(requestBody: CopyMessageRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to copy messages of any kind. The method is analogous to the method forwardMessages, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+ */
+suspend fun TelegramBotApiClient.copyMessage(
+    chatId: Int,
+    fromChatId: Int,
+    messageId: Int,
+    caption: String? = null,
+    parseMode: String? = null,
+    captionEntities: List<MessageEntity> = emptyList(),
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    copyMessage(
+        CopyMessageRequest(
+            chatId,
+            fromChatId,
+            messageId,
+            caption,
+            parseMode,
+            captionEntities,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendPhoto]
@@ -264,7 +383,33 @@ suspend fun TelegramBotApiClient.sendPhoto(requestBody: SendPhotoRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send photos. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendPhoto(
+    chatId: Int,
+    photo: String,
+    caption: String? = null,
+    parseMode: String? = null,
+    captionEntities: List<MessageEntity> = emptyList(),
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendPhoto(
+        SendPhotoRequest(
+            chatId,
+            photo,
+            caption,
+            parseMode,
+            captionEntities,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendAudio]
@@ -315,7 +460,42 @@ suspend fun TelegramBotApiClient.sendAudio(requestBody: SendAudioRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
+ * For sending voice messages, use the sendVoice method instead.
+ */
+suspend fun TelegramBotApiClient.sendAudio(
+    chatId: Int,
+    audio: String,
+    caption: String? = null,
+    parseMode: String? = null,
+    captionEntities: List<MessageEntity> = emptyList(),
+    duration: Int? = null,
+    performer: String? = null,
+    title: String? = null,
+    thumb: String? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendAudio(
+        SendAudioRequest(
+            chatId,
+            audio,
+            caption,
+            parseMode,
+            captionEntities,
+            duration,
+            performer,
+            title,
+            thumb,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendDocument]
@@ -361,7 +541,37 @@ suspend fun TelegramBotApiClient.sendDocument(requestBody: SendDocumentRequest) 
         body = requestBody
     }
 
-
+/**
+ * Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
+ */
+suspend fun TelegramBotApiClient.sendDocument(
+    chatId: Int,
+    document: String,
+    thumb: String? = null,
+    caption: String? = null,
+    parseMode: String? = null,
+    captionEntities: List<MessageEntity> = emptyList(),
+    disableContentTypeDetection: Boolean? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendDocument(
+        SendDocumentRequest(
+            chatId,
+            document,
+            thumb,
+            caption,
+            parseMode,
+            captionEntities,
+            disableContentTypeDetection,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendVideo]
@@ -413,7 +623,43 @@ suspend fun TelegramBotApiClient.sendVideo(requestBody: SendVideoRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
+ */
+suspend fun TelegramBotApiClient.sendVideo(
+    chatId: Int,
+    video: String,
+    duration: Int? = null,
+    width: Int? = null,
+    height: Int? = null,
+    thumb: String? = null,
+    caption: String? = null,
+    parseMode: String? = null,
+    captionEntities: List<MessageEntity> = emptyList(),
+    supportsStreaming: Boolean? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendVideo(
+        SendVideoRequest(
+            chatId,
+            video,
+            duration,
+            width,
+            height,
+            thumb,
+            caption,
+            parseMode,
+            captionEntities,
+            supportsStreaming,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendAnimation]
@@ -463,7 +709,41 @@ suspend fun TelegramBotApiClient.sendAnimation(requestBody: SendAnimationRequest
         body = requestBody
     }
 
-
+/**
+ * Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
+ */
+suspend fun TelegramBotApiClient.sendAnimation(
+    chatId: Int,
+    animation: String,
+    duration: Int? = null,
+    width: Int? = null,
+    height: Int? = null,
+    thumb: String? = null,
+    caption: String? = null,
+    parseMode: String? = null,
+    captionEntities: List<MessageEntity> = emptyList(),
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendAnimation(
+        SendAnimationRequest(
+            chatId,
+            animation,
+            duration,
+            width,
+            height,
+            thumb,
+            caption,
+            parseMode,
+            captionEntities,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendVoice]
@@ -507,7 +787,35 @@ suspend fun TelegramBotApiClient.sendVoice(requestBody: SendVoiceRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+ */
+suspend fun TelegramBotApiClient.sendVoice(
+    chatId: Int,
+    voice: String,
+    caption: String? = null,
+    parseMode: String? = null,
+    captionEntities: List<MessageEntity> = emptyList(),
+    duration: Int? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendVoice(
+        SendVoiceRequest(
+            chatId,
+            voice,
+            caption,
+            parseMode,
+            captionEntities,
+            duration,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendVideoNote]
@@ -549,7 +857,33 @@ suspend fun TelegramBotApiClient.sendVideoNote(requestBody: SendVideoNoteRequest
         body = requestBody
     }
 
-
+/**
+ * As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendVideoNote(
+    chatId: Int,
+    videoNote: String,
+    duration: Int? = null,
+    length: Int? = null,
+    thumb: String? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendVideoNote(
+        SendVideoNoteRequest(
+            chatId,
+            videoNote,
+            duration,
+            length,
+            thumb,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendMediaGroup]
@@ -583,7 +917,25 @@ suspend fun TelegramBotApiClient.sendMediaGroup(requestBody: SendMediaGroupReque
         body = requestBody
     }
 
-
+/**
+ * Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
+ */
+suspend fun TelegramBotApiClient.sendMediaGroup(
+    chatId: Int,
+    media: List<InputMedia> = emptyList(),
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+) =
+    sendMediaGroup(
+        SendMediaGroupRequest(
+            chatId,
+            media,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply
+        )
+    )
 
 /**
  * Request body for [sendLocation]
@@ -629,7 +981,37 @@ suspend fun TelegramBotApiClient.sendLocation(requestBody: SendLocationRequest) 
         body = requestBody
     }
 
-
+/**
+ * Use this method to send point on the map. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendLocation(
+    chatId: Int,
+    latitude: Float,
+    longitude: Float,
+    horizontalAccuracy: Float? = null,
+    livePeriod: Int? = null,
+    heading: Int? = null,
+    proximityAlertRadius: Int? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendLocation(
+        SendLocationRequest(
+            chatId,
+            latitude,
+            longitude,
+            horizontalAccuracy,
+            livePeriod,
+            heading,
+            proximityAlertRadius,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [editMessageLiveLocation]
@@ -671,7 +1053,33 @@ suspend fun TelegramBotApiClient.editMessageLiveLocation(requestBody: EditMessag
         body = requestBody
     }
 
-
+/**
+ * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+ */
+suspend fun TelegramBotApiClient.editMessageLiveLocation(
+    chatId: Int? = null,
+    messageId: Int? = null,
+    inlineMessageId: String? = null,
+    latitude: Float,
+    longitude: Float,
+    horizontalAccuracy: Float? = null,
+    heading: Int? = null,
+    proximityAlertRadius: Int? = null,
+    replyMarkup: InlineKeyboardMarkup? = null,
+) =
+    editMessageLiveLocation(
+        EditMessageLiveLocationRequest(
+            chatId,
+            messageId,
+            inlineMessageId,
+            latitude,
+            longitude,
+            horizontalAccuracy,
+            heading,
+            proximityAlertRadius,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [stopMessageLiveLocation]
@@ -703,7 +1111,23 @@ suspend fun TelegramBotApiClient.stopMessageLiveLocation(requestBody: StopMessag
         body = requestBody
     }
 
-
+/**
+ * Use this method to stop updating a live location message before live_period expires. On success, if the message was sent by the bot, the sent Message is returned, otherwise True is returned.
+ */
+suspend fun TelegramBotApiClient.stopMessageLiveLocation(
+    chatId: Int? = null,
+    messageId: Int? = null,
+    inlineMessageId: String? = null,
+    replyMarkup: InlineKeyboardMarkup? = null,
+) =
+    stopMessageLiveLocation(
+        StopMessageLiveLocationRequest(
+            chatId,
+            messageId,
+            inlineMessageId,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendVenue]
@@ -753,7 +1177,41 @@ suspend fun TelegramBotApiClient.sendVenue(requestBody: SendVenueRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send information about a venue. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendVenue(
+    chatId: Int,
+    latitude: Float,
+    longitude: Float,
+    title: String,
+    address: String,
+    foursquareId: String? = null,
+    foursquareType: String? = null,
+    googlePlaceId: String? = null,
+    googlePlaceType: String? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendVenue(
+        SendVenueRequest(
+            chatId,
+            latitude,
+            longitude,
+            title,
+            address,
+            foursquareId,
+            foursquareType,
+            googlePlaceId,
+            googlePlaceType,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendContact]
@@ -795,7 +1253,33 @@ suspend fun TelegramBotApiClient.sendContact(requestBody: SendContactRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send phone contacts. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendContact(
+    chatId: Int,
+    phoneNumber: String,
+    firstName: String,
+    lastName: String? = null,
+    vcard: String? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendContact(
+        SendContactRequest(
+            chatId,
+            phoneNumber,
+            firstName,
+            lastName,
+            vcard,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendPoll]
@@ -853,7 +1337,49 @@ suspend fun TelegramBotApiClient.sendPoll(requestBody: SendPollRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send a native poll. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendPoll(
+    chatId: Int,
+    question: String,
+    options: List<String> = emptyList(),
+    isAnonymous: Boolean? = null,
+    type: String? = null,
+    allowsMultipleAnswers: Boolean? = null,
+    correctOptionId: Int? = null,
+    explanation: String? = null,
+    explanationParseMode: String? = null,
+    explanationEntities: List<MessageEntity> = emptyList(),
+    openPeriod: Int? = null,
+    closeDate: Int? = null,
+    isClosed: Boolean? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendPoll(
+        SendPollRequest(
+            chatId,
+            question,
+            options,
+            isAnonymous,
+            type,
+            allowsMultipleAnswers,
+            correctOptionId,
+            explanation,
+            explanationParseMode,
+            explanationEntities,
+            openPeriod,
+            closeDate,
+            isClosed,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendDice]
@@ -889,7 +1415,27 @@ suspend fun TelegramBotApiClient.sendDice(requestBody: SendDiceRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendDice(
+    chatId: Int,
+    emoji: String? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendDice(
+        SendDiceRequest(
+            chatId,
+            emoji,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [sendChatAction]
@@ -919,7 +1465,21 @@ suspend fun TelegramBotApiClient.sendChatAction(requestBody: SendChatActionReque
         body = requestBody
     }
 
-
+/**
+ * Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status). Returns True on success.
+ * Example: The ImageBot needs some time to process a request and upload the image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use sendChatAction with action = upload_photo. The user will see a “sending photo” status for the bot.
+ * We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.
+ */
+suspend fun TelegramBotApiClient.sendChatAction(
+    chatId: Int,
+    action: String,
+) =
+    sendChatAction(
+        SendChatActionRequest(
+            chatId,
+            action
+        )
+    )
 
 /**
  * Request body for [getUserProfilePhotos]
@@ -949,7 +1509,21 @@ suspend fun TelegramBotApiClient.getUserProfilePhotos(requestBody: GetUserProfil
         body = requestBody
     }
 
-
+/**
+ * Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
+ */
+suspend fun TelegramBotApiClient.getUserProfilePhotos(
+    userId: Int,
+    offset: Int? = null,
+    limit: Int? = null,
+) =
+    getUserProfilePhotos(
+        GetUserProfilePhotosRequest(
+            userId,
+            offset,
+            limit
+        )
+    )
 
 /**
  * Request body for [getFile]
@@ -976,7 +1550,18 @@ suspend fun TelegramBotApiClient.getFile(requestBody: GetFileRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to get basic info about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. On success, a File object is returned. The file can then be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>, where <file_path> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.
+ * Note: This function may not preserve the original file name and MIME type. You should save the file's MIME type and name (if available) when the File object is received.
+ */
+suspend fun TelegramBotApiClient.getFile(
+    fileId: String,
+) =
+    getFile(
+        GetFileRequest(
+            fileId
+        )
+    )
 
 /**
  * Request body for [kickChatMember]
@@ -1006,7 +1591,21 @@ suspend fun TelegramBotApiClient.kickChatMember(requestBody: KickChatMemberReque
         body = requestBody
     }
 
-
+/**
+ * Use this method to kick a user from a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.kickChatMember(
+    chatId: Int,
+    userId: Int,
+    untilDate: Int? = null,
+) =
+    kickChatMember(
+        KickChatMemberRequest(
+            chatId,
+            userId,
+            untilDate
+        )
+    )
 
 /**
  * Request body for [unbanChatMember]
@@ -1036,7 +1635,21 @@ suspend fun TelegramBotApiClient.unbanChatMember(requestBody: UnbanChatMemberReq
         body = requestBody
     }
 
-
+/**
+ * Use this method to unban a previously kicked user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be removed from the chat. If you don't want this, use the parameter only_if_banned. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.unbanChatMember(
+    chatId: Int,
+    userId: Int,
+    onlyIfBanned: Boolean? = null,
+) =
+    unbanChatMember(
+        UnbanChatMemberRequest(
+            chatId,
+            userId,
+            onlyIfBanned
+        )
+    )
 
 /**
  * Request body for [restrictChatMember]
@@ -1068,7 +1681,23 @@ suspend fun TelegramBotApiClient.restrictChatMember(requestBody: RestrictChatMem
         body = requestBody
     }
 
-
+/**
+ * Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.restrictChatMember(
+    chatId: Int,
+    userId: Int,
+    permissions: ChatPermissions,
+    untilDate: Int? = null,
+) =
+    restrictChatMember(
+        RestrictChatMemberRequest(
+            chatId,
+            userId,
+            permissions,
+            untilDate
+        )
+    )
 
 /**
  * Request body for [promoteChatMember]
@@ -1114,7 +1743,37 @@ suspend fun TelegramBotApiClient.promoteChatMember(requestBody: PromoteChatMembe
         body = requestBody
     }
 
-
+/**
+ * Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass False for all boolean parameters to demote a user. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.promoteChatMember(
+    chatId: Int,
+    userId: Int,
+    isAnonymous: Boolean? = null,
+    canChangeInfo: Boolean? = null,
+    canPostMessages: Boolean? = null,
+    canEditMessages: Boolean? = null,
+    canDeleteMessages: Boolean? = null,
+    canInviteUsers: Boolean? = null,
+    canRestrictMembers: Boolean? = null,
+    canPinMessages: Boolean? = null,
+    canPromoteMembers: Boolean? = null,
+) =
+    promoteChatMember(
+        PromoteChatMemberRequest(
+            chatId,
+            userId,
+            isAnonymous,
+            canChangeInfo,
+            canPostMessages,
+            canEditMessages,
+            canDeleteMessages,
+            canInviteUsers,
+            canRestrictMembers,
+            canPinMessages,
+            canPromoteMembers
+        )
+    )
 
 /**
  * Request body for [setChatAdministratorCustomTitle]
@@ -1144,7 +1803,21 @@ suspend fun TelegramBotApiClient.setChatAdministratorCustomTitle(requestBody: Se
         body = requestBody
     }
 
-
+/**
+ * Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.setChatAdministratorCustomTitle(
+    chatId: Int,
+    userId: Int,
+    customTitle: String,
+) =
+    setChatAdministratorCustomTitle(
+        SetChatAdministratorCustomTitleRequest(
+            chatId,
+            userId,
+            customTitle
+        )
+    )
 
 /**
  * Request body for [setChatPermissions]
@@ -1172,7 +1845,19 @@ suspend fun TelegramBotApiClient.setChatPermissions(requestBody: SetChatPermissi
         body = requestBody
     }
 
-
+/**
+ * Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.setChatPermissions(
+    chatId: Int,
+    permissions: ChatPermissions,
+) =
+    setChatPermissions(
+        SetChatPermissionsRequest(
+            chatId,
+            permissions
+        )
+    )
 
 /**
  * Request body for [exportChatInviteLink]
@@ -1199,7 +1884,18 @@ suspend fun TelegramBotApiClient.exportChatInviteLink(requestBody: ExportChatInv
         body = requestBody
     }
 
-
+/**
+ * Use this method to generate a new invite link for a chat; any previously generated link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns the new invite link as String on success.
+ * Note: Each administrator in a chat generates their own invite links. Bots can't use invite links generated by other administrators. If you want your bot to work with invite links, it will need to generate its own link using exportChatInviteLink — after this the link will become available to the bot via the getChat method. If your bot needs to generate a new invite link replacing its previous one, use exportChatInviteLink again.
+ */
+suspend fun TelegramBotApiClient.exportChatInviteLink(
+    chatId: Int,
+) =
+    exportChatInviteLink(
+        ExportChatInviteLinkRequest(
+            chatId
+        )
+    )
 
 /**
  * Request body for [setChatPhoto]
@@ -1227,7 +1923,19 @@ suspend fun TelegramBotApiClient.setChatPhoto(requestBody: SetChatPhotoRequest) 
         body = requestBody
     }
 
-
+/**
+ * Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.setChatPhoto(
+    chatId: Int,
+    photo: String,
+) =
+    setChatPhoto(
+        SetChatPhotoRequest(
+            chatId,
+            photo
+        )
+    )
 
 /**
  * Request body for [deleteChatPhoto]
@@ -1253,7 +1961,17 @@ suspend fun TelegramBotApiClient.deleteChatPhoto(requestBody: DeleteChatPhotoReq
         body = requestBody
     }
 
-
+/**
+ * Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.deleteChatPhoto(
+    chatId: Int,
+) =
+    deleteChatPhoto(
+        DeleteChatPhotoRequest(
+            chatId
+        )
+    )
 
 /**
  * Request body for [setChatTitle]
@@ -1281,7 +1999,19 @@ suspend fun TelegramBotApiClient.setChatTitle(requestBody: SetChatTitleRequest) 
         body = requestBody
     }
 
-
+/**
+ * Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.setChatTitle(
+    chatId: Int,
+    title: String,
+) =
+    setChatTitle(
+        SetChatTitleRequest(
+            chatId,
+            title
+        )
+    )
 
 /**
  * Request body for [setChatDescription]
@@ -1309,7 +2039,19 @@ suspend fun TelegramBotApiClient.setChatDescription(requestBody: SetChatDescript
         body = requestBody
     }
 
-
+/**
+ * Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.setChatDescription(
+    chatId: Int,
+    description: String? = null,
+) =
+    setChatDescription(
+        SetChatDescriptionRequest(
+            chatId,
+            description
+        )
+    )
 
 /**
  * Request body for [pinChatMessage]
@@ -1339,7 +2081,21 @@ suspend fun TelegramBotApiClient.pinChatMessage(requestBody: PinChatMessageReque
         body = requestBody
     }
 
-
+/**
+ * Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.pinChatMessage(
+    chatId: Int,
+    messageId: Int,
+    disableNotification: Boolean? = null,
+) =
+    pinChatMessage(
+        PinChatMessageRequest(
+            chatId,
+            messageId,
+            disableNotification
+        )
+    )
 
 /**
  * Request body for [unpinChatMessage]
@@ -1367,7 +2123,19 @@ suspend fun TelegramBotApiClient.unpinChatMessage(requestBody: UnpinChatMessageR
         body = requestBody
     }
 
-
+/**
+ * Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.unpinChatMessage(
+    chatId: Int,
+    messageId: Int? = null,
+) =
+    unpinChatMessage(
+        UnpinChatMessageRequest(
+            chatId,
+            messageId
+        )
+    )
 
 /**
  * Request body for [unpinAllChatMessages]
@@ -1393,7 +2161,17 @@ suspend fun TelegramBotApiClient.unpinAllChatMessages(requestBody: UnpinAllChatM
         body = requestBody
     }
 
-
+/**
+ * Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.unpinAllChatMessages(
+    chatId: Int,
+) =
+    unpinAllChatMessages(
+        UnpinAllChatMessagesRequest(
+            chatId
+        )
+    )
 
 /**
  * Request body for [leaveChat]
@@ -1419,7 +2197,17 @@ suspend fun TelegramBotApiClient.leaveChat(requestBody: LeaveChatRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.leaveChat(
+    chatId: Int,
+) =
+    leaveChat(
+        LeaveChatRequest(
+            chatId
+        )
+    )
 
 /**
  * Request body for [getChat]
@@ -1445,7 +2233,17 @@ suspend fun TelegramBotApiClient.getChat(requestBody: GetChatRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.
+ */
+suspend fun TelegramBotApiClient.getChat(
+    chatId: Int,
+) =
+    getChat(
+        GetChatRequest(
+            chatId
+        )
+    )
 
 /**
  * Request body for [getChatAdministrators]
@@ -1471,7 +2269,17 @@ suspend fun TelegramBotApiClient.getChatAdministrators(requestBody: GetChatAdmin
         body = requestBody
     }
 
-
+/**
+ * Use this method to get a list of administrators in a chat. On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.
+ */
+suspend fun TelegramBotApiClient.getChatAdministrators(
+    chatId: Int,
+) =
+    getChatAdministrators(
+        GetChatAdministratorsRequest(
+            chatId
+        )
+    )
 
 /**
  * Request body for [getChatMembersCount]
@@ -1497,7 +2305,17 @@ suspend fun TelegramBotApiClient.getChatMembersCount(requestBody: GetChatMembers
         body = requestBody
     }
 
-
+/**
+ * Use this method to get the number of members in a chat. Returns Int on success.
+ */
+suspend fun TelegramBotApiClient.getChatMembersCount(
+    chatId: Int,
+) =
+    getChatMembersCount(
+        GetChatMembersCountRequest(
+            chatId
+        )
+    )
 
 /**
  * Request body for [getChatMember]
@@ -1525,7 +2343,19 @@ suspend fun TelegramBotApiClient.getChatMember(requestBody: GetChatMemberRequest
         body = requestBody
     }
 
-
+/**
+ * Use this method to get information about a member of a chat. Returns a ChatMember object on success.
+ */
+suspend fun TelegramBotApiClient.getChatMember(
+    chatId: Int,
+    userId: Int,
+) =
+    getChatMember(
+        GetChatMemberRequest(
+            chatId,
+            userId
+        )
+    )
 
 /**
  * Request body for [setChatStickerSet]
@@ -1553,7 +2383,19 @@ suspend fun TelegramBotApiClient.setChatStickerSet(requestBody: SetChatStickerSe
         body = requestBody
     }
 
-
+/**
+ * Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.setChatStickerSet(
+    chatId: Int,
+    stickerSetName: String,
+) =
+    setChatStickerSet(
+        SetChatStickerSetRequest(
+            chatId,
+            stickerSetName
+        )
+    )
 
 /**
  * Request body for [deleteChatStickerSet]
@@ -1579,7 +2421,17 @@ suspend fun TelegramBotApiClient.deleteChatStickerSet(requestBody: DeleteChatSti
         body = requestBody
     }
 
-
+/**
+ * Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.deleteChatStickerSet(
+    chatId: Int,
+) =
+    deleteChatStickerSet(
+        DeleteChatStickerSetRequest(
+            chatId
+        )
+    )
 
 /**
  * Request body for [answerCallbackQuery]
@@ -1614,7 +2466,26 @@ suspend fun TelegramBotApiClient.answerCallbackQuery(requestBody: AnswerCallback
         body = requestBody
     }
 
-
+/**
+ * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
+ * Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via @Botfather and accept the terms. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
+ */
+suspend fun TelegramBotApiClient.answerCallbackQuery(
+    callbackQueryId: String,
+    text: String? = null,
+    showAlert: Boolean? = null,
+    url: String? = null,
+    cacheTime: Int? = null,
+) =
+    answerCallbackQuery(
+        AnswerCallbackQueryRequest(
+            callbackQueryId,
+            text,
+            showAlert,
+            url,
+            cacheTime
+        )
+    )
 
 /**
  * Request body for [setMyCommands]
@@ -1640,7 +2511,17 @@ suspend fun TelegramBotApiClient.setMyCommands(requestBody: SetMyCommandsRequest
         body = requestBody
     }
 
-
+/**
+ * Use this method to change the list of the bot's commands. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.setMyCommands(
+    commands: List<BotCommand> = emptyList(),
+) =
+    setMyCommands(
+        SetMyCommandsRequest(
+            commands
+        )
+    )
 
 /**
  * Request body for [editMessageText]
@@ -1680,7 +2561,31 @@ suspend fun TelegramBotApiClient.editMessageText(requestBody: EditMessageTextReq
         body = requestBody
     }
 
-
+/**
+ * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+ */
+suspend fun TelegramBotApiClient.editMessageText(
+    chatId: Int? = null,
+    messageId: Int? = null,
+    inlineMessageId: String? = null,
+    text: String,
+    parseMode: String? = null,
+    entities: List<MessageEntity> = emptyList(),
+    disableWebPagePreview: Boolean? = null,
+    replyMarkup: InlineKeyboardMarkup? = null,
+) =
+    editMessageText(
+        EditMessageTextRequest(
+            chatId,
+            messageId,
+            inlineMessageId,
+            text,
+            parseMode,
+            entities,
+            disableWebPagePreview,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [editMessageCaption]
@@ -1718,7 +2623,29 @@ suspend fun TelegramBotApiClient.editMessageCaption(requestBody: EditMessageCapt
         body = requestBody
     }
 
-
+/**
+ * Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+ */
+suspend fun TelegramBotApiClient.editMessageCaption(
+    chatId: Int? = null,
+    messageId: Int? = null,
+    inlineMessageId: String? = null,
+    caption: String? = null,
+    parseMode: String? = null,
+    captionEntities: List<MessageEntity> = emptyList(),
+    replyMarkup: InlineKeyboardMarkup? = null,
+) =
+    editMessageCaption(
+        EditMessageCaptionRequest(
+            chatId,
+            messageId,
+            inlineMessageId,
+            caption,
+            parseMode,
+            captionEntities,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [editMessageMedia]
@@ -1752,7 +2679,25 @@ suspend fun TelegramBotApiClient.editMessageMedia(requestBody: EditMessageMediaR
         body = requestBody
     }
 
-
+/**
+ * Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded. Use a previously uploaded file via its file_id or specify a URL. On success, if the edited message was sent by the bot, the edited Message is returned, otherwise True is returned.
+ */
+suspend fun TelegramBotApiClient.editMessageMedia(
+    chatId: Int? = null,
+    messageId: Int? = null,
+    inlineMessageId: String? = null,
+    media: InputMedia,
+    replyMarkup: InlineKeyboardMarkup? = null,
+) =
+    editMessageMedia(
+        EditMessageMediaRequest(
+            chatId,
+            messageId,
+            inlineMessageId,
+            media,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [editMessageReplyMarkup]
@@ -1784,7 +2729,23 @@ suspend fun TelegramBotApiClient.editMessageReplyMarkup(requestBody: EditMessage
         body = requestBody
     }
 
-
+/**
+ * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+ */
+suspend fun TelegramBotApiClient.editMessageReplyMarkup(
+    chatId: Int? = null,
+    messageId: Int? = null,
+    inlineMessageId: String? = null,
+    replyMarkup: InlineKeyboardMarkup? = null,
+) =
+    editMessageReplyMarkup(
+        EditMessageReplyMarkupRequest(
+            chatId,
+            messageId,
+            inlineMessageId,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [stopPoll]
@@ -1814,7 +2775,21 @@ suspend fun TelegramBotApiClient.stopPoll(requestBody: StopPollRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll with the final results is returned.
+ */
+suspend fun TelegramBotApiClient.stopPoll(
+    chatId: Int,
+    messageId: Int,
+    replyMarkup: InlineKeyboardMarkup? = null,
+) =
+    stopPoll(
+        StopPollRequest(
+            chatId,
+            messageId,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [deleteMessage]
@@ -1843,7 +2818,20 @@ suspend fun TelegramBotApiClient.deleteMessage(requestBody: DeleteMessageRequest
         body = requestBody
     }
 
-
+/**
+ * Use this method to delete a message, including service messages, with the following limitations: - A message can only be deleted if it was sent less than 48 hours ago. - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago. - Bots can delete outgoing messages in private chats, groups, and supergroups. - Bots can delete incoming messages in private chats. - Bots granted can_post_messages permissions can delete outgoing messages in channels. - If the bot is an administrator of a group, it can delete any message there. - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there. Returns True on success.
+ * The following methods and objects allow your bot to handle stickers and sticker sets.
+ */
+suspend fun TelegramBotApiClient.deleteMessage(
+    chatId: Int,
+    messageId: Int,
+) =
+    deleteMessage(
+        DeleteMessageRequest(
+            chatId,
+            messageId
+        )
+    )
 
 /**
  * Request body for [sendSticker]
@@ -1879,7 +2867,27 @@ suspend fun TelegramBotApiClient.sendSticker(requestBody: SendStickerRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send static .WEBP or animated .TGS stickers. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendSticker(
+    chatId: Int,
+    sticker: String,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: ReplyMarkup? = null,
+) =
+    sendSticker(
+        SendStickerRequest(
+            chatId,
+            sticker,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [getStickerSet]
@@ -1905,7 +2913,17 @@ suspend fun TelegramBotApiClient.getStickerSet(requestBody: GetStickerSetRequest
         body = requestBody
     }
 
-
+/**
+ * Use this method to get a sticker set. On success, a StickerSet object is returned.
+ */
+suspend fun TelegramBotApiClient.getStickerSet(
+    name: String,
+) =
+    getStickerSet(
+        GetStickerSetRequest(
+            name
+        )
+    )
 
 /**
  * Request body for [uploadStickerFile]
@@ -1933,7 +2951,19 @@ suspend fun TelegramBotApiClient.uploadStickerFile(requestBody: UploadStickerFil
         body = requestBody
     }
 
-
+/**
+ * Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times). Returns the uploaded File on success.
+ */
+suspend fun TelegramBotApiClient.uploadStickerFile(
+    userId: Int,
+    pngSticker: String,
+) =
+    uploadStickerFile(
+        UploadStickerFileRequest(
+            userId,
+            pngSticker
+        )
+    )
 
 /**
  * Request body for [createNewStickerSet]
@@ -1973,7 +3003,31 @@ suspend fun TelegramBotApiClient.createNewStickerSet(requestBody: CreateNewStick
         body = requestBody
     }
 
-
+/**
+ * Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker or tgs_sticker. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.createNewStickerSet(
+    userId: Int,
+    name: String,
+    title: String,
+    pngSticker: String? = null,
+    tgsSticker: String? = null,
+    emojis: String,
+    containsMasks: Boolean? = null,
+    maskPosition: MaskPosition? = null,
+) =
+    createNewStickerSet(
+        CreateNewStickerSetRequest(
+            userId,
+            name,
+            title,
+            pngSticker,
+            tgsSticker,
+            emojis,
+            containsMasks,
+            maskPosition
+        )
+    )
 
 /**
  * Request body for [addStickerToSet]
@@ -2009,7 +3063,27 @@ suspend fun TelegramBotApiClient.addStickerToSet(requestBody: AddStickerToSetReq
         body = requestBody
     }
 
-
+/**
+ * Use this method to add a new sticker to a set created by the bot. You must use exactly one of the fields png_sticker or tgs_sticker. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.addStickerToSet(
+    userId: Int,
+    name: String,
+    pngSticker: String? = null,
+    tgsSticker: String? = null,
+    emojis: String,
+    maskPosition: MaskPosition? = null,
+) =
+    addStickerToSet(
+        AddStickerToSetRequest(
+            userId,
+            name,
+            pngSticker,
+            tgsSticker,
+            emojis,
+            maskPosition
+        )
+    )
 
 /**
  * Request body for [setStickerPositionInSet]
@@ -2037,7 +3111,19 @@ suspend fun TelegramBotApiClient.setStickerPositionInSet(requestBody: SetSticker
         body = requestBody
     }
 
-
+/**
+ * Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.setStickerPositionInSet(
+    sticker: String,
+    position: Int,
+) =
+    setStickerPositionInSet(
+        SetStickerPositionInSetRequest(
+            sticker,
+            position
+        )
+    )
 
 /**
  * Request body for [deleteStickerFromSet]
@@ -2063,7 +3149,17 @@ suspend fun TelegramBotApiClient.deleteStickerFromSet(requestBody: DeleteSticker
         body = requestBody
     }
 
-
+/**
+ * Use this method to delete a sticker from a set created by the bot. Returns True on success.
+ */
+suspend fun TelegramBotApiClient.deleteStickerFromSet(
+    sticker: String,
+) =
+    deleteStickerFromSet(
+        DeleteStickerFromSetRequest(
+            sticker
+        )
+    )
 
 /**
  * Request body for [setStickerSetThumb]
@@ -2095,7 +3191,23 @@ suspend fun TelegramBotApiClient.setStickerSetThumb(requestBody: SetStickerSetTh
         body = requestBody
     }
 
-
+/**
+ * Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only. Returns True on success.
+ * The following methods and objects allow your bot to work in inline mode. Please see our Introduction to Inline bots for more details.
+ * To enable this option, send the /setinline command to @BotFather and provide the placeholder text that the user will see in the input field after typing your bot's name.
+ */
+suspend fun TelegramBotApiClient.setStickerSetThumb(
+    name: String,
+    userId: Int,
+    thumb: String? = null,
+) =
+    setStickerSetThumb(
+        SetStickerSetThumbRequest(
+            name,
+            userId,
+            thumb
+        )
+    )
 
 /**
  * Request body for [answerInlineQuery]
@@ -2133,7 +3245,29 @@ suspend fun TelegramBotApiClient.answerInlineQuery(requestBody: AnswerInlineQuer
         body = requestBody
     }
 
-
+/**
+ * Use this method to send answers to an inline query. On success, True is returned. No more than 50 results per query are allowed.
+ */
+suspend fun TelegramBotApiClient.answerInlineQuery(
+    inlineQueryId: String,
+    results: List<InlineQueryResult> = emptyList(),
+    cacheTime: Int? = null,
+    isPersonal: Boolean? = null,
+    nextOffset: String? = null,
+    switchPmText: String? = null,
+    switchPmParameter: String? = null,
+) =
+    answerInlineQuery(
+        AnswerInlineQueryRequest(
+            inlineQueryId,
+            results,
+            cacheTime,
+            isPersonal,
+            nextOffset,
+            switchPmText,
+            switchPmParameter
+        )
+    )
 
 /**
  * Request body for [sendInvoice]
@@ -2205,7 +3339,63 @@ suspend fun TelegramBotApiClient.sendInvoice(requestBody: SendInvoiceRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send invoices. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendInvoice(
+    chatId: Int,
+    title: String,
+    description: String,
+    payload: String,
+    providerToken: String,
+    startParameter: String,
+    currency: String,
+    prices: List<LabeledPrice> = emptyList(),
+    providerData: String? = null,
+    photoUrl: String? = null,
+    photoSize: Int? = null,
+    photoWidth: Int? = null,
+    photoHeight: Int? = null,
+    needName: Boolean? = null,
+    needPhoneNumber: Boolean? = null,
+    needEmail: Boolean? = null,
+    needShippingAddress: Boolean? = null,
+    sendPhoneNumberToProvider: Boolean? = null,
+    sendEmailToProvider: Boolean? = null,
+    isFlexible: Boolean? = null,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: InlineKeyboardMarkup? = null,
+) =
+    sendInvoice(
+        SendInvoiceRequest(
+            chatId,
+            title,
+            description,
+            payload,
+            providerToken,
+            startParameter,
+            currency,
+            prices,
+            providerData,
+            photoUrl,
+            photoSize,
+            photoWidth,
+            photoHeight,
+            needName,
+            needPhoneNumber,
+            needEmail,
+            needShippingAddress,
+            sendPhoneNumberToProvider,
+            sendEmailToProvider,
+            isFlexible,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [answerShippingQuery]
@@ -2237,7 +3427,23 @@ suspend fun TelegramBotApiClient.answerShippingQuery(requestBody: AnswerShipping
         body = requestBody
     }
 
-
+/**
+ * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
+ */
+suspend fun TelegramBotApiClient.answerShippingQuery(
+    shippingQueryId: String,
+    ok: Boolean,
+    shippingOptions: List<ShippingOption> = emptyList(),
+    errorMessage: String? = null,
+) =
+    answerShippingQuery(
+        AnswerShippingQueryRequest(
+            shippingQueryId,
+            ok,
+            shippingOptions,
+            errorMessage
+        )
+    )
 
 /**
  * Request body for [answerPreCheckoutQuery]
@@ -2267,7 +3473,21 @@ suspend fun TelegramBotApiClient.answerPreCheckoutQuery(requestBody: AnswerPreCh
         body = requestBody
     }
 
-
+/**
+ * Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. On success, True is returned. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
+ */
+suspend fun TelegramBotApiClient.answerPreCheckoutQuery(
+    preCheckoutQueryId: String,
+    ok: Boolean,
+    errorMessage: String? = null,
+) =
+    answerPreCheckoutQuery(
+        AnswerPreCheckoutQueryRequest(
+            preCheckoutQueryId,
+            ok,
+            errorMessage
+        )
+    )
 
 /**
  * Request body for [setPassportDataErrors]
@@ -2296,7 +3516,20 @@ suspend fun TelegramBotApiClient.setPassportDataErrors(requestBody: SetPassportD
         body = requestBody
     }
 
-
+/**
+ * Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change). Returns True on success.
+ * Use this if the data submitted by the user doesn't satisfy the standards your service requires for any reason. For example, if a birthday date seems invalid, a submitted document is blurry, a scan shows evidence of tampering, etc. Supply some details in the error message to make sure the user knows how to correct the issues.
+ */
+suspend fun TelegramBotApiClient.setPassportDataErrors(
+    userId: Int,
+    errors: List<PassportElementError> = emptyList(),
+) =
+    setPassportDataErrors(
+        SetPassportDataErrorsRequest(
+            userId,
+            errors
+        )
+    )
 
 /**
  * Request body for [sendGame]
@@ -2332,7 +3565,27 @@ suspend fun TelegramBotApiClient.sendGame(requestBody: SendGameRequest) =
         body = requestBody
     }
 
-
+/**
+ * Use this method to send a game. On success, the sent Message is returned.
+ */
+suspend fun TelegramBotApiClient.sendGame(
+    chatId: Int,
+    gameShortName: String,
+    disableNotification: Boolean? = null,
+    replyToMessageId: Int? = null,
+    allowSendingWithoutReply: Boolean? = null,
+    replyMarkup: InlineKeyboardMarkup? = null,
+) =
+    sendGame(
+        SendGameRequest(
+            chatId,
+            gameShortName,
+            disableNotification,
+            replyToMessageId,
+            allowSendingWithoutReply,
+            replyMarkup
+        )
+    )
 
 /**
  * Request body for [setGameScore]
@@ -2370,7 +3623,29 @@ suspend fun TelegramBotApiClient.setGameScore(requestBody: SetGameScoreRequest) 
         body = requestBody
     }
 
-
+/**
+ * Use this method to set the score of the specified user in a game. On success, if the message was sent by the bot, returns the edited Message, otherwise returns True. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
+ */
+suspend fun TelegramBotApiClient.setGameScore(
+    userId: Int,
+    score: Int,
+    force: Boolean? = null,
+    disableEditMessage: Boolean? = null,
+    chatId: Int? = null,
+    messageId: Int? = null,
+    inlineMessageId: String? = null,
+) =
+    setGameScore(
+        SetGameScoreRequest(
+            userId,
+            score,
+            force,
+            disableEditMessage,
+            chatId,
+            messageId,
+            inlineMessageId
+        )
+    )
 
 /**
  * Request body for [getGameHighScores]
@@ -2403,12 +3678,31 @@ suspend fun TelegramBotApiClient.getGameHighScores(requestBody: GetGameHighScore
         body = requestBody
     }
 
+/**
+ * Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. On success, returns an Array of GameHighScore objects.
+ * This method will currently return scores for the target user, plus two of their closest neighbors on each side. Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
+ */
+suspend fun TelegramBotApiClient.getGameHighScores(
+    userId: Int,
+    chatId: Int? = null,
+    messageId: Int? = null,
+    inlineMessageId: String? = null,
+) =
+    getGameHighScores(
+        GetGameHighScoresRequest(
+            userId,
+            chatId,
+            messageId,
+            inlineMessageId
+        )
+    )
+
 
 /**
  * Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
  */
 suspend fun TelegramBotApiClient.getWebhookInfo() =
-    httpClient.post<TelegramResponse<WebhookInfo>> {
+    httpClient.get<TelegramResponse<WebhookInfo>> {
         url {
             protocol = apiProtocol
             host = apiHost
@@ -2419,10 +3713,24 @@ suspend fun TelegramBotApiClient.getWebhookInfo() =
 
 
 /**
+ * A simple method for testing your bot's auth token. Requires no parameters. Returns basic information about the bot in form of a User object.
+ */
+suspend fun TelegramBotApiClient.getMe() =
+    httpClient.get<TelegramResponse<User>> {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            port = apiPort
+            path("bot$apiToken", "getMe")
+        }
+    }
+
+
+/**
  * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.
  */
 suspend fun TelegramBotApiClient.logOut() =
-    httpClient.post<TelegramResponse<Boolean>> {
+    httpClient.get<TelegramResponse<Boolean>> {
         url {
             protocol = apiProtocol
             host = apiHost
@@ -2432,11 +3740,12 @@ suspend fun TelegramBotApiClient.logOut() =
     }
 
 
+
 /**
  * Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.
  */
 suspend fun TelegramBotApiClient.close() =
-    httpClient.post<TelegramResponse<Boolean>> {
+    httpClient.get<TelegramResponse<Boolean>> {
         url {
             protocol = apiProtocol
             host = apiHost
@@ -2450,7 +3759,7 @@ suspend fun TelegramBotApiClient.close() =
  * Use this method to get the current list of the bot's commands. Requires no parameters. Returns Array of BotCommand on success.
  */
 suspend fun TelegramBotApiClient.getMyCommands() =
-    httpClient.post<TelegramResponse<List<BotCommand>>> {
+    httpClient.get<TelegramResponse<List<BotCommand>>> {
         url {
             protocol = apiProtocol
             host = apiHost
@@ -2458,6 +3767,5 @@ suspend fun TelegramBotApiClient.getMyCommands() =
             path("bot$apiToken", "getMyCommands")
         }
     }
-
 
 

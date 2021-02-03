@@ -23,11 +23,11 @@ class TelegramBotApiClient private constructor(
             }
         }
 
-        fun TelegramBotApiClient(
-            engine: HttpClientEngine? = null,
+        operator fun invoke(
             apiToken: String,
             botName: String,
             protocol: URLProtocol = URLProtocol.HTTPS,
+            engine: HttpClientEngine? = null,
             host: String = "api.telegram.org",
             port: Int = DEFAULT_PORT,
         ): TelegramBotApiClient {
@@ -38,10 +38,10 @@ class TelegramBotApiClient private constructor(
             return TelegramBotApiClient(httpClient, apiToken, botName, protocol, host, port)
         }
 
-        fun <T : HttpClientEngineConfig> TelegramBotApiClient(
-            engine: HttpClientEngineFactory<T>,
+        operator fun <T : HttpClientEngineConfig> invoke(
             apiToken: String,
             botName: String,
+            engine: HttpClientEngineFactory<T>,
             protocol: URLProtocol = URLProtocol.HTTPS,
             host: String = "api.telegram.org",
             port: Int = DEFAULT_PORT,

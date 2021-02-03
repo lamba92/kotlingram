@@ -79,6 +79,17 @@ fun TelegramObject.generateSourceCode() = buildString {
     appendLine()
 }
 
+fun TelegramParameter.getKotlinType(): String {
+    val isOptional = required == "Optional"
+    val arrayCount = type.split(" ").count { it == "Array" || it == "array" }
+    return when {
+        arrayCount > 0 -> ("List<" * arrayCount) + resolveType(type.removePrefixRecursive("Array of ")
+            .removePrefixRecursive("array of"),
+            false) + (">" * arrayCount) + " = emptyList()"
+        else -> resolveType(type, isOptional)
+    }
+}
+
 fun TelegramMethod.generateSourceCode() = buildString {
     if (parameters.isNotEmpty()) {
         appendLine("/**")
@@ -95,15 +106,7 @@ fun TelegramMethod.generateSourceCode() = buildString {
                 append("@SerialName(\"${field.name}\") ")
 
             append("val ${field.name.toCamelCase()}: ")
-            val isOptional = field.required == "Optional"
-            val arrayCount = field.type.split(" ").count { it == "Array" || it == "array" }
-            val type = when {
-                arrayCount > 0 -> ("List<" * arrayCount) + resolveType(field.type.removePrefixRecursive("Array of ")
-                    .removePrefixRecursive("array of"),
-                    false) + (">" * arrayCount) + " = emptyList()"
-                else -> resolveType(field.type, isOptional)
-            }
-            append(type)
+            append(field.getKotlinType())
             if (index != parameters.lastIndex)
                 append(",")
             appendLine()
@@ -119,7 +122,7 @@ fun TelegramMethod.generateSourceCode() = buildString {
             false).removeSuffix("s") + (">" * arrayCount)
         else -> resolveType(responseType, false)
     }
-
+    val httpMethod = if (parameters.isEmpty()) "get" else "post"
     appendLine("/**")
     description.split("\n").forEach {
         appendLine(" * $it")
@@ -129,7 +132,7 @@ fun TelegramMethod.generateSourceCode() = buildString {
     if (parameters.isNotEmpty())
         append("requestBody: ${name.capitalize()}Request")
     appendLine(") =")
-    appendLine("    httpClient.post<TelegramResponse<$type>> {")
+    appendLine("    httpClient.$httpMethod<TelegramResponse<$type>> {")
     appendLine("        url {")
     appendLine("            protocol = apiProtocol")
     appendLine("            host = apiHost")
@@ -142,5 +145,32 @@ fun TelegramMethod.generateSourceCode() = buildString {
     }
     appendLine("    }")
     appendLine()
-    appendLine()
+    if (parameters.isNotEmpty()) {
+        appendLine("/**")
+        description.split("\n").forEach {
+            appendLine(" * $it")
+        }
+        appendLine(" */")
+        appendLine("suspend fun TelegramBotApiClient.$name(")
+        parameters.forEachIndexed { index, field ->
+            append("    ${field.name.toCamelCase()}: ${field.getKotlinType()}")
+            if (index != parameters.lastIndex)
+                appendLine(",")
+            else
+                appendLine()
+        }
+        appendLine(") = ")
+        appendLine("    $name(")
+        appendLine("        ${name.capitalize()}Request(")
+        parameters.forEachIndexed { index, field ->
+            append("            ${field.name.toCamelCase()}")
+            if (index != parameters.lastIndex)
+                appendLine(",")
+            else
+                appendLine()
+        }
+        appendLine("        )")
+        appendLine("    )")
+    }
+
 }

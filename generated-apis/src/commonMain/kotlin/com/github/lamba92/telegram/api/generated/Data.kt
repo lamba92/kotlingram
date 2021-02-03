@@ -1,8 +1,9 @@
 package com.github.lamba92.telegram.api.generated
 
+import com.github.lamba92.telegram.api.InputMessageContentSerializer
+import com.github.lamba92.telegram.api.ReplyMarkupSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import com.github.lamba92.telegram.api.data.*
 
 
 /**

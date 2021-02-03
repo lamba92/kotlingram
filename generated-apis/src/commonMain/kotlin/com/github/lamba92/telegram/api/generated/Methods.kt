@@ -1,8 +1,8 @@
 package com.github.lamba92.telegram.api.generated
 
-import com.github.lamba92.telegram.api.data.PassportElementError
-import com.github.lamba92.telegram.api.data.TelegramBotApiClient
-import com.github.lamba92.telegram.api.data.TelegramResponse
+import com.github.lamba92.telegram.api.PassportElementError
+import com.github.lamba92.telegram.api.TelegramBotApiClient
+import com.github.lamba92.telegram.api.TelegramResponse
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.serialization.SerialName

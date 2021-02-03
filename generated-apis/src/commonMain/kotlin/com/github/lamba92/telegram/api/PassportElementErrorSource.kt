@@ -1,4 +1,4 @@
-package com.github.lamba92.telegram.api.data
+package com.github.lamba92.telegram.api
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

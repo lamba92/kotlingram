@@ -1,4 +1,4 @@
-package com.github.lamba92.telegram.api.data
+package com.github.lamba92.telegram.api
 
 import io.ktor.client.*
 import io.ktor.client.engine.*

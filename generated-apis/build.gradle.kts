@@ -9,7 +9,7 @@ plugins {
 telegramApiParser {
     outputDirectory = file("src/commonMain/kotlin")
     packageName = "com.github.lamba92.telegram.api.generated"
-    telegramClientPackage = "com.github.lamba92.telegram.api.data"
+    telegramClientPackage = "com.github.lamba92.telegram.api"
 }
 
 kotlin {

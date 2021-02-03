@@ -2,6 +2,7 @@ package com.github.lamba92.telegram.api.generated
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import com.github.lamba92.telegram.api.data.*
 
 
 /**
@@ -21,18 +22,18 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class Update(
-	@SerialName("update_id") val updateId: Int,
-	val message: Message? = null,
-	@SerialName("edited_message") val editedMessage: Message? = null,
-	@SerialName("channel_post") val channelPost: Message? = null,
-	@SerialName("edited_channel_post") val editedChannelPost: Message? = null,
-	@SerialName("inline_query") val inlineQuery: InlineQuery? = null,
-	@SerialName("chosen_inline_result") val chosenInlineResult: ChosenInlineResult? = null,
-	@SerialName("callback_query") val callbackQuery: CallbackQuery? = null,
-	@SerialName("shipping_query") val shippingQuery: ShippingQuery? = null,
-	@SerialName("pre_checkout_query") val preCheckoutQuery: PreCheckoutQuery? = null,
-	val poll: Poll? = null,
-	@SerialName("poll_answer") val pollAnswer: PollAnswer? = null
+    @SerialName("update_id") val updateId: Int,
+    val message: Message? = null,
+    @SerialName("edited_message") val editedMessage: Message? = null,
+    @SerialName("channel_post") val channelPost: Message? = null,
+    @SerialName("edited_channel_post") val editedChannelPost: Message? = null,
+    @SerialName("inline_query") val inlineQuery: InlineQuery? = null,
+    @SerialName("chosen_inline_result") val chosenInlineResult: ChosenInlineResult? = null,
+    @SerialName("callback_query") val callbackQuery: CallbackQuery? = null,
+    @SerialName("shipping_query") val shippingQuery: ShippingQuery? = null,
+    @SerialName("pre_checkout_query") val preCheckoutQuery: PreCheckoutQuery? = null,
+    val poll: Poll? = null,
+    @SerialName("poll_answer") val pollAnswer: PollAnswer? = null
 )
 
 /**
@@ -51,14 +52,14 @@ data class Update(
  */
 @Serializable
 data class WebhookInfo(
-	val url: String,
-	@SerialName("has_custom_certificate") val hasCustomCertificate: Boolean,
-	@SerialName("pending_update_count") val pendingUpdateCount: Int,
-	@SerialName("ip_address") val ipAddress: String? = null,
-	@SerialName("last_error_date") val lastErrorDate: Int? = null,
-	@SerialName("last_error_message") val lastErrorMessage: String? = null,
-	@SerialName("max_connections") val maxConnections: Int? = null,
-	@SerialName("allowed_updates") val allowedUpdates: List<String> = emptyList()
+    val url: String,
+    @SerialName("has_custom_certificate") val hasCustomCertificate: Boolean,
+    @SerialName("pending_update_count") val pendingUpdateCount: Int,
+    @SerialName("ip_address") val ipAddress: String? = null,
+    @SerialName("last_error_date") val lastErrorDate: Int? = null,
+    @SerialName("last_error_message") val lastErrorMessage: String? = null,
+    @SerialName("max_connections") val maxConnections: Int? = null,
+    @SerialName("allowed_updates") val allowedUpdates: List<String> = emptyList()
 )
 
 /**
@@ -75,15 +76,15 @@ data class WebhookInfo(
  */
 @Serializable
 data class User(
-	val id: Int,
-	@SerialName("is_bot") val isBot: Boolean,
-	@SerialName("first_name") val firstName: String,
-	@SerialName("last_name") val lastName: String? = null,
-	val username: String? = null,
-	@SerialName("language_code") val languageCode: String? = null,
-	@SerialName("can_join_groups") val canJoinGroups: Boolean? = null,
-	@SerialName("can_read_all_group_messages") val canReadAllGroupMessages: Boolean? = null,
-	@SerialName("supports_inline_queries") val supportsInlineQueries: Boolean? = null
+    val id: Int,
+    @SerialName("is_bot") val isBot: Boolean,
+    @SerialName("first_name") val firstName: String,
+    @SerialName("last_name") val lastName: String? = null,
+    val username: String? = null,
+    @SerialName("language_code") val languageCode: String? = null,
+    @SerialName("can_join_groups") val canJoinGroups: Boolean? = null,
+    @SerialName("can_read_all_group_messages") val canReadAllGroupMessages: Boolean? = null,
+    @SerialName("supports_inline_queries") val supportsInlineQueries: Boolean? = null
 )
 
 /**
@@ -108,23 +109,23 @@ data class User(
  */
 @Serializable
 data class Chat(
-	val id: Int,
-	val type: String,
-	val title: String? = null,
-	val username: String? = null,
-	@SerialName("first_name") val firstName: String? = null,
-	@SerialName("last_name") val lastName: String? = null,
-	val photo: ChatPhoto? = null,
-	val bio: String? = null,
-	val description: String? = null,
-	@SerialName("invite_link") val inviteLink: String? = null,
-	@SerialName("pinned_message") val pinnedMessage: Message? = null,
-	val permissions: ChatPermissions? = null,
-	@SerialName("slow_mode_delay") val slowModeDelay: Int? = null,
-	@SerialName("sticker_set_name") val stickerSetName: String? = null,
-	@SerialName("can_set_sticker_set") val canSetStickerSet: Boolean? = null,
-	@SerialName("linked_chat_id") val linkedChatId: Int? = null,
-	val location: ChatLocation? = null
+    val id: Int,
+    val type: String,
+    val title: String? = null,
+    val username: String? = null,
+    @SerialName("first_name") val firstName: String? = null,
+    @SerialName("last_name") val lastName: String? = null,
+    val photo: ChatPhoto? = null,
+    val bio: String? = null,
+    val description: String? = null,
+    @SerialName("invite_link") val inviteLink: String? = null,
+    @SerialName("pinned_message") val pinnedMessage: Message? = null,
+    val permissions: ChatPermissions? = null,
+    @SerialName("slow_mode_delay") val slowModeDelay: Int? = null,
+    @SerialName("sticker_set_name") val stickerSetName: String? = null,
+    @SerialName("can_set_sticker_set") val canSetStickerSet: Boolean? = null,
+    @SerialName("linked_chat_id") val linkedChatId: Int? = null,
+    val location: ChatLocation? = null
 )
 
 /**
@@ -183,57 +184,57 @@ data class Chat(
  */
 @Serializable
 data class Message(
-	@SerialName("message_id") val messageId: Int,
-	val from: User? = null,
-	@SerialName("sender_chat") val senderChat: Chat? = null,
-	val date: Int,
-	val chat: Chat,
-	@SerialName("forward_from") val forwardFrom: User? = null,
-	@SerialName("forward_from_chat") val forwardFromChat: Chat? = null,
-	@SerialName("forward_from_message_id") val forwardFromMessageId: Int? = null,
-	@SerialName("forward_signature") val forwardSignature: String? = null,
-	@SerialName("forward_sender_name") val forwardSenderName: String? = null,
-	@SerialName("forward_date") val forwardDate: Int? = null,
-	@SerialName("reply_to_message") val replyToMessage: Message? = null,
-	@SerialName("via_bot") val viaBot: User? = null,
-	@SerialName("edit_date") val editDate: Int? = null,
-	@SerialName("media_group_id") val mediaGroupId: String? = null,
-	@SerialName("author_signature") val authorSignature: String? = null,
-	val text: String? = null,
-	val entities: List<MessageEntity> = emptyList(),
-	val animation: Animation? = null,
-	val audio: Audio? = null,
-	val document: Document? = null,
-	val photo: List<PhotoSize> = emptyList(),
-	val sticker: Sticker? = null,
-	val video: Video? = null,
-	@SerialName("video_note") val videoNote: VideoNote? = null,
-	val voice: Voice? = null,
-	val caption: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	val contact: Contact? = null,
-	val dice: Dice? = null,
-	val game: Game? = null,
-	val poll: Poll? = null,
-	val venue: Venue? = null,
-	val location: Location? = null,
-	@SerialName("new_chat_members") val newChatMembers: List<User> = emptyList(),
-	@SerialName("left_chat_member") val leftChatMember: User? = null,
-	@SerialName("new_chat_title") val newChatTitle: String? = null,
-	@SerialName("new_chat_photo") val newChatPhoto: List<PhotoSize> = emptyList(),
-	@SerialName("delete_chat_photo") val deleteChatPhoto: Boolean? = null,
-	@SerialName("group_chat_created") val groupChatCreated: Boolean? = null,
-	@SerialName("supergroup_chat_created") val supergroupChatCreated: Boolean? = null,
-	@SerialName("channel_chat_created") val channelChatCreated: Boolean? = null,
-	@SerialName("migrate_to_chat_id") val migrateToChatId: Int? = null,
-	@SerialName("migrate_from_chat_id") val migrateFromChatId: Int? = null,
-	@SerialName("pinned_message") val pinnedMessage: Message? = null,
-	val invoice: Invoice? = null,
-	@SerialName("successful_payment") val successfulPayment: SuccessfulPayment? = null,
-	@SerialName("connected_website") val connectedWebsite: String? = null,
-	@SerialName("passport_data") val passportData: PassportData? = null,
-	@SerialName("proximity_alert_triggered") val proximityAlertTriggered: ProximityAlertTriggered? = null,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null
+    @SerialName("message_id") val messageId: Int,
+    val from: User? = null,
+    @SerialName("sender_chat") val senderChat: Chat? = null,
+    val date: Int,
+    val chat: Chat,
+    @SerialName("forward_from") val forwardFrom: User? = null,
+    @SerialName("forward_from_chat") val forwardFromChat: Chat? = null,
+    @SerialName("forward_from_message_id") val forwardFromMessageId: Int? = null,
+    @SerialName("forward_signature") val forwardSignature: String? = null,
+    @SerialName("forward_sender_name") val forwardSenderName: String? = null,
+    @SerialName("forward_date") val forwardDate: Int? = null,
+    @SerialName("reply_to_message") val replyToMessage: Message? = null,
+    @SerialName("via_bot") val viaBot: User? = null,
+    @SerialName("edit_date") val editDate: Int? = null,
+    @SerialName("media_group_id") val mediaGroupId: String? = null,
+    @SerialName("author_signature") val authorSignature: String? = null,
+    val text: String? = null,
+    val entities: List<MessageEntity> = emptyList(),
+    val animation: Animation? = null,
+    val audio: Audio? = null,
+    val document: Document? = null,
+    val photo: List<PhotoSize> = emptyList(),
+    val sticker: Sticker? = null,
+    val video: Video? = null,
+    @SerialName("video_note") val videoNote: VideoNote? = null,
+    val voice: Voice? = null,
+    val caption: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    val contact: Contact? = null,
+    val dice: Dice? = null,
+    val game: Game? = null,
+    val poll: Poll? = null,
+    val venue: Venue? = null,
+    val location: Location? = null,
+    @SerialName("new_chat_members") val newChatMembers: List<User> = emptyList(),
+    @SerialName("left_chat_member") val leftChatMember: User? = null,
+    @SerialName("new_chat_title") val newChatTitle: String? = null,
+    @SerialName("new_chat_photo") val newChatPhoto: List<PhotoSize> = emptyList(),
+    @SerialName("delete_chat_photo") val deleteChatPhoto: Boolean? = null,
+    @SerialName("group_chat_created") val groupChatCreated: Boolean? = null,
+    @SerialName("supergroup_chat_created") val supergroupChatCreated: Boolean? = null,
+    @SerialName("channel_chat_created") val channelChatCreated: Boolean? = null,
+    @SerialName("migrate_to_chat_id") val migrateToChatId: Int? = null,
+    @SerialName("migrate_from_chat_id") val migrateFromChatId: Int? = null,
+    @SerialName("pinned_message") val pinnedMessage: Message? = null,
+    val invoice: Invoice? = null,
+    @SerialName("successful_payment") val successfulPayment: SuccessfulPayment? = null,
+    @SerialName("connected_website") val connectedWebsite: String? = null,
+    @SerialName("passport_data") val passportData: PassportData? = null,
+    @SerialName("proximity_alert_triggered") val proximityAlertTriggered: ProximityAlertTriggered? = null,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null
 )
 
 /**
@@ -242,7 +243,7 @@ data class Message(
  */
 @Serializable
 data class MessageId(
-	@SerialName("message_id") val messageId: Int
+    @SerialName("message_id") val messageId: Int
 )
 
 /**
@@ -256,12 +257,12 @@ data class MessageId(
  */
 @Serializable
 data class MessageEntity(
-	val type: String,
-	val offset: Int,
-	val length: Int,
-	val url: String? = null,
-	val user: User? = null,
-	val language: String? = null
+    val type: String,
+    val offset: Int,
+    val length: Int,
+    val url: String? = null,
+    val user: User? = null,
+    val language: String? = null
 )
 
 /**
@@ -274,11 +275,11 @@ data class MessageEntity(
  */
 @Serializable
 data class PhotoSize(
-	@SerialName("file_id") val fileId: String,
-	@SerialName("file_unique_id") val fileUniqueId: String,
-	val width: Int,
-	val height: Int,
-	@SerialName("file_size") val fileSize: Int? = null
+    @SerialName("file_id") val fileId: String,
+    @SerialName("file_unique_id") val fileUniqueId: String,
+    val width: Int,
+    val height: Int,
+    @SerialName("file_size") val fileSize: Int? = null
 )
 
 /**
@@ -295,15 +296,15 @@ data class PhotoSize(
  */
 @Serializable
 data class Animation(
-	@SerialName("file_id") val fileId: String,
-	@SerialName("file_unique_id") val fileUniqueId: String,
-	val width: Int,
-	val height: Int,
-	val duration: Int,
-	val thumb: PhotoSize? = null,
-	@SerialName("file_name") val fileName: String? = null,
-	@SerialName("mime_type") val mimeType: String? = null,
-	@SerialName("file_size") val fileSize: Int? = null
+    @SerialName("file_id") val fileId: String,
+    @SerialName("file_unique_id") val fileUniqueId: String,
+    val width: Int,
+    val height: Int,
+    val duration: Int,
+    val thumb: PhotoSize? = null,
+    @SerialName("file_name") val fileName: String? = null,
+    @SerialName("mime_type") val mimeType: String? = null,
+    @SerialName("file_size") val fileSize: Int? = null
 )
 
 /**
@@ -320,15 +321,15 @@ data class Animation(
  */
 @Serializable
 data class Audio(
-	@SerialName("file_id") val fileId: String,
-	@SerialName("file_unique_id") val fileUniqueId: String,
-	val duration: Int,
-	val performer: String? = null,
-	val title: String? = null,
-	@SerialName("file_name") val fileName: String? = null,
-	@SerialName("mime_type") val mimeType: String? = null,
-	@SerialName("file_size") val fileSize: Int? = null,
-	val thumb: PhotoSize? = null
+    @SerialName("file_id") val fileId: String,
+    @SerialName("file_unique_id") val fileUniqueId: String,
+    val duration: Int,
+    val performer: String? = null,
+    val title: String? = null,
+    @SerialName("file_name") val fileName: String? = null,
+    @SerialName("mime_type") val mimeType: String? = null,
+    @SerialName("file_size") val fileSize: Int? = null,
+    val thumb: PhotoSize? = null
 )
 
 /**
@@ -342,12 +343,12 @@ data class Audio(
  */
 @Serializable
 data class Document(
-	@SerialName("file_id") val fileId: String,
-	@SerialName("file_unique_id") val fileUniqueId: String,
-	val thumb: PhotoSize? = null,
-	@SerialName("file_name") val fileName: String? = null,
-	@SerialName("mime_type") val mimeType: String? = null,
-	@SerialName("file_size") val fileSize: Int? = null
+    @SerialName("file_id") val fileId: String,
+    @SerialName("file_unique_id") val fileUniqueId: String,
+    val thumb: PhotoSize? = null,
+    @SerialName("file_name") val fileName: String? = null,
+    @SerialName("mime_type") val mimeType: String? = null,
+    @SerialName("file_size") val fileSize: Int? = null
 )
 
 /**
@@ -364,15 +365,15 @@ data class Document(
  */
 @Serializable
 data class Video(
-	@SerialName("file_id") val fileId: String,
-	@SerialName("file_unique_id") val fileUniqueId: String,
-	val width: Int,
-	val height: Int,
-	val duration: Int,
-	val thumb: PhotoSize? = null,
-	@SerialName("file_name") val fileName: String? = null,
-	@SerialName("mime_type") val mimeType: String? = null,
-	@SerialName("file_size") val fileSize: Int? = null
+    @SerialName("file_id") val fileId: String,
+    @SerialName("file_unique_id") val fileUniqueId: String,
+    val width: Int,
+    val height: Int,
+    val duration: Int,
+    val thumb: PhotoSize? = null,
+    @SerialName("file_name") val fileName: String? = null,
+    @SerialName("mime_type") val mimeType: String? = null,
+    @SerialName("file_size") val fileSize: Int? = null
 )
 
 /**
@@ -386,12 +387,12 @@ data class Video(
  */
 @Serializable
 data class VideoNote(
-	@SerialName("file_id") val fileId: String,
-	@SerialName("file_unique_id") val fileUniqueId: String,
-	val length: Int,
-	val duration: Int,
-	val thumb: PhotoSize? = null,
-	@SerialName("file_size") val fileSize: Int? = null
+    @SerialName("file_id") val fileId: String,
+    @SerialName("file_unique_id") val fileUniqueId: String,
+    val length: Int,
+    val duration: Int,
+    val thumb: PhotoSize? = null,
+    @SerialName("file_size") val fileSize: Int? = null
 )
 
 /**
@@ -404,11 +405,11 @@ data class VideoNote(
  */
 @Serializable
 data class Voice(
-	@SerialName("file_id") val fileId: String,
-	@SerialName("file_unique_id") val fileUniqueId: String,
-	val duration: Int,
-	@SerialName("mime_type") val mimeType: String? = null,
-	@SerialName("file_size") val fileSize: Int? = null
+    @SerialName("file_id") val fileId: String,
+    @SerialName("file_unique_id") val fileUniqueId: String,
+    val duration: Int,
+    @SerialName("mime_type") val mimeType: String? = null,
+    @SerialName("file_size") val fileSize: Int? = null
 )
 
 /**
@@ -421,11 +422,11 @@ data class Voice(
  */
 @Serializable
 data class Contact(
-	@SerialName("phone_number") val phoneNumber: String,
-	@SerialName("first_name") val firstName: String,
-	@SerialName("last_name") val lastName: String? = null,
-	@SerialName("user_id") val userId: Int? = null,
-	val vcard: String? = null
+    @SerialName("phone_number") val phoneNumber: String,
+    @SerialName("first_name") val firstName: String,
+    @SerialName("last_name") val lastName: String? = null,
+    @SerialName("user_id") val userId: Int? = null,
+    val vcard: String? = null
 )
 
 /**
@@ -435,8 +436,8 @@ data class Contact(
  */
 @Serializable
 data class Dice(
-	val emoji: String,
-	val value: Int
+    val emoji: String,
+    val value: Int
 )
 
 /**
@@ -446,8 +447,8 @@ data class Dice(
  */
 @Serializable
 data class PollOption(
-	val text: String,
-	@SerialName("voter_count") val voterCount: Int
+    val text: String,
+    @SerialName("voter_count") val voterCount: Int
 )
 
 /**
@@ -458,9 +459,9 @@ data class PollOption(
  */
 @Serializable
 data class PollAnswer(
-	@SerialName("poll_id") val pollId: String,
-	val user: User,
-	@SerialName("option_ids") val optionIds: List<Int> = emptyList()
+    @SerialName("poll_id") val pollId: String,
+    val user: User,
+    @SerialName("option_ids") val optionIds: List<Int> = emptyList()
 )
 
 /**
@@ -481,19 +482,19 @@ data class PollAnswer(
  */
 @Serializable
 data class Poll(
-	val id: String,
-	val question: String,
-	val options: List<PollOption> = emptyList(),
-	@SerialName("total_voter_count") val totalVoterCount: Int,
-	@SerialName("is_closed") val isClosed: Boolean,
-	@SerialName("is_anonymous") val isAnonymous: Boolean,
-	val type: String,
-	@SerialName("allows_multiple_answers") val allowsMultipleAnswers: Boolean,
-	@SerialName("correct_option_id") val correctOptionId: Int? = null,
-	val explanation: String? = null,
-	@SerialName("explanation_entities") val explanationEntities: List<MessageEntity> = emptyList(),
-	@SerialName("open_period") val openPeriod: Int? = null,
-	@SerialName("close_date") val closeDate: Int? = null
+    val id: String,
+    val question: String,
+    val options: List<PollOption> = emptyList(),
+    @SerialName("total_voter_count") val totalVoterCount: Int,
+    @SerialName("is_closed") val isClosed: Boolean,
+    @SerialName("is_anonymous") val isAnonymous: Boolean,
+    val type: String,
+    @SerialName("allows_multiple_answers") val allowsMultipleAnswers: Boolean,
+    @SerialName("correct_option_id") val correctOptionId: Int? = null,
+    val explanation: String? = null,
+    @SerialName("explanation_entities") val explanationEntities: List<MessageEntity> = emptyList(),
+    @SerialName("open_period") val openPeriod: Int? = null,
+    @SerialName("close_date") val closeDate: Int? = null
 )
 
 /**
@@ -507,12 +508,12 @@ data class Poll(
  */
 @Serializable
 data class Location(
-	val longitude: Float,
-	val latitude: Float,
-	@SerialName("horizontal_accuracy") val horizontalAccuracy: Float? = null,
-	@SerialName("live_period") val livePeriod: Int? = null,
-	val heading: Int? = null,
-	@SerialName("proximity_alert_radius") val proximityAlertRadius: Int? = null
+    val longitude: Float,
+    val latitude: Float,
+    @SerialName("horizontal_accuracy") val horizontalAccuracy: Float? = null,
+    @SerialName("live_period") val livePeriod: Int? = null,
+    val heading: Int? = null,
+    @SerialName("proximity_alert_radius") val proximityAlertRadius: Int? = null
 )
 
 /**
@@ -527,13 +528,13 @@ data class Location(
  */
 @Serializable
 data class Venue(
-	val location: Location,
-	val title: String,
-	val address: String,
-	@SerialName("foursquare_id") val foursquareId: String? = null,
-	@SerialName("foursquare_type") val foursquareType: String? = null,
-	@SerialName("google_place_id") val googlePlaceId: String? = null,
-	@SerialName("google_place_type") val googlePlaceType: String? = null
+    val location: Location,
+    val title: String,
+    val address: String,
+    @SerialName("foursquare_id") val foursquareId: String? = null,
+    @SerialName("foursquare_type") val foursquareType: String? = null,
+    @SerialName("google_place_id") val googlePlaceId: String? = null,
+    @SerialName("google_place_type") val googlePlaceType: String? = null
 )
 
 /**
@@ -544,9 +545,9 @@ data class Venue(
  */
 @Serializable
 data class ProximityAlertTriggered(
-	val traveler: User,
-	val watcher: User,
-	val distance: Int
+    val traveler: User,
+    val watcher: User,
+    val distance: Int
 )
 
 /**
@@ -556,8 +557,8 @@ data class ProximityAlertTriggered(
  */
 @Serializable
 data class UserProfilePhotos(
-	@SerialName("total_count") val totalCount: Int,
-	val photos: List<List<PhotoSize>> = emptyList()
+    @SerialName("total_count") val totalCount: Int,
+    val photos: List<List<PhotoSize>> = emptyList()
 )
 
 /**
@@ -570,10 +571,10 @@ data class UserProfilePhotos(
  */
 @Serializable
 data class File(
-	@SerialName("file_id") val fileId: String,
-	@SerialName("file_unique_id") val fileUniqueId: String,
-	@SerialName("file_size") val fileSize: Int? = null,
-	@SerialName("file_path") val filePath: String? = null
+    @SerialName("file_id") val fileId: String,
+    @SerialName("file_unique_id") val fileUniqueId: String,
+    @SerialName("file_size") val fileSize: Int? = null,
+    @SerialName("file_path") val filePath: String? = null
 )
 
 /**
@@ -585,11 +586,11 @@ data class File(
  */
 @Serializable
 data class ReplyKeyboardMarkup(
-	val keyboard: List<List<KeyboardButton>> = emptyList(),
-	@SerialName("resize_keyboard") val resizeKeyboard: Boolean? = null,
-	@SerialName("one_time_keyboard") val oneTimeKeyboard: Boolean? = null,
-	val selective: Boolean? = null
-) : ReplyMarkup
+    val keyboard: List<List<KeyboardButton>> = emptyList(),
+    @SerialName("resize_keyboard") val resizeKeyboard: Boolean? = null,
+    @SerialName("one_time_keyboard") val oneTimeKeyboard: Boolean? = null,
+    val selective: Boolean? = null
+) : ReplyMarkup()
 
 /**
  * This object represents one button of the reply keyboard. For simple text buttons String can be used instead of this object to specify text of the button. Optional fields request_contact, request_location, and request_poll are mutually exclusive.
@@ -601,10 +602,10 @@ data class ReplyKeyboardMarkup(
  */
 @Serializable
 data class KeyboardButton(
-	val text: String,
-	@SerialName("request_contact") val requestContact: Boolean? = null,
-	@SerialName("request_location") val requestLocation: Boolean? = null,
-	@SerialName("request_poll") val requestPoll: KeyboardButtonPollType? = null
+    val text: String,
+    @SerialName("request_contact") val requestContact: Boolean? = null,
+    @SerialName("request_location") val requestLocation: Boolean? = null,
+    @SerialName("request_poll") val requestPoll: KeyboardButtonPollType? = null
 )
 
 /**
@@ -613,7 +614,7 @@ data class KeyboardButton(
  */
 @Serializable
 data class KeyboardButtonPollType(
-	val type: String? = null
+    val type: String? = null
 )
 
 /**
@@ -623,9 +624,9 @@ data class KeyboardButtonPollType(
  */
 @Serializable
 data class ReplyKeyboardRemove(
-	@SerialName("remove_keyboard") val removeKeyboard: Boolean,
-	val selective: Boolean? = null
-) : ReplyMarkup
+    @SerialName("remove_keyboard") val removeKeyboard: Boolean,
+    val selective: Boolean? = null
+) : ReplyMarkup()
 
 /**
  * This object represents an inline keyboard that appears right next to the message it belongs to.
@@ -634,8 +635,8 @@ data class ReplyKeyboardRemove(
  */
 @Serializable
 data class InlineKeyboardMarkup(
-	@SerialName("inline_keyboard") val inlineKeyboard: List<List<InlineKeyboardButton>> = emptyList()
-) : ReplyMarkup
+    @SerialName("inline_keyboard") val inlineKeyboard: List<List<InlineKeyboardButton>> = emptyList()
+) : ReplyMarkup()
 
 /**
  * This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
@@ -650,14 +651,14 @@ data class InlineKeyboardMarkup(
  */
 @Serializable
 data class InlineKeyboardButton(
-	val text: String,
-	val url: String? = null,
-	@SerialName("login_url") val loginUrl: LoginUrl? = null,
-	@SerialName("callback_data") val callbackData: String? = null,
-	@SerialName("switch_inline_query") val switchInlineQuery: String? = null,
-	@SerialName("switch_inline_query_current_chat") val switchInlineQueryCurrentChat: String? = null,
-	@SerialName("callback_game") val callbackGame: CallbackGame? = null,
-	val pay: Boolean? = null
+    val text: String,
+    val url: String? = null,
+    @SerialName("login_url") val loginUrl: LoginUrl? = null,
+    @SerialName("callback_data") val callbackData: String? = null,
+    @SerialName("switch_inline_query") val switchInlineQuery: String? = null,
+    @SerialName("switch_inline_query_current_chat") val switchInlineQueryCurrentChat: String? = null,
+    @SerialName("callback_game") val callbackGame: CallbackGame? = null,
+    val pay: Boolean? = null
 )
 
 /**
@@ -671,10 +672,10 @@ data class InlineKeyboardButton(
  */
 @Serializable
 data class LoginUrl(
-	val url: String,
-	@SerialName("forward_text") val forwardText: String? = null,
-	@SerialName("bot_username") val botUsername: String? = null,
-	@SerialName("request_write_access") val requestWriteAccess: Boolean? = null
+    val url: String,
+    @SerialName("forward_text") val forwardText: String? = null,
+    @SerialName("bot_username") val botUsername: String? = null,
+    @SerialName("request_write_access") val requestWriteAccess: Boolean? = null
 )
 
 /**
@@ -690,13 +691,13 @@ data class LoginUrl(
  */
 @Serializable
 data class CallbackQuery(
-	val id: String,
-	val from: User,
-	val message: Message? = null,
-	@SerialName("inline_message_id") val inlineMessageId: String? = null,
-	@SerialName("chat_instance") val chatInstance: String,
-	val data: String? = null,
-	@SerialName("game_short_name") val gameShortName: String? = null
+    val id: String,
+    val from: User,
+    val message: Message? = null,
+    @SerialName("inline_message_id") val inlineMessageId: String? = null,
+    @SerialName("chat_instance") val chatInstance: String,
+    val data: String? = null,
+    @SerialName("game_short_name") val gameShortName: String? = null
 )
 
 /**
@@ -707,9 +708,9 @@ data class CallbackQuery(
  */
 @Serializable
 data class ForceReply(
-	@SerialName("force_reply") val forceReply: Boolean,
-	val selective: Boolean? = null
-) : ReplyMarkup
+    @SerialName("force_reply") val forceReply: Boolean,
+    val selective: Boolean? = null
+) : ReplyMarkup()
 
 /**
  * This object represents a chat photo.
@@ -720,10 +721,10 @@ data class ForceReply(
  */
 @Serializable
 data class ChatPhoto(
-	@SerialName("small_file_id") val smallFileId: String,
-	@SerialName("small_file_unique_id") val smallFileUniqueId: String,
-	@SerialName("big_file_id") val bigFileId: String,
-	@SerialName("big_file_unique_id") val bigFileUniqueId: String
+    @SerialName("small_file_id") val smallFileId: String,
+    @SerialName("small_file_unique_id") val smallFileUniqueId: String,
+    @SerialName("big_file_id") val bigFileId: String,
+    @SerialName("big_file_unique_id") val bigFileUniqueId: String
 )
 
 /**
@@ -751,26 +752,26 @@ data class ChatPhoto(
  */
 @Serializable
 data class ChatMember(
-	val user: User,
-	val status: String,
-	@SerialName("custom_title") val customTitle: String? = null,
-	@SerialName("is_anonymous") val isAnonymous: Boolean? = null,
-	@SerialName("can_be_edited") val canBeEdited: Boolean? = null,
-	@SerialName("can_post_messages") val canPostMessages: Boolean? = null,
-	@SerialName("can_edit_messages") val canEditMessages: Boolean? = null,
-	@SerialName("can_delete_messages") val canDeleteMessages: Boolean? = null,
-	@SerialName("can_restrict_members") val canRestrictMembers: Boolean? = null,
-	@SerialName("can_promote_members") val canPromoteMembers: Boolean? = null,
-	@SerialName("can_change_info") val canChangeInfo: Boolean? = null,
-	@SerialName("can_invite_users") val canInviteUsers: Boolean? = null,
-	@SerialName("can_pin_messages") val canPinMessages: Boolean? = null,
-	@SerialName("is_member") val isMember: Boolean? = null,
-	@SerialName("can_send_messages") val canSendMessages: Boolean? = null,
-	@SerialName("can_send_media_messages") val canSendMediaMessages: Boolean? = null,
-	@SerialName("can_send_polls") val canSendPolls: Boolean? = null,
-	@SerialName("can_send_other_messages") val canSendOtherMessages: Boolean? = null,
-	@SerialName("can_add_web_page_previews") val canAddWebPagePreviews: Boolean? = null,
-	@SerialName("until_date") val untilDate: Int? = null
+    val user: User,
+    val status: String,
+    @SerialName("custom_title") val customTitle: String? = null,
+    @SerialName("is_anonymous") val isAnonymous: Boolean? = null,
+    @SerialName("can_be_edited") val canBeEdited: Boolean? = null,
+    @SerialName("can_post_messages") val canPostMessages: Boolean? = null,
+    @SerialName("can_edit_messages") val canEditMessages: Boolean? = null,
+    @SerialName("can_delete_messages") val canDeleteMessages: Boolean? = null,
+    @SerialName("can_restrict_members") val canRestrictMembers: Boolean? = null,
+    @SerialName("can_promote_members") val canPromoteMembers: Boolean? = null,
+    @SerialName("can_change_info") val canChangeInfo: Boolean? = null,
+    @SerialName("can_invite_users") val canInviteUsers: Boolean? = null,
+    @SerialName("can_pin_messages") val canPinMessages: Boolean? = null,
+    @SerialName("is_member") val isMember: Boolean? = null,
+    @SerialName("can_send_messages") val canSendMessages: Boolean? = null,
+    @SerialName("can_send_media_messages") val canSendMediaMessages: Boolean? = null,
+    @SerialName("can_send_polls") val canSendPolls: Boolean? = null,
+    @SerialName("can_send_other_messages") val canSendOtherMessages: Boolean? = null,
+    @SerialName("can_add_web_page_previews") val canAddWebPagePreviews: Boolean? = null,
+    @SerialName("until_date") val untilDate: Int? = null
 )
 
 /**
@@ -786,14 +787,14 @@ data class ChatMember(
  */
 @Serializable
 data class ChatPermissions(
-	@SerialName("can_send_messages") val canSendMessages: Boolean? = null,
-	@SerialName("can_send_media_messages") val canSendMediaMessages: Boolean? = null,
-	@SerialName("can_send_polls") val canSendPolls: Boolean? = null,
-	@SerialName("can_send_other_messages") val canSendOtherMessages: Boolean? = null,
-	@SerialName("can_add_web_page_previews") val canAddWebPagePreviews: Boolean? = null,
-	@SerialName("can_change_info") val canChangeInfo: Boolean? = null,
-	@SerialName("can_invite_users") val canInviteUsers: Boolean? = null,
-	@SerialName("can_pin_messages") val canPinMessages: Boolean? = null
+    @SerialName("can_send_messages") val canSendMessages: Boolean? = null,
+    @SerialName("can_send_media_messages") val canSendMediaMessages: Boolean? = null,
+    @SerialName("can_send_polls") val canSendPolls: Boolean? = null,
+    @SerialName("can_send_other_messages") val canSendOtherMessages: Boolean? = null,
+    @SerialName("can_add_web_page_previews") val canAddWebPagePreviews: Boolean? = null,
+    @SerialName("can_change_info") val canChangeInfo: Boolean? = null,
+    @SerialName("can_invite_users") val canInviteUsers: Boolean? = null,
+    @SerialName("can_pin_messages") val canPinMessages: Boolean? = null
 )
 
 /**
@@ -803,8 +804,8 @@ data class ChatPermissions(
  */
 @Serializable
 data class ChatLocation(
-	val location: Location,
-	val address: String
+    val location: Location,
+    val address: String
 )
 
 /**
@@ -814,8 +815,8 @@ data class ChatLocation(
  */
 @Serializable
 data class BotCommand(
-	val command: String,
-	val description: String
+    val command: String,
+    val description: String
 )
 
 /**
@@ -825,30 +826,28 @@ data class BotCommand(
  */
 @Serializable
 data class ResponseParameters(
-	@SerialName("migrate_to_chat_id") val migrateToChatId: Int? = null,
-	@SerialName("retry_after") val retryAfter: Int? = null
+    @SerialName("migrate_to_chat_id") val migrateToChatId: Int? = null,
+    @SerialName("retry_after") val retryAfter: Int? = null
 )
 
 /**
  * Represents a photo to be sent.
- * @param type Type of the result, must be photo
  * @param media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More info on Sending Files »
  * @param caption Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
  * @param parseMode Optional. Mode for parsing entities in the photo caption. See formatting options for more details.
  * @param captionEntities Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
  */
 @Serializable
+@SerialName("photo")
 data class InputMediaPhoto(
-	val type: String,
-	val media: String,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList()
+    val media: String,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList()
 ) : InputMedia()
 
 /**
  * Represents a video to be sent.
- * @param type Type of the result, must be video
  * @param media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More info on Sending Files »
  * @param thumb Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
  * @param caption Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
@@ -860,22 +859,21 @@ data class InputMediaPhoto(
  * @param supportsStreaming Optional. Pass True, if the uploaded video is suitable for streaming
  */
 @Serializable
+@SerialName("video")
 data class InputMediaVideo(
-	val type: String,
-	val media: String,
-	val thumb: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	val width: Int? = null,
-	val height: Int? = null,
-	val duration: Int? = null,
-	@SerialName("supports_streaming") val supportsStreaming: Boolean? = null
+    val media: String,
+    val thumb: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    val width: Int? = null,
+    val height: Int? = null,
+    val duration: Int? = null,
+    @SerialName("supports_streaming") val supportsStreaming: Boolean? = null
 ) : InputMedia()
 
 /**
  * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
- * @param type Type of the result, must be animation
  * @param media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More info on Sending Files »
  * @param thumb Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
  * @param caption Optional. Caption of the animation to be sent, 0-1024 characters after entities parsing
@@ -886,21 +884,20 @@ data class InputMediaVideo(
  * @param duration Optional. Animation duration
  */
 @Serializable
+@SerialName("animation")
 data class InputMediaAnimation(
-	val type: String,
-	val media: String,
-	val thumb: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	val width: Int? = null,
-	val height: Int? = null,
-	val duration: Int? = null
+    val media: String,
+    val thumb: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    val width: Int? = null,
+    val height: Int? = null,
+    val duration: Int? = null
 )
 
 /**
  * Represents an audio file to be treated as music to be sent.
- * @param type Type of the result, must be audio
  * @param media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More info on Sending Files »
  * @param thumb Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
  * @param caption Optional. Caption of the audio to be sent, 0-1024 characters after entities parsing
@@ -911,21 +908,20 @@ data class InputMediaAnimation(
  * @param title Optional. Title of the audio
  */
 @Serializable
+@SerialName("audio")
 data class InputMediaAudio(
-	val type: String,
-	val media: String,
-	val thumb: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	val duration: Int? = null,
-	val performer: String? = null,
-	val title: String? = null
+    val media: String,
+    val thumb: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    val duration: Int? = null,
+    val performer: String? = null,
+    val title: String? = null
 ) : InputMedia()
 
 /**
  * Represents a general file to be sent.
- * @param type Type of the result, must be document
  * @param media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More info on Sending Files »
  * @param thumb Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files »
  * @param caption Optional. Caption of the document to be sent, 0-1024 characters after entities parsing
@@ -934,14 +930,14 @@ data class InputMediaAudio(
  * @param disableContentTypeDetection Optional. Disables automatic server-side content type detection for files uploaded using multipart/form-data. Always true, if the document is sent as part of an album.
  */
 @Serializable
+@SerialName("document")
 data class InputMediaDocument(
-	val type: String,
-	val media: String,
-	val thumb: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("disable_content_type_detection") val disableContentTypeDetection: Boolean? = null
+    val media: String,
+    val thumb: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("disable_content_type_detection") val disableContentTypeDetection: Boolean? = null
 ) : InputMedia()
 
 /**
@@ -959,16 +955,16 @@ data class InputMediaDocument(
  */
 @Serializable
 data class Sticker(
-	@SerialName("file_id") val fileId: String,
-	@SerialName("file_unique_id") val fileUniqueId: String,
-	val width: Int,
-	val height: Int,
-	@SerialName("is_animated") val isAnimated: Boolean,
-	val thumb: PhotoSize? = null,
-	val emoji: String? = null,
-	@SerialName("set_name") val setName: String? = null,
-	@SerialName("mask_position") val maskPosition: MaskPosition? = null,
-	@SerialName("file_size") val fileSize: Int? = null
+    @SerialName("file_id") val fileId: String,
+    @SerialName("file_unique_id") val fileUniqueId: String,
+    val width: Int,
+    val height: Int,
+    @SerialName("is_animated") val isAnimated: Boolean,
+    val thumb: PhotoSize? = null,
+    val emoji: String? = null,
+    @SerialName("set_name") val setName: String? = null,
+    @SerialName("mask_position") val maskPosition: MaskPosition? = null,
+    @SerialName("file_size") val fileSize: Int? = null
 )
 
 /**
@@ -982,12 +978,12 @@ data class Sticker(
  */
 @Serializable
 data class StickerSet(
-	val name: String,
-	val title: String,
-	@SerialName("is_animated") val isAnimated: Boolean,
-	@SerialName("contains_masks") val containsMasks: Boolean,
-	val stickers: List<Sticker> = emptyList(),
-	val thumb: PhotoSize? = null
+    val name: String,
+    val title: String,
+    @SerialName("is_animated") val isAnimated: Boolean,
+    @SerialName("contains_masks") val containsMasks: Boolean,
+    val stickers: List<Sticker> = emptyList(),
+    val thumb: PhotoSize? = null
 )
 
 /**
@@ -999,10 +995,10 @@ data class StickerSet(
  */
 @Serializable
 data class MaskPosition(
-	val point: String,
-	@SerialName("x_shift") val xShift: Float,
-	@SerialName("y_shift") val yShift: Float,
-	val scale: Float
+    val point: String,
+    @SerialName("x_shift") val xShift: Float,
+    @SerialName("y_shift") val yShift: Float,
+    val scale: Float
 )
 
 /**
@@ -1015,16 +1011,15 @@ data class MaskPosition(
  */
 @Serializable
 data class InlineQuery(
-	val id: String,
-	val from: User,
-	val location: Location? = null,
-	val query: String,
-	val offset: String
+    val id: String,
+    val from: User,
+    val location: Location? = null,
+    val query: String,
+    val offset: String
 )
 
 /**
  * Represents a link to an article or web page.
- * @param type Type of the result, must be article
  * @param id Unique identifier for this result, 1-64 Bytes
  * @param title Title of the result
  * @param inputMessageContent Content of the message to be sent
@@ -1037,23 +1032,22 @@ data class InlineQuery(
  * @param thumbHeight Optional. Thumbnail height
  */
 @Serializable
+@SerialName("article")
 data class InlineQueryResultArticle(
-	val type: String,
-	val id: String,
-	val title: String,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	val url: String? = null,
-	@SerialName("hide_url") val hideUrl: Boolean? = null,
-	val description: String? = null,
-	@SerialName("thumb_url") val thumbUrl: String? = null,
-	@SerialName("thumb_width") val thumbWidth: Int? = null,
-	@SerialName("thumb_height") val thumbHeight: Int? = null
+    val id: String,
+    val title: String,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    val url: String? = null,
+    @SerialName("hide_url") val hideUrl: Boolean? = null,
+    val description: String? = null,
+    @SerialName("thumb_url") val thumbUrl: String? = null,
+    @SerialName("thumb_width") val thumbWidth: Int? = null,
+    @SerialName("thumb_height") val thumbHeight: Int? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
- * @param type Type of the result, must be photo
  * @param id Unique identifier for this result, 1-64 bytes
  * @param photoUrl A valid URL of the photo. Photo must be in jpeg format. Photo size must not exceed 5MB
  * @param thumbUrl URL of the thumbnail for the photo
@@ -1068,25 +1062,24 @@ data class InlineQueryResultArticle(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the photo
  */
 @Serializable
+@SerialName("photo")
 data class InlineQueryResultPhoto(
-	val type: String,
-	val id: String,
-	@SerialName("photo_url") val photoUrl: String,
-	@SerialName("thumb_url") val thumbUrl: String,
-	@SerialName("photo_width") val photoWidth: Int? = null,
-	@SerialName("photo_height") val photoHeight: Int? = null,
-	val title: String? = null,
-	val description: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("photo_url") val photoUrl: String,
+    @SerialName("thumb_url") val thumbUrl: String,
+    @SerialName("photo_width") val photoWidth: Int? = null,
+    @SerialName("photo_height") val photoHeight: Int? = null,
+    val title: String? = null,
+    val description: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
- * @param type Type of the result, must be gif
  * @param id Unique identifier for this result, 1-64 bytes
  * @param gifUrl A valid URL for the GIF file. File size must not exceed 1MB
  * @param gifWidth Optional. Width of the GIF
@@ -1102,26 +1095,25 @@ data class InlineQueryResultPhoto(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the GIF animation
  */
 @Serializable
+@SerialName("gif")
 data class InlineQueryResultGif(
-	val type: String,
-	val id: String,
-	@SerialName("gif_url") val gifUrl: String,
-	@SerialName("gif_width") val gifWidth: Int? = null,
-	@SerialName("gif_height") val gifHeight: Int? = null,
-	@SerialName("gif_duration") val gifDuration: Int? = null,
-	@SerialName("thumb_url") val thumbUrl: String,
-	@SerialName("thumb_mime_type") val thumbMimeType: String? = null,
-	val title: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("gif_url") val gifUrl: String,
+    @SerialName("gif_width") val gifWidth: Int? = null,
+    @SerialName("gif_height") val gifHeight: Int? = null,
+    @SerialName("gif_duration") val gifDuration: Int? = null,
+    @SerialName("thumb_url") val thumbUrl: String,
+    @SerialName("thumb_mime_type") val thumbMimeType: String? = null,
+    val title: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
- * @param type Type of the result, must be mpeg4_gif
  * @param id Unique identifier for this result, 1-64 bytes
  * @param mpeg4Url A valid URL for the MP4 file. File size must not exceed 1MB
  * @param mpeg4Width Optional. Video width
@@ -1137,27 +1129,26 @@ data class InlineQueryResultGif(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the video animation
  */
 @Serializable
+@SerialName("mpeg4_gif")
 data class InlineQueryResultMpeg4Gif(
-	val type: String,
-	val id: String,
-	@SerialName("mpeg4_url") val mpeg4Url: String,
-	@SerialName("mpeg4_width") val mpeg4Width: Int? = null,
-	@SerialName("mpeg4_height") val mpeg4Height: Int? = null,
-	@SerialName("mpeg4_duration") val mpeg4Duration: Int? = null,
-	@SerialName("thumb_url") val thumbUrl: String,
-	@SerialName("thumb_mime_type") val thumbMimeType: String? = null,
-	val title: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("mpeg4_url") val mpeg4Url: String,
+    @SerialName("mpeg4_width") val mpeg4Width: Int? = null,
+    @SerialName("mpeg4_height") val mpeg4Height: Int? = null,
+    @SerialName("mpeg4_duration") val mpeg4Duration: Int? = null,
+    @SerialName("thumb_url") val thumbUrl: String,
+    @SerialName("thumb_mime_type") val thumbMimeType: String? = null,
+    val title: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
  * If an InlineQueryResultVideo message contains an embedded video (e.g., YouTube), you must replace its content using input_message_content.
- * @param type Type of the result, must be video
  * @param id Unique identifier for this result, 1-64 bytes
  * @param videoUrl A valid URL for the embedded video player or video file
  * @param mimeType Mime type of the content of video url, “text/html” or “video/mp4”
@@ -1174,28 +1165,27 @@ data class InlineQueryResultMpeg4Gif(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the video. This field is required if InlineQueryResultVideo is used to send an HTML-page as a result (e.g., a YouTube video).
  */
 @Serializable
+@SerialName("video")
 data class InlineQueryResultVideo(
-	val type: String,
-	val id: String,
-	@SerialName("video_url") val videoUrl: String,
-	@SerialName("mime_type") val mimeType: String,
-	@SerialName("thumb_url") val thumbUrl: String,
-	val title: String,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("video_width") val videoWidth: Int? = null,
-	@SerialName("video_height") val videoHeight: Int? = null,
-	@SerialName("video_duration") val videoDuration: Int? = null,
-	val description: String? = null,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("video_url") val videoUrl: String,
+    @SerialName("mime_type") val mimeType: String,
+    @SerialName("thumb_url") val thumbUrl: String,
+    val title: String,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("video_width") val videoWidth: Int? = null,
+    @SerialName("video_height") val videoHeight: Int? = null,
+    @SerialName("video_duration") val videoDuration: Int? = null,
+    val description: String? = null,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to an MP3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- * @param type Type of the result, must be audio
  * @param id Unique identifier for this result, 1-64 bytes
  * @param audioUrl A valid URL for the audio file
  * @param title Title
@@ -1208,24 +1198,23 @@ data class InlineQueryResultVideo(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the audio
  */
 @Serializable
+@SerialName("audio")
 data class InlineQueryResultAudio(
-	val type: String,
-	val id: String,
-	@SerialName("audio_url") val audioUrl: String,
-	val title: String,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	val performer: String? = null,
-	@SerialName("audio_duration") val audioDuration: Int? = null,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("audio_url") val audioUrl: String,
+    val title: String,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    val performer: String? = null,
+    @SerialName("audio_duration") val audioDuration: Int? = null,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the the voice message.
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- * @param type Type of the result, must be voice
  * @param id Unique identifier for this result, 1-64 bytes
  * @param voiceUrl A valid URL for the voice recording
  * @param title Recording title
@@ -1237,23 +1226,22 @@ data class InlineQueryResultAudio(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the voice recording
  */
 @Serializable
+@SerialName("voice")
 data class InlineQueryResultVoice(
-	val type: String,
-	val id: String,
-	@SerialName("voice_url") val voiceUrl: String,
-	val title: String,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("voice_duration") val voiceDuration: Int? = null,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("voice_url") val voiceUrl: String,
+    val title: String,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("voice_duration") val voiceDuration: Int? = null,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file. Currently, only .PDF and .ZIP files can be sent using this method.
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- * @param type Type of the result, must be document
  * @param id Unique identifier for this result, 1-64 bytes
  * @param title Title for the result
  * @param caption Optional. Caption of the document to be sent, 0-1024 characters after entities parsing
@@ -1269,27 +1257,26 @@ data class InlineQueryResultVoice(
  * @param thumbHeight Optional. Thumbnail height
  */
 @Serializable
+@SerialName("document")
 data class InlineQueryResultDocument(
-	val type: String,
-	val id: String,
-	val title: String,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("document_url") val documentUrl: String,
-	@SerialName("mime_type") val mimeType: String,
-	val description: String? = null,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null,
-	@SerialName("thumb_url") val thumbUrl: String? = null,
-	@SerialName("thumb_width") val thumbWidth: Int? = null,
-	@SerialName("thumb_height") val thumbHeight: Int? = null
+    val id: String,
+    val title: String,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("document_url") val documentUrl: String,
+    @SerialName("mime_type") val mimeType: String,
+    val description: String? = null,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null,
+    @SerialName("thumb_url") val thumbUrl: String? = null,
+    @SerialName("thumb_width") val thumbWidth: Int? = null,
+    @SerialName("thumb_height") val thumbHeight: Int? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- * @param type Type of the result, must be location
  * @param id Unique identifier for this result, 1-64 Bytes
  * @param latitude Location latitude in degrees
  * @param longitude Location longitude in degrees
@@ -1305,27 +1292,26 @@ data class InlineQueryResultDocument(
  * @param thumbHeight Optional. Thumbnail height
  */
 @Serializable
+@SerialName("location")
 data class InlineQueryResultLocation(
-	val type: String,
-	val id: String,
-	val latitude: Float,
-	val longitude: Float,
-	val title: String,
-	@SerialName("horizontal_accuracy") val horizontalAccuracy: Float? = null,
-	@SerialName("live_period") val livePeriod: Int? = null,
-	val heading: Int? = null,
-	@SerialName("proximity_alert_radius") val proximityAlertRadius: Int? = null,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null,
-	@SerialName("thumb_url") val thumbUrl: String? = null,
-	@SerialName("thumb_width") val thumbWidth: Int? = null,
-	@SerialName("thumb_height") val thumbHeight: Int? = null
+    val id: String,
+    val latitude: Float,
+    val longitude: Float,
+    val title: String,
+    @SerialName("horizontal_accuracy") val horizontalAccuracy: Float? = null,
+    @SerialName("live_period") val livePeriod: Int? = null,
+    val heading: Int? = null,
+    @SerialName("proximity_alert_radius") val proximityAlertRadius: Int? = null,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null,
+    @SerialName("thumb_url") val thumbUrl: String? = null,
+    @SerialName("thumb_width") val thumbWidth: Int? = null,
+    @SerialName("thumb_height") val thumbHeight: Int? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- * @param type Type of the result, must be venue
  * @param id Unique identifier for this result, 1-64 Bytes
  * @param latitude Latitude of the venue location in degrees
  * @param longitude Longitude of the venue location in degrees
@@ -1342,28 +1328,27 @@ data class InlineQueryResultLocation(
  * @param thumbHeight Optional. Thumbnail height
  */
 @Serializable
+@SerialName("venue")
 data class InlineQueryResultVenue(
-	val type: String,
-	val id: String,
-	val latitude: Float,
-	val longitude: Float,
-	val title: String,
-	val address: String,
-	@SerialName("foursquare_id") val foursquareId: String? = null,
-	@SerialName("foursquare_type") val foursquareType: String? = null,
-	@SerialName("google_place_id") val googlePlaceId: String? = null,
-	@SerialName("google_place_type") val googlePlaceType: String? = null,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null,
-	@SerialName("thumb_url") val thumbUrl: String? = null,
-	@SerialName("thumb_width") val thumbWidth: Int? = null,
-	@SerialName("thumb_height") val thumbHeight: Int? = null
+    val id: String,
+    val latitude: Float,
+    val longitude: Float,
+    val title: String,
+    val address: String,
+    @SerialName("foursquare_id") val foursquareId: String? = null,
+    @SerialName("foursquare_type") val foursquareType: String? = null,
+    @SerialName("google_place_id") val googlePlaceId: String? = null,
+    @SerialName("google_place_type") val googlePlaceType: String? = null,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null,
+    @SerialName("thumb_url") val thumbUrl: String? = null,
+    @SerialName("thumb_width") val thumbWidth: Int? = null,
+    @SerialName("thumb_height") val thumbHeight: Int? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the contact.
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- * @param type Type of the result, must be contact
  * @param id Unique identifier for this result, 1-64 Bytes
  * @param phoneNumber Contact's phone number
  * @param firstName Contact's first name
@@ -1376,39 +1361,37 @@ data class InlineQueryResultVenue(
  * @param thumbHeight Optional. Thumbnail height
  */
 @Serializable
+@SerialName("contact")
 data class InlineQueryResultContact(
-	val type: String,
-	val id: String,
-	@SerialName("phone_number") val phoneNumber: String,
-	@SerialName("first_name") val firstName: String,
-	@SerialName("last_name") val lastName: String? = null,
-	val vcard: String? = null,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null,
-	@SerialName("thumb_url") val thumbUrl: String? = null,
-	@SerialName("thumb_width") val thumbWidth: Int? = null,
-	@SerialName("thumb_height") val thumbHeight: Int? = null
+    val id: String,
+    @SerialName("phone_number") val phoneNumber: String,
+    @SerialName("first_name") val firstName: String,
+    @SerialName("last_name") val lastName: String? = null,
+    val vcard: String? = null,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null,
+    @SerialName("thumb_url") val thumbUrl: String? = null,
+    @SerialName("thumb_width") val thumbWidth: Int? = null,
+    @SerialName("thumb_height") val thumbHeight: Int? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a Game.
  * Note: This will only work in Telegram versions released after October 1, 2016. Older clients will not display any inline results if a game result is among them.
- * @param type Type of the result, must be game
  * @param id Unique identifier for this result, 1-64 bytes
  * @param gameShortName Short name of the game
  * @param replyMarkup Optional. Inline keyboard attached to the message
  */
 @Serializable
+@SerialName("game")
 data class InlineQueryResultGame(
-	val type: String,
-	val id: String,
-	@SerialName("game_short_name") val gameShortName: String,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null
+    val id: String,
+    @SerialName("game_short_name") val gameShortName: String,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a photo stored on the Telegram servers. By default, this photo will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the photo.
- * @param type Type of the result, must be photo
  * @param id Unique identifier for this result, 1-64 bytes
  * @param photoFileId A valid file identifier of the photo
  * @param title Optional. Title for the result
@@ -1420,22 +1403,21 @@ data class InlineQueryResultGame(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the photo
  */
 @Serializable
+@SerialName("photo")
 data class InlineQueryResultCachedPhoto(
-	val type: String,
-	val id: String,
-	@SerialName("photo_file_id") val photoFileId: String,
-	val title: String? = null,
-	val description: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("photo_file_id") val photoFileId: String,
+    val title: String? = null,
+    val description: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with specified content instead of the animation.
- * @param type Type of the result, must be gif
  * @param id Unique identifier for this result, 1-64 bytes
  * @param gifFileId A valid file identifier for the GIF file
  * @param title Optional. Title for the result
@@ -1446,21 +1428,20 @@ data class InlineQueryResultCachedPhoto(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the GIF animation
  */
 @Serializable
+@SerialName("gif")
 data class InlineQueryResultCachedGif(
-	val type: String,
-	val id: String,
-	@SerialName("gif_file_id") val gifFileId: String,
-	val title: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("gif_file_id") val gifFileId: String,
+    val title: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers. By default, this animated MPEG-4 file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the animation.
- * @param type Type of the result, must be mpeg4_gif
  * @param id Unique identifier for this result, 1-64 bytes
  * @param mpeg4FileId A valid file identifier for the MP4 file
  * @param title Optional. Title for the result
@@ -1471,40 +1452,38 @@ data class InlineQueryResultCachedGif(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the video animation
  */
 @Serializable
+@SerialName("mpeg4_gif")
 data class InlineQueryResultCachedMpeg4Gif(
-	val type: String,
-	val id: String,
-	@SerialName("mpeg4_file_id") val mpeg4FileId: String,
-	val title: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("mpeg4_file_id") val mpeg4FileId: String,
+    val title: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the sticker.
  * Note: This will only work in Telegram versions released after 9 April, 2016 for static stickers and after 06 July, 2019 for animated stickers. Older clients will ignore them.
- * @param type Type of the result, must be sticker
  * @param id Unique identifier for this result, 1-64 bytes
  * @param stickerFileId A valid file identifier of the sticker
  * @param replyMarkup Optional. Inline keyboard attached to the message
  * @param inputMessageContent Optional. Content of the message to be sent instead of the sticker
  */
 @Serializable
+@SerialName("sticker")
 data class InlineQueryResultCachedSticker(
-	val type: String,
-	val id: String,
-	@SerialName("sticker_file_id") val stickerFileId: String,
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("sticker_file_id") val stickerFileId: String,
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- * @param type Type of the result, must be document
  * @param id Unique identifier for this result, 1-64 bytes
  * @param title Title for the result
  * @param documentFileId A valid file identifier for the file
@@ -1516,22 +1495,21 @@ data class InlineQueryResultCachedSticker(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the file
  */
 @Serializable
+@SerialName("document")
 data class InlineQueryResultCachedDocument(
-	val type: String,
-	val id: String,
-	val title: String,
-	@SerialName("document_file_id") val documentFileId: String,
-	val description: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    val title: String,
+    @SerialName("document_file_id") val documentFileId: String,
+    val description: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
- * @param type Type of the result, must be video
  * @param id Unique identifier for this result, 1-64 bytes
  * @param videoFileId A valid file identifier for the video file
  * @param title Title for the result
@@ -1543,23 +1521,22 @@ data class InlineQueryResultCachedDocument(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the video
  */
 @Serializable
+@SerialName("video")
 data class InlineQueryResultCachedVideo(
-	val type: String,
-	val id: String,
-	@SerialName("video_file_id") val videoFileId: String,
-	val title: String,
-	val description: String? = null,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("video_file_id") val videoFileId: String,
+    val title: String,
+    val description: String? = null,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the voice message.
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- * @param type Type of the result, must be voice
  * @param id Unique identifier for this result, 1-64 bytes
  * @param voiceFileId A valid file identifier for the voice message
  * @param title Voice message title
@@ -1570,22 +1547,21 @@ data class InlineQueryResultCachedVideo(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the voice message
  */
 @Serializable
+@SerialName("voice")
 data class InlineQueryResultCachedVoice(
-	val type: String,
-	val id: String,
-	@SerialName("voice_file_id") val voiceFileId: String,
-	val title: String,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("voice_file_id") val voiceFileId: String,
+    val title: String,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
  * Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
  * Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
- * @param type Type of the result, must be audio
  * @param id Unique identifier for this result, 1-64 bytes
  * @param audioFileId A valid file identifier for the audio file
  * @param caption Optional. Caption, 0-1024 characters after entities parsing
@@ -1595,15 +1571,15 @@ data class InlineQueryResultCachedVoice(
  * @param inputMessageContent Optional. Content of the message to be sent instead of the audio
  */
 @Serializable
+@SerialName("audio")
 data class InlineQueryResultCachedAudio(
-	val type: String,
-	val id: String,
-	@SerialName("audio_file_id") val audioFileId: String,
-	val caption: String? = null,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	@SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
-	@SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
-	@SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
+    val id: String,
+    @SerialName("audio_file_id") val audioFileId: String,
+    val caption: String? = null,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    @SerialName("caption_entities") val captionEntities: List<MessageEntity> = emptyList(),
+    @SerialName("reply_markup") val replyMarkup: InlineKeyboardMarkup? = null,
+    @SerialName("input_message_content") val inputMessageContent: InputMessageContent? = null
 ) : InlineQueryResult()
 
 /**
@@ -1615,10 +1591,10 @@ data class InlineQueryResultCachedAudio(
  */
 @Serializable
 data class InputTextMessageContent(
-	@SerialName("message_text") val messageText: String,
-	@SerialName("parse_mode") val parseMode: String? = null,
-	val entities: List<MessageEntity> = emptyList(),
-	@SerialName("disable_web_page_preview") val disableWebPagePreview: Boolean? = null
+    @SerialName("message_text") val messageText: String,
+    @SerialName("parse_mode") val parseMode: String? = null,
+    val entities: List<MessageEntity> = emptyList(),
+    @SerialName("disable_web_page_preview") val disableWebPagePreview: Boolean? = null
 ) : InputMessageContent()
 
 /**
@@ -1632,12 +1608,12 @@ data class InputTextMessageContent(
  */
 @Serializable
 data class InputLocationMessageContent(
-	val latitude: Float,
-	val longitude: Float,
-	@SerialName("horizontal_accuracy") val horizontalAccuracy: Float? = null,
-	@SerialName("live_period") val livePeriod: Int? = null,
-	val heading: Int? = null,
-	@SerialName("proximity_alert_radius") val proximityAlertRadius: Int? = null
+    val latitude: Float,
+    val longitude: Float,
+    @SerialName("horizontal_accuracy") val horizontalAccuracy: Float? = null,
+    @SerialName("live_period") val livePeriod: Int? = null,
+    val heading: Int? = null,
+    @SerialName("proximity_alert_radius") val proximityAlertRadius: Int? = null
 ) : InputMessageContent()
 
 /**
@@ -1653,14 +1629,14 @@ data class InputLocationMessageContent(
  */
 @Serializable
 data class InputVenueMessageContent(
-	val latitude: Float,
-	val longitude: Float,
-	val title: String,
-	val address: String,
-	@SerialName("foursquare_id") val foursquareId: String? = null,
-	@SerialName("foursquare_type") val foursquareType: String? = null,
-	@SerialName("google_place_id") val googlePlaceId: String? = null,
-	@SerialName("google_place_type") val googlePlaceType: String? = null
+    val latitude: Float,
+    val longitude: Float,
+    val title: String,
+    val address: String,
+    @SerialName("foursquare_id") val foursquareId: String? = null,
+    @SerialName("foursquare_type") val foursquareType: String? = null,
+    @SerialName("google_place_id") val googlePlaceId: String? = null,
+    @SerialName("google_place_type") val googlePlaceType: String? = null
 ) : InputMessageContent()
 
 /**
@@ -1672,10 +1648,10 @@ data class InputVenueMessageContent(
  */
 @Serializable
 data class InputContactMessageContent(
-	@SerialName("phone_number") val phoneNumber: String,
-	@SerialName("first_name") val firstName: String,
-	@SerialName("last_name") val lastName: String? = null,
-	val vcard: String? = null
+    @SerialName("phone_number") val phoneNumber: String,
+    @SerialName("first_name") val firstName: String,
+    @SerialName("last_name") val lastName: String? = null,
+    val vcard: String? = null
 ) : InputMessageContent()
 
 /**
@@ -1690,11 +1666,11 @@ data class InputContactMessageContent(
  */
 @Serializable
 data class ChosenInlineResult(
-	@SerialName("result_id") val resultId: String,
-	val from: User,
-	val location: Location? = null,
-	@SerialName("inline_message_id") val inlineMessageId: String? = null,
-	val query: String
+    @SerialName("result_id") val resultId: String,
+    val from: User,
+    val location: Location? = null,
+    @SerialName("inline_message_id") val inlineMessageId: String? = null,
+    val query: String
 )
 
 /**
@@ -1704,8 +1680,8 @@ data class ChosenInlineResult(
  */
 @Serializable
 data class LabeledPrice(
-	val label: String,
-	val amount: Int
+    val label: String,
+    val amount: Int
 )
 
 /**
@@ -1718,11 +1694,11 @@ data class LabeledPrice(
  */
 @Serializable
 data class Invoice(
-	val title: String,
-	val description: String,
-	@SerialName("start_parameter") val startParameter: String,
-	val currency: String,
-	@SerialName("total_amount") val totalAmount: Int
+    val title: String,
+    val description: String,
+    @SerialName("start_parameter") val startParameter: String,
+    val currency: String,
+    @SerialName("total_amount") val totalAmount: Int
 )
 
 /**
@@ -1736,12 +1712,12 @@ data class Invoice(
  */
 @Serializable
 data class ShippingAddress(
-	@SerialName("country_code") val countryCode: String,
-	val state: String,
-	val city: String,
-	@SerialName("street_line1") val streetLine1: String,
-	@SerialName("street_line2") val streetLine2: String,
-	@SerialName("post_code") val postCode: String
+    @SerialName("country_code") val countryCode: String,
+    val state: String,
+    val city: String,
+    @SerialName("street_line1") val streetLine1: String,
+    @SerialName("street_line2") val streetLine2: String,
+    @SerialName("post_code") val postCode: String
 )
 
 /**
@@ -1753,10 +1729,10 @@ data class ShippingAddress(
  */
 @Serializable
 data class OrderInfo(
-	val name: String? = null,
-	@SerialName("phone_number") val phoneNumber: String? = null,
-	val email: String? = null,
-	@SerialName("shipping_address") val shippingAddress: ShippingAddress? = null
+    val name: String? = null,
+    @SerialName("phone_number") val phoneNumber: String? = null,
+    val email: String? = null,
+    @SerialName("shipping_address") val shippingAddress: ShippingAddress? = null
 )
 
 /**
@@ -1767,9 +1743,9 @@ data class OrderInfo(
  */
 @Serializable
 data class ShippingOption(
-	val id: String,
-	val title: String,
-	val prices: List<LabeledPrice> = emptyList()
+    val id: String,
+    val title: String,
+    val prices: List<LabeledPrice> = emptyList()
 )
 
 /**
@@ -1784,13 +1760,13 @@ data class ShippingOption(
  */
 @Serializable
 data class SuccessfulPayment(
-	val currency: String,
-	@SerialName("total_amount") val totalAmount: Int,
-	@SerialName("invoice_payload") val invoicePayload: String,
-	@SerialName("shipping_option_id") val shippingOptionId: String? = null,
-	@SerialName("order_info") val orderInfo: OrderInfo? = null,
-	@SerialName("telegram_payment_charge_id") val telegramPaymentChargeId: String,
-	@SerialName("provider_payment_charge_id") val providerPaymentChargeId: String
+    val currency: String,
+    @SerialName("total_amount") val totalAmount: Int,
+    @SerialName("invoice_payload") val invoicePayload: String,
+    @SerialName("shipping_option_id") val shippingOptionId: String? = null,
+    @SerialName("order_info") val orderInfo: OrderInfo? = null,
+    @SerialName("telegram_payment_charge_id") val telegramPaymentChargeId: String,
+    @SerialName("provider_payment_charge_id") val providerPaymentChargeId: String
 )
 
 /**
@@ -1802,10 +1778,10 @@ data class SuccessfulPayment(
  */
 @Serializable
 data class ShippingQuery(
-	val id: String,
-	val from: User,
-	@SerialName("invoice_payload") val invoicePayload: String,
-	@SerialName("shipping_address") val shippingAddress: ShippingAddress
+    val id: String,
+    val from: User,
+    @SerialName("invoice_payload") val invoicePayload: String,
+    @SerialName("shipping_address") val shippingAddress: ShippingAddress
 )
 
 /**
@@ -1821,13 +1797,13 @@ data class ShippingQuery(
  */
 @Serializable
 data class PreCheckoutQuery(
-	val id: String,
-	val from: User,
-	val currency: String,
-	@SerialName("total_amount") val totalAmount: Int,
-	@SerialName("invoice_payload") val invoicePayload: String,
-	@SerialName("shipping_option_id") val shippingOptionId: String? = null,
-	@SerialName("order_info") val orderInfo: OrderInfo? = null
+    val id: String,
+    val from: User,
+    val currency: String,
+    @SerialName("total_amount") val totalAmount: Int,
+    @SerialName("invoice_payload") val invoicePayload: String,
+    @SerialName("shipping_option_id") val shippingOptionId: String? = null,
+    @SerialName("order_info") val orderInfo: OrderInfo? = null
 )
 
 /**
@@ -1837,8 +1813,8 @@ data class PreCheckoutQuery(
  */
 @Serializable
 data class PassportData(
-	val data: List<EncryptedPassportElement> = emptyList(),
-	val credentials: EncryptedCredentials
+    val data: List<EncryptedPassportElement> = emptyList(),
+    val credentials: EncryptedCredentials
 )
 
 /**
@@ -1850,10 +1826,10 @@ data class PassportData(
  */
 @Serializable
 data class PassportFile(
-	@SerialName("file_id") val fileId: String,
-	@SerialName("file_unique_id") val fileUniqueId: String,
-	@SerialName("file_size") val fileSize: Int,
-	@SerialName("file_date") val fileDate: Int
+    @SerialName("file_id") val fileId: String,
+    @SerialName("file_unique_id") val fileUniqueId: String,
+    @SerialName("file_size") val fileSize: Int,
+    @SerialName("file_date") val fileDate: Int
 )
 
 /**
@@ -1871,16 +1847,16 @@ data class PassportFile(
  */
 @Serializable
 data class EncryptedPassportElement(
-	val type: String,
-	val data: String? = null,
-	@SerialName("phone_number") val phoneNumber: String? = null,
-	val email: String? = null,
-	val files: List<PassportFile> = emptyList(),
-	@SerialName("front_side") val frontSide: PassportFile? = null,
-	@SerialName("reverse_side") val reverseSide: PassportFile? = null,
-	val selfie: PassportFile? = null,
-	val translation: List<PassportFile> = emptyList(),
-	val hash: String
+    val type: String,
+    val data: String? = null,
+    @SerialName("phone_number") val phoneNumber: String? = null,
+    val email: String? = null,
+    val files: List<PassportFile> = emptyList(),
+    @SerialName("front_side") val frontSide: PassportFile? = null,
+    @SerialName("reverse_side") val reverseSide: PassportFile? = null,
+    val selfie: PassportFile? = null,
+    val translation: List<PassportFile> = emptyList(),
+    val hash: String
 )
 
 /**
@@ -1891,148 +1867,10 @@ data class EncryptedPassportElement(
  */
 @Serializable
 data class EncryptedCredentials(
-	val data: String,
-	val hash: String,
-	val secret: String
+    val data: String,
+    val hash: String,
+    val secret: String
 )
-
-/**
- * Represents an issue in one of the data fields that was provided by the user. The error is considered resolved when the field's value changes.
- * @param source Error source, must be data
- * @param type The section of the user's Telegram Passport which has the error, one of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”
- * @param fieldName Name of the data field which has the error
- * @param dataHash Base64-encoded data hash
- * @param message Error message
- */
-@Serializable
-data class PassportElementErrorDataField(
-	val source: String,
-	val type: String,
-	@SerialName("field_name") val fieldName: String,
-	@SerialName("data_hash") val dataHash: String,
-	val message: String
-) : PassportElementError()
-
-/**
- * Represents an issue with the front side of a document. The error is considered resolved when the file with the front side of the document changes.
- * @param source Error source, must be front_side
- * @param type The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”
- * @param fileHash Base64-encoded hash of the file with the front side of the document
- * @param message Error message
- */
-@Serializable
-data class PassportElementErrorFrontSide(
-	val source: String,
-	val type: String,
-	@SerialName("file_hash") val fileHash: String,
-	val message: String
-) : PassportElementError()
-
-/**
- * Represents an issue with the reverse side of a document. The error is considered resolved when the file with reverse side of the document changes.
- * @param source Error source, must be reverse_side
- * @param type The section of the user's Telegram Passport which has the issue, one of “driver_license”, “identity_card”
- * @param fileHash Base64-encoded hash of the file with the reverse side of the document
- * @param message Error message
- */
-@Serializable
-data class PassportElementErrorReverseSide(
-	val source: String,
-	val type: String,
-	@SerialName("file_hash") val fileHash: String,
-	val message: String
-) : PassportElementError()
-
-/**
- * Represents an issue with the selfie with a document. The error is considered resolved when the file with the selfie changes.
- * @param source Error source, must be selfie
- * @param type The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”
- * @param fileHash Base64-encoded hash of the file with the selfie
- * @param message Error message
- */
-@Serializable
-data class PassportElementErrorSelfie(
-	val source: String,
-	val type: String,
-	@SerialName("file_hash") val fileHash: String,
-	val message: String
-) : PassportElementError()
-
-/**
- * Represents an issue with a document scan. The error is considered resolved when the file with the document scan changes.
- * @param source Error source, must be file
- * @param type The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
- * @param fileHash Base64-encoded file hash
- * @param message Error message
- */
-@Serializable
-data class PassportElementErrorFile(
-	val source: String,
-	val type: String,
-	@SerialName("file_hash") val fileHash: String,
-	val message: String
-) : PassportElementError()
-
-/**
- * Represents an issue with a list of scans. The error is considered resolved when the list of files containing the scans changes.
- * @param source Error source, must be files
- * @param type The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
- * @param fileHashes List of base64-encoded file hashes
- * @param message Error message
- */
-@Serializable
-data class PassportElementErrorFiles(
-	val source: String,
-	val type: String,
-	@SerialName("file_hashes") val fileHashes: List<String> = emptyList(),
-	val message: String
-) : PassportElementError()
-
-/**
- * Represents an issue with one of the files that constitute the translation of a document. The error is considered resolved when the file changes.
- * @param source Error source, must be translation_file
- * @param type Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
- * @param fileHash Base64-encoded file hash
- * @param message Error message
- */
-@Serializable
-data class PassportElementErrorTranslationFile(
-	val source: String,
-	val type: String,
-	@SerialName("file_hash") val fileHash: String,
-	val message: String
-) : PassportElementError()
-
-/**
- * Represents an issue with the translated version of a document. The error is considered resolved when a file with the document translation change.
- * @param source Error source, must be translation_files
- * @param type Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
- * @param fileHashes List of base64-encoded file hashes
- * @param message Error message
- */
-@Serializable
-data class PassportElementErrorTranslationFiles(
-	val source: String,
-	val type: String,
-	@SerialName("file_hashes") val fileHashes: List<String> = emptyList(),
-	val message: String
-) : PassportElementError()
-
-/**
- * Represents an issue in an unspecified place. The error is considered resolved when new data is added.
- * Your bot can offer users HTML5 games to play solo or to compete against each other in groups and one-on-one chats. Create games via @BotFather using the /newgame command. Please note that this kind of power requires responsibility: you will need to accept the terms for each game that your bots will be offering.
- * @param source Error source, must be unspecified
- * @param type Type of element of the user's Telegram Passport which has the issue
- * @param elementHash Base64-encoded element hash
- * @param message Error message
- */
-@Serializable
-data class PassportElementErrorUnspecified(
-	val source: String,
-	val type: String,
-	@SerialName("element_hash") val elementHash: String,
-	val message: String
-) : PassportElementError()
 
 /**
  * This object represents a game. Use BotFather to create and edit games, their short names will act as unique identifiers.
@@ -2045,12 +1883,12 @@ data class PassportElementErrorUnspecified(
  */
 @Serializable
 data class Game(
-	val title: String,
-	val description: String,
-	val photo: List<PhotoSize> = emptyList(),
-	val text: String? = null,
-	@SerialName("text_entities") val textEntities: List<MessageEntity> = emptyList(),
-	val animation: Animation? = null
+    val title: String,
+    val description: String,
+    val photo: List<PhotoSize> = emptyList(),
+    val text: String? = null,
+    @SerialName("text_entities") val textEntities: List<MessageEntity> = emptyList(),
+    val animation: Animation? = null
 )
 
 /**
@@ -2062,9 +1900,9 @@ data class Game(
  */
 @Serializable
 data class GameHighScore(
-	val position: Int,
-	val user: User,
-	val score: Int
+    val position: Int,
+    val user: User,
+    val score: Int
 )
 
 
@@ -2075,7 +1913,7 @@ data class GameHighScore(
  * - [InputVenueMessageContent]
  * - [InputContactMessageContent]
  */ 
-@Serializable
+@Serializable(with = InputMessageContentSerializer::class)
 sealed class InputMessageContent
 
 
@@ -2088,11 +1926,17 @@ typealias CallbackGame = String
 /**
  * 
  */ 
-interface ReplyMarkup
+@Serializable(with = ReplyMarkupSerializer::class)
+sealed class ReplyMarkup
 
 
 /**
- * 
+ * This object represents the content of a media message to be sent. It should be one of:
+ * [InputMediaAnimation]
+ * [InputMediaDocument]
+ * [InputMediaAudio]
+ * [InputMediaPhoto]
+ * [InputMediaVideo]
  */ 
 @Serializable
 sealed class InputMedia
@@ -2124,19 +1968,4 @@ sealed class InputMedia
 @Serializable
 sealed class InlineQueryResult
 
-
-/**
- * This object represents an error in the Telegram Passport element which was submitted that should be resolved by the user. It should be one of::
- * - [PassportElementErrorDataField]
- * - [PassportElementErrorFrontSide]
- * - [PassportElementErrorReverseSide]
- * - [PassportElementErrorSelfie]
- * - [PassportElementErrorFile]
- * - [PassportElementErrorFiles]
- * - [PassportElementErrorTranslationFile]
- * - [PassportElementErrorTranslationFiles]
- * - [PassportElementErrorUnspecified]
- */ 
-@Serializable
-sealed class PassportElementError
 

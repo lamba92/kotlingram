@@ -19,7 +19,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Decrypt private key
-        run: gpg --quiet --batch --yes --decrypt --passphrase="${{secrets.SIGNIN_SECRET}}" --output secring.txt secring.txt.gpg
+        run: gpg --quiet --batch --yes --decrypt --passphrase="${{secrets.SIGNING_PASSWORD}}" --output secring.txt secring.txt.gpg
       - name: Make gradle executable
         run: chmod +x gradlew
       - name: Publish

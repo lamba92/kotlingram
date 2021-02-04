@@ -1,6 +1,5 @@
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.util.collectionUtils.filterIsInstanceAnd
-import java.util.*
 
 plugins {
     kotlin("multiplatform")
@@ -70,11 +69,7 @@ kotlin {
 }
 
 signing {
-    require(System.getenv("SIGNIN_SECRET")?.length == 6964) {
-        "Signing secret encoded length do not match. Expected is 6964 but got ${System.getenv("SIGNIN_SECRET")?.length}"
-    }
-    val secretKey: String? = System.getenv("SIGNIN_SECRET")
-        ?.let { Base64.getDecoder().decode(it).toString(Charsets.UTF_8) }
+    val secretKey: String? = rootProject.file("secring.txt").readText().takeIf { it.isNotEmpty() }
     val password: String? = System.getenv("SIGNING_PASSWORD")
     val publicKeyId: String? = System.getenv("SIGNING_PUBLIC_KEY_ID")?.takeLast(8)
     if (secretKey == null || password == null || publicKeyId == null) {

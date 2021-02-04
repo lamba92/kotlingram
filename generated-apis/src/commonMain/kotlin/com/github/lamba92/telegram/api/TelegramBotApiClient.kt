@@ -9,7 +9,6 @@ import io.ktor.http.*
 class TelegramBotApiClient private constructor(
     val httpClient: HttpClient,
     val apiToken: String,
-    val botName: String,
     val apiProtocol: URLProtocol = URLProtocol.HTTPS,
     val apiHost: String = "api.telegram.org",
     val apiPort: Int = DEFAULT_PORT,
@@ -25,7 +24,6 @@ class TelegramBotApiClient private constructor(
 
         operator fun invoke(
             apiToken: String,
-            botName: String,
             protocol: URLProtocol = URLProtocol.HTTPS,
             engine: HttpClientEngine? = null,
             host: String = "api.telegram.org",
@@ -35,12 +33,11 @@ class TelegramBotApiClient private constructor(
                 HttpClient(getDefaultConfiguration())
             else
                 HttpClient(engine, getDefaultConfiguration())
-            return TelegramBotApiClient(httpClient, apiToken, botName, protocol, host, port)
+            return TelegramBotApiClient(httpClient, apiToken, protocol, host, port)
         }
 
         operator fun <T : HttpClientEngineConfig> invoke(
             apiToken: String,
-            botName: String,
             engine: HttpClientEngineFactory<T>,
             protocol: URLProtocol = URLProtocol.HTTPS,
             host: String = "api.telegram.org",
@@ -51,7 +48,7 @@ class TelegramBotApiClient private constructor(
                 getDefaultConfiguration()()
                 configuration?.let { it() }
             }
-            return TelegramBotApiClient(httpClient, apiToken, botName, protocol, host, port)
+            return TelegramBotApiClient(httpClient, apiToken, protocol, host, port)
         }
 
     }

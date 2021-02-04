@@ -1,0 +1,29 @@
+name: CI Publication
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  publish-win:
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+          - os: windows-latest
+    name: Publish artifacts
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Make gradle executable
+        run: chmod +x gradlew
+      - name: Publish
+        id: gradle
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: :generated-apis:publish
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

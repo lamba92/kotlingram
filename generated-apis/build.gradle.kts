@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.github.lamba92.telegram-api-generator")
+    `maven-publish`
 }
 
 telegramApiParser {
@@ -46,7 +47,7 @@ kotlin {
             dependencies {
                 val kotlinxSerializationVersion: String by project
                 val ktorVersion: String by project
-                api("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
                 api("io.ktor:ktor-client-core:$ktorVersion")
                 api("io.ktor:ktor-client-serialization:$ktorVersion")
             }
@@ -54,3 +55,20 @@ kotlin {
     }
 
 }
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/lamba92/telegram-bot-kotlin-api")
+            credentials {
+                username = "lamba92"
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
+tasks.withType<AbstractPublishToMaven>()
+    .first { it.publication == publishing.publications["metadata"] }
+    .onlyIf { OperatingSystem.current().isWindows }

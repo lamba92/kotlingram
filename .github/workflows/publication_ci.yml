@@ -6,6 +6,7 @@ on:
 jobs:
   deploy:
     strategy:
+      max-parallel: 1
       matrix:
         include:
           - os: macos-latest

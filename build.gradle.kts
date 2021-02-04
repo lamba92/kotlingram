@@ -1,6 +1,6 @@
 plugins {
     id("io.codearte.nexus-staging")
-
+    id("org.jetbrains.dokka")
 }
 
 allprojects {

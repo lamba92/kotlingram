@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.util.collectionUtils.filterIsInstanceAnd
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
+    id("org.jetbrains.dokka")
     id("com.github.lamba92.telegram-api-generator")
     `maven-publish`
     signing
@@ -112,7 +113,6 @@ publishing {
         withType<MavenPublication> {
             signing.sign(this)
             artifactId = rootProject.name + artifactId.removePrefix(project.name)
-            println(artifactId)
             pom {
                 description.set("Telegram Bot APIs for Kotlin Multiplatform")
                 url.set("https://github.com/lamba92/telegram-bot-kotlin-api")

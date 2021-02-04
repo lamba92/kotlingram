@@ -28,9 +28,7 @@ kotlin {
             linuxX64()
         }
         OperatingSystem.current().isMacOsX -> {
-            ios()
-            watchos()
-            tvos()
+            macosX64()
         }
     }
 
@@ -67,8 +65,13 @@ publishing {
             }
         }
     }
+    println(publications.names)
 }
 
 tasks.withType<AbstractPublishToMaven>()
     .first { it.publication == publishing.publications["metadata"] }
+    .onlyIf { OperatingSystem.current().isWindows }
+
+tasks.withType<AbstractPublishToMaven>()
+    .first { it.publication == publishing.publications["kotlinMultiplatform"] }
     .onlyIf { OperatingSystem.current().isWindows }

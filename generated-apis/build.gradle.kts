@@ -92,14 +92,15 @@ signing {
 
 publishing {
     repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/lamba92/telegram-bot-kotlin-api")
-            credentials {
-                username = "lamba92"
-                password = searchPropertyOrNull("GITHUB_TOKEN")
+        if (searchPropertyOrNull("enableGithubPublications")?.toBoolean() == true)
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/lamba92/telegram-bot-kotlin-api")
+                credentials {
+                    username = "lamba92"
+                    password = searchPropertyOrNull("GITHUB_TOKEN")
+                }
             }
-        }
         if (searchPropertyOrNull("enableOssPublications")?.toBoolean() == true)
             maven {
                 name = "SonaType"
@@ -148,7 +149,8 @@ publishing {
 
 tasks {
     publish {
-        finalizedBy(bintrayUpload)
+        if (searchPropertyOrNull("enableBintrayPublications")?.toBoolean() == true)
+            finalizedBy(bintrayUpload)
     }
 }
 

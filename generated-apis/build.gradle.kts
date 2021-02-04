@@ -72,6 +72,14 @@ signing {
     val secretKey: String? = System.getenv("SIGNIN_SECRET")
     val password: String? = System.getenv("SIGNING_PASSWORD")
     val publicKeyId: String? = System.getenv("SIGNING_PUBLIC_KEY_ID")?.takeLast(8)
+    if (secretKey == null || password == null || publicKeyId == null) {
+        logger.warn(buildString {
+            appendln("Signing info missing:")
+            appendln(" - secretKey ${if (secretKey == null) "NULL" else "OK"}")
+            appendln(" - password ${if (password == null) "NULL" else "OK"}")
+            appendln(" - publicKeyId ${if (publicKeyId == null) "NULL" else "OK"}")
+        })
+    }
     @Suppress("UnstableApiUsage")
     useInMemoryPgpKeys(publicKeyId, secretKey, password)
 }
@@ -91,7 +99,11 @@ publishing {
             url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
                 username = "Lamba92"
-                password = System.getenv("SONATYPE_PASSWORD")
+                password = System.getenv("SONATYPE_PASSWORD").also {
+                    if (it == null)
+                        logger.warn("SonaType password missing.")
+
+                }
             }
         }
     }
@@ -126,8 +138,4 @@ publishing {
             .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
 
     }
-}
-
-tasks.publish {
-    finalizedBy(":closeAndReleaseRepository")
 }

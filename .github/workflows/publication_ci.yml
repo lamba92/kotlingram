@@ -31,9 +31,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD}}
-          SIGNIN_SECRET: ${{secrets.SIGNIN_SECRET}}
           SIGNING_PUBLIC_KEY_ID: ${{secrets.SIGNING_PUBLIC_KEY_ID}}
           SIGNING_PASSWORD: ${{secrets.SIGNING_PASSWORD}}
+          BINTRAY_API_KEY: ${{secrets.BINTRAY_API_KEY}}
 
   publish:
     runs-on: ubuntu-latest
@@ -52,9 +52,4 @@ jobs:
         with:
           arguments: :generated-apis:closeAndReleaseRepository
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD}}
-          SIGNIN_SECRET: ${{secrets.GPG_PRIVATE}}
-          SIGNING_PUBLIC_KEY_ID: ${{secrets.SIGNING_PUBLIC_KEY_ID}}
-          SIGNING_PASSWORD: ${{secrets.SIGNING_PASSWORD}}
-          BINTRAY_API_KEY: ${{secrets.BINTRAY_API_KEY}}

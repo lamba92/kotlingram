@@ -51,6 +51,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD}}
-          SIGNIN_SECRET: ${{secrets.SIGNIN_SECRET}}
+          SIGNIN_SECRET: ${{secrets.GPG_PRIVATE}}
           SIGNING_PUBLIC_KEY_ID: ${{secrets.SIGNING_PUBLIC_KEY_ID}}
           SIGNING_PASSWORD: ${{secrets.SIGNING_PASSWORD}}

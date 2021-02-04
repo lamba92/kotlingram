@@ -1,5 +1,6 @@
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.util.collectionUtils.filterIsInstanceAnd
+import java.util.*
 
 plugins {
     kotlin("multiplatform")
@@ -70,9 +71,9 @@ kotlin {
 
 signing {
     val secretKey: String? = System.getenv("SIGNIN_SECRET")
+        ?.let { Base64.getDecoder().decode(it).toString(Charsets.UTF_8) }
     val password: String? = System.getenv("SIGNING_PASSWORD")
     val publicKeyId: String? = System.getenv("SIGNING_PUBLIC_KEY_ID")?.takeLast(8)
-    println("SKL: ${secretKey?.length}")
     if (secretKey == null || password == null || publicKeyId == null) {
         logger.warn(buildString {
             appendln("Signing info missing:")

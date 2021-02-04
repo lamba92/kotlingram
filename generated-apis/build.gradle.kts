@@ -69,7 +69,7 @@ kotlin {
 }
 
 signing {
-    val secretKey: String? = rootProject.file("secring.txt").readText().takeIf { it.isNotEmpty() }
+    val secretKey: String? = rootProject.file("secring.txt").takeIf { it.exists() }?.readText()
     val password: String? = System.getenv("SIGNING_PASSWORD")
     val publicKeyId: String? = System.getenv("SIGNING_PUBLIC_KEY_ID")?.takeLast(8)
     if (secretKey == null || password == null || publicKeyId == null) {
@@ -107,11 +107,12 @@ publishing {
             }
         }
     }
-
     publications {
 
         withType<MavenPublication> {
             signing.sign(this)
+            artifactId = rootProject.name + artifactId.removePrefix(project.name)
+            println(artifactId)
             pom {
                 description.set("Telegram Bot APIs for Kotlin Multiplatform")
                 url.set("https://github.com/lamba92/telegram-bot-kotlin-api")

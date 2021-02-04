@@ -27,3 +27,7 @@ jobs:
           arguments: :generated-apis:publish
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD}}
+          SIGNIN_SECRET: ${{secrets.SIGNIN_SECRET}}
+          SIGNING_PUBLIC_KEY_ID: ${{secrets.SIGNING_PUBLIC_KEY_ID}}
+          SIGNING_PASSWORD: ${{secrets.SIGNING_PASSWORD}}

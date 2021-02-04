@@ -71,7 +71,7 @@ kotlin {
 
 signing {
     require(System.getenv("SIGNIN_SECRET")?.length == 6964) {
-        "Signing secret encoded length do not match."
+        "Signing secret encoded length do not match. Expected is 6964 but got ${System.getenv("SIGNIN_SECRET")?.length}"
     }
     val secretKey: String? = System.getenv("SIGNIN_SECRET")
         ?.let { Base64.getDecoder().decode(it).toString(Charsets.UTF_8) }

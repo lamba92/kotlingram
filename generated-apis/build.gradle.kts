@@ -14,22 +14,34 @@ telegramApiParser {
 }
 
 kotlin {
-    when {
-        OperatingSystem.current().isWindows -> {
-            jvm {
-                compilations.all {
-                    kotlinOptions.jvmTarget = "1.8"
+    if (System.getenv("CI") == "true")
+        when {
+            OperatingSystem.current().isWindows -> {
+                jvm {
+                    compilations.all {
+                        kotlinOptions.jvmTarget = "1.8"
+                    }
                 }
+                js(BOTH) {
+                    nodejs()
+                }
+                mingwX64()
+                linuxX64()
             }
-            js(BOTH) {
-                nodejs()
+            OperatingSystem.current().isMacOsX -> macosX64()
+        }
+    else {
+        jvm {
+            compilations.all {
+                kotlinOptions.jvmTarget = "1.8"
             }
-            mingwX64()
-            linuxX64()
         }
-        OperatingSystem.current().isMacOsX -> {
-            macosX64()
+        js(BOTH) {
+            nodejs()
         }
+        mingwX64()
+        linuxX64()
+        macosX64()
     }
 
     targets.all {
@@ -65,7 +77,6 @@ publishing {
             }
         }
     }
-    println(publications.names)
 }
 
 tasks.withType<AbstractPublishToMaven>()

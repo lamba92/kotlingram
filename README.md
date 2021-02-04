@@ -23,7 +23,6 @@ repositories {
     maven("https://dl.bintray.com/lamba92/com.github.lamba92")
 }
 // ...
-
 dependenceis {
     implementation("com.github.lamba92:telegram-bot-kotlin-api:{latest_version}")
 }

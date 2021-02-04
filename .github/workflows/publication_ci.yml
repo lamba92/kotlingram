@@ -57,3 +57,4 @@ jobs:
           SIGNIN_SECRET: ${{secrets.GPG_PRIVATE}}
           SIGNING_PUBLIC_KEY_ID: ${{secrets.SIGNING_PUBLIC_KEY_ID}}
           SIGNING_PASSWORD: ${{secrets.SIGNING_PASSWORD}}
+          BINTRAY_API_KEY: ${{secrets.BINTRAY_API_KEY}}

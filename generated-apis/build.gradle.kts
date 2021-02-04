@@ -1,3 +1,7 @@
+import com.jfrog.bintray.gradle.BintrayExtension
+import com.jfrog.bintray.gradle.BintrayExtension.PackageConfig
+import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
+import org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.util.collectionUtils.filterIsInstanceAnd
 
@@ -6,6 +10,7 @@ plugins {
     kotlin("plugin.serialization")
     id("org.jetbrains.dokka")
     id("com.github.lamba92.telegram-api-generator")
+    id("com.jfrog.bintray")
     `maven-publish`
     signing
 }
@@ -71,8 +76,8 @@ kotlin {
 
 signing {
     val secretKey: String? = rootProject.file("secring.txt").takeIf { it.exists() }?.readText()
-    val password: String? = System.getenv("SIGNING_PASSWORD")
-    val publicKeyId: String? = System.getenv("SIGNING_PUBLIC_KEY_ID")?.takeLast(8)
+    val password: String? = searchPropertyOrNull("SIGNING_PASSWORD")
+    val publicKeyId: String? = searchPropertyOrNull("SIGNING_PUBLIC_KEY_ID")?.takeLast(8)
     if (secretKey == null || password == null || publicKeyId == null) {
         logger.warn(buildString {
             appendln("Signing info missing:")
@@ -92,21 +97,21 @@ publishing {
             url = uri("https://maven.pkg.github.com/lamba92/telegram-bot-kotlin-api")
             credentials {
                 username = "lamba92"
-                password = System.getenv("GITHUB_TOKEN")
+                password = searchPropertyOrNull("GITHUB_TOKEN")
             }
         }
-        maven {
-            name = "SonaType"
-            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = "Lamba92"
-                password = System.getenv("SONATYPE_PASSWORD").also {
-                    if (it == null)
-                        logger.warn("SonaType password missing.")
-
+        if (searchPropertyOrNull("enableOssPublications")?.toBoolean() == true)
+            maven {
+                name = "SonaType"
+                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = "Lamba92"
+                    password = searchPropertyOrNull("SONATYPE_PASSWORD").also {
+                        if (it == null)
+                            logger.warn("SonaType password missing.")
+                    }
                 }
             }
-        }
     }
     publications {
 
@@ -140,3 +145,67 @@ publishing {
 
     }
 }
+
+tasks {
+    publish {
+        finalizedBy(bintrayUpload)
+    }
+}
+
+bintray {
+    user = "lamba92"
+    key = searchPropertyOrNull("bintrayApiKey", "BINTRAY_API_KEY")
+    pkg {
+        version {
+            name = project.version as String
+        }
+        repo = "com.github.lamba92"
+        name = rootProject.name
+        setLicenses("Apache-2.0")
+        vcsUrl = "https://github.com/lamba92/${rootProject.name}"
+        issueTrackerUrl = "https://github.com/lamba92/${rootProject.name}/issues"
+    }
+    publish = true
+    setPublications(when {
+        OperatingSystem.current().isMacOsX -> publishing.publications.names.filter { "mac" in it }
+        else -> publishing.publications.names
+    })
+}
+
+tasks.withType<BintrayUploadTask> {
+    doFirst {
+        publishing.publications.withType<MavenPublication> {
+            buildDir.resolve("publications/$name/module.json").let {
+                if (it.exists())
+                    artifact(object : FileBasedMavenArtifact(it) {
+                        override fun getDefaultExtension() = "module"
+                    })
+            }
+        }
+    }
+}
+
+fun BintrayExtension.pkg(action: PackageConfig.() -> Unit) {
+    pkg(closureOf(action))
+}
+
+fun PackageConfig.version(action: BintrayExtension.VersionConfig.() -> Unit) {
+    version(closureOf(action))
+}
+
+fun searchPropertyOrNull(name: String, vararg aliases: String): String? {
+
+    fun searchEverywhere(name: String): String? =
+        findProperty(name) as? String? ?: System.getenv(name)
+
+    searchEverywhere(name)?.let { return it }
+
+    aliases.forEach {
+        searchEverywhere(it)?.let { return it }
+    }
+
+    return null
+}
+
+fun BintrayExtension.setPublications(names: Collection<String>) =
+    setPublications(*names.toTypedArray())

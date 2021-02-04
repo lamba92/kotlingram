@@ -4,7 +4,7 @@ plugins {
 }
 
 allprojects {
-    version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull() ?: "0.0.1"
+    version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull() ?: "0.0.3"
     group = "com.github.lamba92"
 }
 

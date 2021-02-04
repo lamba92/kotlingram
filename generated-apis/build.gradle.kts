@@ -1,10 +1,12 @@
 import org.gradle.internal.os.OperatingSystem
+import org.jetbrains.kotlin.util.collectionUtils.filterIsInstanceAnd
 
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.github.lamba92.telegram-api-generator")
     `maven-publish`
+    signing
 }
 
 telegramApiParser {
@@ -66,6 +68,14 @@ kotlin {
 
 }
 
+signing {
+    val secretKey: String? = System.getenv("SIGNIN_SECRET")
+    val password: String? = System.getenv("SIGNING_PASSWORD")
+    val publicKeyId: String? = System.getenv("SIGNING_PUBLIC_KEY_ID")?.takeLast(8)
+    @Suppress("UnstableApiUsage")
+    useInMemoryPgpKeys(publicKeyId, secretKey, password)
+}
+
 publishing {
     repositories {
         maven {
@@ -76,13 +86,48 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
+        maven {
+            name = "SonaType"
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = "Lamba92"
+                password = System.getenv("SONATYPE_PASSWORD")
+            }
+        }
+    }
+
+    publications {
+
+        withType<MavenPublication> {
+            signing.sign(this)
+            pom {
+                description.set("Telegram Bot APIs for Kotlin Multiplatform")
+                url.set("https://github.com/lamba92/telegram-bot-kotlin-api")
+                scm {
+                    url.set("https://github.com/lamba92/telegram-bot-kotlin-api.git")
+                }
+                licenses {
+                    name.set("The Apache License, Version 2.0")
+                    url.set("https://github.com/lamba92/telegram-bot-kotlin-api/blob/master/LICENSE")
+                }
+                developers {
+                    developer {
+                        id.set("lamba92")
+                        name.set("Lamberto Basti")
+                        email.set("basti.lamberto@gmail.com")
+                    }
+                }
+            }
+        }
+
+        val commonPublicationNames = listOf("metadata", "kotlinMultiplatform")
+
+        tasks.filterIsInstanceAnd<AbstractPublishToMaven> { it.publication.name in commonPublicationNames }
+            .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
+
     }
 }
 
-tasks.withType<AbstractPublishToMaven>()
-    .first { it.publication == publishing.publications["metadata"] }
-    .onlyIf { OperatingSystem.current().isWindows }
-
-tasks.withType<AbstractPublishToMaven>()
-    .first { it.publication == publishing.publications["kotlinMultiplatform"] }
-    .onlyIf { OperatingSystem.current().isWindows }
+tasks.publish {
+    finalizedBy(":closeAndReleaseRepository")
+}

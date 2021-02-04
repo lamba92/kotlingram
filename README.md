@@ -17,4 +17,4 @@ val user: TelegramResponse<User> = client.getMe()
 val user: TelegramResponse<List<Update>> = client.getUpdates()
 ```
 
-I did not yet published the libraries on Maven Central
+I did not yet publish the libraries on Maven Central

@@ -104,7 +104,6 @@ fun TelegramMethod.generateSourceCode() = buildString {
             append("\t")
             if ("_" in field.name)
                 append("@SerialName(\"${field.name}\") ")
-
             append("val ${field.name.toCamelCase()}: ")
             append(field.getKotlinType())
             if (index != parameters.lastIndex)
@@ -149,6 +148,9 @@ fun TelegramMethod.generateSourceCode() = buildString {
         appendLine("/**")
         description.split("\n").forEach {
             appendLine(" * $it")
+        }
+        parameters.filter { it.description.isNotEmpty() }.forEach {
+            appendLine(" * @param ${it.name.toCamelCase()} ${it.description}")
         }
         appendLine(" */")
         appendLine("suspend fun TelegramBotApiClient.$name(")

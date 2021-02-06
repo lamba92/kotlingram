@@ -11,6 +11,7 @@ plugins {
     id("org.jetbrains.dokka")
     id("com.github.lamba92.telegram-api-generator")
     id("com.jfrog.bintray")
+    id("de.marcphilipp.nexus-publish")
     `maven-publish`
     signing
 }
@@ -66,10 +67,21 @@ kotlin {
                 val kotlinxSerializationVersion: String by project
                 val coroutinesVersion: String by project
                 val ktorVersion: String by project
+                val kodeinVersion: String by project
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 api("io.ktor:ktor-client-core:$ktorVersion")
                 api("io.ktor:ktor-client-serialization:$ktorVersion")
+                api("org.kodein.di:kodein-di:$kodeinVersion")
+            }
+        }
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.time.ExperimentalTime")
+        }
+        named("jvmMain") {
+            dependencies {
+                val ktorVersion: String by project
+                api("io.ktor:ktor-client-cio:$ktorVersion")
             }
         }
     }
@@ -92,6 +104,21 @@ signing {
     useInMemoryPgpKeys(publicKeyId, secretKey, password)
 }
 
+nexusPublishing {
+    if (searchPropertyOrNull("enableGithubPublications")?.toBoolean() == true)
+        repositories {
+            sonatype {
+                username.set("Lamba92")
+                password.set(searchPropertyOrNull("SONATYPE_PASSWORD"))
+            }
+            create("S01SonaType") {
+                nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/staging/"))
+                username.set("Lamba92")
+                password.set(searchPropertyOrNull("SONATYPE_PASSWORD"))
+            }
+        }
+}
+
 publishing {
     repositories {
         if (searchPropertyOrNull("enableGithubPublications")?.toBoolean() == true)
@@ -101,18 +128,6 @@ publishing {
                 credentials {
                     username = "lamba92"
                     password = searchPropertyOrNull("GITHUB_TOKEN")
-                }
-            }
-        if (searchPropertyOrNull("enableOssPublications")?.toBoolean() == true)
-            maven {
-                name = "SonaType"
-                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                credentials {
-                    username = "Lamba92"
-                    password = searchPropertyOrNull("SONATYPE_PASSWORD").also {
-                        if (it == null)
-                            logger.warn("SonaType password missing.")
-                    }
                 }
             }
     }

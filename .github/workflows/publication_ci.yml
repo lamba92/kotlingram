@@ -6,7 +6,6 @@ on:
 jobs:
   deploy:
     strategy:
-#      max-parallel: 2
       matrix:
         include:
           - os: macos-latest
@@ -50,6 +49,6 @@ jobs:
         id: gradle
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: :generated-apis:closeAndReleaseRepository
+          arguments: :closeAndReleaseRepository
         env:
           SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD}}

@@ -11,4 +11,5 @@ allprojects {
 nexusStaging {
     username = "Lamba92"
     password = System.getenv("SONATYPE_PASSWORD") ?: ""
+    serverUrl = "https://s01.oss.sonatype.org/service/local"
 }

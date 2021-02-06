@@ -64,8 +64,10 @@ kotlin {
         commonMain {
             dependencies {
                 val kotlinxSerializationVersion: String by project
+                val coroutinesVersion: String by project
                 val ktorVersion: String by project
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 api("io.ktor:ktor-client-core:$ktorVersion")
                 api("io.ktor:ktor-client-serialization:$ktorVersion")
             }
@@ -104,7 +106,7 @@ publishing {
         if (searchPropertyOrNull("enableOssPublications")?.toBoolean() == true)
             maven {
                 name = "SonaType"
-                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                 credentials {
                     username = "Lamba92"
                     password = searchPropertyOrNull("SONATYPE_PASSWORD").also {

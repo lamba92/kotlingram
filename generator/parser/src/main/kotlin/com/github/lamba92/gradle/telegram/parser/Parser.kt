@@ -81,14 +81,18 @@ fun findResponseTypeFromDescription(description: String): String {
 fun resolveType(typeString: String, isOptional: Boolean) = when (typeString) {
     "Integer", "String or Integer", "Integer or String" -> "Int"
     "Float number" -> "Float"
-    "True" -> "Boolean"
     "Media" -> "InputMedia"
-    "False" -> "Boolean"
+    "False", "True" -> "Boolean"
     "InputFile or String", "InputFile" -> "String"
     "InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply" -> "ReplyMarkup"
     "InputMediaAudio, InputMediaDocument, InputMediaPhoto and InputMediaVideo" -> "InputMedia"
     else -> typeString
-} + if (isOptional) "? = null" else ""
+} + when {
+    isOptional && typeString == "True" -> " = true"
+    isOptional && (typeString == "False" || typeString == "Boolean")-> " = false"
+    isOptional -> "? = null"
+    else -> ""
+}
 
 operator fun String.times(repetitions: Int) = buildString {
     repeat(repetitions) {

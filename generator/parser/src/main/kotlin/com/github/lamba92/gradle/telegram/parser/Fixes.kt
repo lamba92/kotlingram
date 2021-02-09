@@ -65,7 +65,7 @@ fun generateInlineQueryResultFix() = buildString {
     appendLine(" * - [InlineQueryResultVideo]")
     appendLine(" * - [InlineQueryResultVoice]")
     appendLine(" */ ")
-    appendLine("@Serializable")
+    appendLine("@Serializable(with = InlineQueryResultSerializer::class)")
     appendLine("sealed class InlineQueryResult")
 }
 

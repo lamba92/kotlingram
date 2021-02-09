@@ -13,28 +13,10 @@ import java.io.File
 
 open class TelegramApiParserPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
-        val e = extensions.create<TelegramApiParserExtension>("telegramApiParser")
-        tasks.register<GenerateTelegramApiTask>("generateTelegramApi") {
+        tasks.create<GenerateTelegramApiTask>("generateTelegramApi") {
             group = "telegram"
-            packageName = e.packageName
-            outputDirectory = e.outputDirectory
-            telegramClientPackage = e.telegramClientPackage
         }
     }
-}
-
-open class TelegramApiParserExtension(objects: ObjectFactory) {
-
-    var packageName by objects.property<String>()
-        .apply { set("") }
-
-    var telegramClientPackage by objects.property<String>()
-        .apply { set("") }
-
-    @Suppress("UnstableApiUsage")
-    var outputDirectory by objects.property<File>()
-        .apply { set(File(".")) }
-
 }
 
 open class GenerateTelegramApiTask : DefaultTask() {

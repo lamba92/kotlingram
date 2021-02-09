@@ -1,28 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-    plugins {
-
-        val kotlinVersion: String by settings
-        val dokkaVersion: String by settings
-        val nexusStagingVersion: String by settings
-        val bintrayPluginVersion: String by settings
-        val nexusPublishVersion: String by settings
-
-        kotlin("multiplatform") version kotlinVersion
-        id("org.jetbrains.dokka") version dokkaVersion
-        id("com.jfrog.bintray") version bintrayPluginVersion
-        kotlin("plugin.serialization") version kotlinVersion
-        kotlin("jvm") version kotlinVersion
-        id("io.codearte.nexus-staging") version nexusStagingVersion
-        id("de.marcphilipp.nexus-publish") version nexusPublishVersion
-    }
-}
-
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
@@ -31,8 +8,8 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "telegram-bot-kotlin-api"
+rootProject.name = "kotlingram"
 
-include(":generated-apis")
+include(":api", ":api:builder", ":api:core")
 
 includeBuild("generator")

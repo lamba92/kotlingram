@@ -27,12 +27,15 @@ val sealedClassTypeRegex = Regex("must be ([\\w_]*)")
 
 fun TelegramObject.generateSourceCode() = buildString {
     val isTypedSealedClass =
-        "type" in fields.map { it.name } && (name in inlineQueryResultTypes || name in inputMediaTypes)
+        "type" in fields.map { it.name } && name in inputMediaTypes
     val trueFields =
-        if (isTypedSealedClass)
-            fields.filter { it.name != "type" }
-        else
-            fields
+        when {
+            isTypedSealedClass -> fields.filter { it.name != "type" }
+            "type" in fields.map { it.name } ->
+                fields.filter { it.name != "type" } + fields[fields.indexOfFirst { it.name == "type" }]
+
+            else -> fields
+        }
     appendLine("/**")
     description.split("\n").forEach {
         appendLine(" * $it")
@@ -63,6 +66,12 @@ fun TelegramObject.generateSourceCode() = buildString {
             else -> resolveType(field.type, isOptional)
         }
         append(type)
+        val sealedClassType = fields.firstOrNull() { it.name == "type" }?.description
+            ?.let { sealedClassTypeRegex.find(it) }
+            ?.groupValues
+            ?.getOrNull(1)
+        if (sealedClassType != null && field.name == "type")
+            append(" = \"$sealedClassType\"")
         if (index != trueFields.lastIndex)
             append(",")
         appendLine()

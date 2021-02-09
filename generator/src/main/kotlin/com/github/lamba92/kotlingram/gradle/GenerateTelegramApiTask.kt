@@ -1,23 +1,15 @@
-package com.github.lamba92.gradle.telegram
+package com.github.lamba92.kotlingram.gradle
 
-import com.github.lamba92.gradle.telegram.parser.generateFiles
+import com.github.lamba92.kotlingram.parser.generateFiles
 import org.gradle.api.DefaultTask
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.gradle.api.model.ObjectFactory
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.getValue
+import org.gradle.kotlin.dsl.property
+import org.gradle.kotlin.dsl.provideDelegate
+import org.gradle.kotlin.dsl.setValue
 import java.io.File
-
-open class TelegramApiParserPlugin : Plugin<Project> {
-    override fun apply(target: Project): Unit = with(target) {
-        tasks.create<GenerateTelegramApiTask>("generateTelegramApi") {
-            group = "telegram"
-        }
-    }
-}
 
 open class GenerateTelegramApiTask : DefaultTask() {
 

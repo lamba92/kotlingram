@@ -2,11 +2,13 @@ package com.github.lamba92.kotlingram.builder
 
 import com.github.lamba92.kotlingram.TelegramBotApiClient
 import com.github.lamba92.kotlingram.api.generated.*
+import kotlinx.coroutines.CoroutineScope
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
+import kotlin.coroutines.CoroutineContext
 
-sealed class ReplyContext : DIAware {
+sealed class ReplyContext : DIAware, CoroutineScope {
     val api: TelegramBotApiClient by instance()
 }
 
@@ -14,12 +16,14 @@ sealed class ReplyContext : DIAware {
 class InlineQueryContext(
     val inlineQuery: InlineQuery,
     override val di: DI,
+    override val coroutineContext: CoroutineContext,
 ) : ReplyContext()
 
 @TelegramBotsDSL
 class MessageContext(
     val message: Message,
     override val di: DI,
+    override val coroutineContext: CoroutineContext,
 ) : ReplyContext()
 
 /**

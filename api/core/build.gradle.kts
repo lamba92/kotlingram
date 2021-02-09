@@ -1,5 +1,5 @@
 plugins {
-    id("com.github.lamba92.telegram-api-generator")
+    id("com.github.lamba92.kotlingram-api-generator")
     id("com.github.lamba92.kotlingram-plugin")
 }
 

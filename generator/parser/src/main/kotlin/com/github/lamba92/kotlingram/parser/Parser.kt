@@ -1,4 +1,4 @@
-package com.github.lamba92.gradle.telegram.parser
+package com.github.lamba92.kotlingram.parser
 
 import it.skrape.core.fetcher.HttpFetcher
 import it.skrape.core.htmlDocument

@@ -82,7 +82,7 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                 if (enableGithubPublications)
                     maven {
                         name = "GitHubPackages"
-                        url = uri("https://maven.pkg.github.com/lamba92/telegram-bot-kotlin-api")
+                        url = uri("https://maven.pkg.github.com/lamba92/kotlingram")
                         credentials {
                             username = "lamba92"
                             password = searchPropertyOrNull("GITHUB_TOKEN")
@@ -107,13 +107,13 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                     artifact(javadocJar)
                     pom {
                         description.set("Telegram Bot APIs for Kotlin Multiplatform")
-                        url.set("https://github.com/lamba92/telegram-bot-kotlin-api")
+                        url.set("https://github.com/lamba92/kotlingram")
                         scm {
-                            url.set("https://github.com/lamba92/telegram-bot-kotlin-api.git")
+                            url.set("https://github.com/lamba92/kotlingram.git")
                         }
                         licenses {
                             name.set("The Apache License, Version 2.0")
-                            url.set("https://github.com/lamba92/telegram-bot-kotlin-api/blob/master/LICENSE")
+                            url.set("https://github.com/lamba92/kotlingram/blob/master/LICENSE")
                         }
                         developers {
                             developer {

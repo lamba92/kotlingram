@@ -25,16 +25,16 @@ dependencies {
 gradlePlugin {
     plugins {
         create("telegramApiParserPlugin") {
-            id = "com.github.lamba92.telegram-api-generator"
+            id = "com.github.lamba92.kotlingram-api-generator"
             displayName = "Telegram Api Parser Plugin for Kotlin"
-            implementationClass = "com.github.lamba92.gradle.telegram.TelegramApiParserPlugin"
+            implementationClass = "com.github.lamba92.kotlingram.gradle.TelegramApiParserPlugin"
         }
     }
 }
 
 pluginBundle {
-    website = "https://github.com/lamba92"
-    vcsUrl = "https://github.com/lamba92"
+    website = "https://github.com/lamba92/kotlingram"
+    vcsUrl = "https://github.com/lamba92/kotlingram"
     description = "Generates classes from the Telegram Bot API documentation for Kotlin"
     tags = listOf("telegram", "api", "kotlin", "multiplatform")
 }

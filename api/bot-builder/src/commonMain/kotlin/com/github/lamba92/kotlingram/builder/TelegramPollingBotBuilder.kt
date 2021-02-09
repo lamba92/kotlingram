@@ -115,10 +115,10 @@ class TelegramPollingBotBuilder {
             updates.result.lastOrNull()?.updateId?.let { lastUpdateId = it + 1 }
             updates.result.forEach { update ->
                 update.inlineQuery?.let { inlineQuery ->
-                    launch(handler) { handlers.inlineQueriesHandler(InlineQueryContext(inlineQuery, di)) }
+                    launch(handler) { handlers.inlineQueriesHandler(InlineQueryContext(inlineQuery, di, coroutineContext)) }
                 }
                 update.message?.let { message ->
-                    launch(handler) {handlers.sendMessageHandler(MessageContext(message, di)) }
+                    launch(handler) {handlers.sendMessageHandler(MessageContext(message, di, coroutineContext)) }
                 }
             }
         }

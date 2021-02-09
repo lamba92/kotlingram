@@ -12,7 +12,7 @@ kotlin {
                 api("org.kodein.di:kodein-di:$kodeinVersion")
             }
         }
-        jvmMain {
+        jvmTest {
             dependencies {
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")

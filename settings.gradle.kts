@@ -10,6 +10,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "kotlingram"
 
-include(":api", ":api:builder", ":api:core")
+include(":api", ":api:bot-builder", ":api:core")
 
 includeBuild("generator")

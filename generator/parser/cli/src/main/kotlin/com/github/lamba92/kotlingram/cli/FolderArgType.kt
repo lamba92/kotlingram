@@ -1,4 +1,4 @@
-package com.github.lamba92.gradle.telegram.parser
+package com.github.lamba92.kotlingram.cli
 
 import kotlinx.cli.ArgType
 import java.io.File

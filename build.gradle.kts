@@ -1,6 +1,6 @@
 
 allprojects {
-    version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull() ?: "1.1.0"
+    version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull() ?: "1.1.2"
     group = "com.github.lamba92"
 }
 

@@ -27,7 +27,7 @@ jobs:
         id: gradle
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: :generated-apis:publish
+          arguments: publish
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD}}

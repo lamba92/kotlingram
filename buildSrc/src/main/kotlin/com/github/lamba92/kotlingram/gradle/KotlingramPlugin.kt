@@ -101,10 +101,8 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
             publications {
 
                 withType<MavenPublication> {
-                    if (System.getenv("CI") == "true")
-                        the<SigningExtension>().sign(this)
-                    artifactId = "${rootProject.name}-$artifactId"
                     artifact(javadocJar)
+                    artifactId = "${rootProject.name}-$artifactId"
                     pom {
                         description.set("Telegram Bot APIs for Kotlin Multiplatform")
                         url.set("https://github.com/lamba92/kotlingram")
@@ -112,8 +110,10 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                             url.set("https://github.com/lamba92/kotlingram.git")
                         }
                         licenses {
-                            name.set("The Apache License, Version 2.0")
-                            url.set("https://github.com/lamba92/kotlingram/blob/master/LICENSE")
+                            license {
+                                name.set("The Apache License, Version 2.0")
+                                url.set("https://github.com/lamba92/kotlingram/blob/master/LICENSE")
+                            }
                         }
                         developers {
                             developer {
@@ -123,6 +123,8 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                             }
                         }
                     }
+                    if (System.getenv("CI") == "true")
+                        the<SigningExtension>().sign(this)
                 }
 
                 val commonPublicationNames = listOf("metadata", "kotlinMultiplatform")

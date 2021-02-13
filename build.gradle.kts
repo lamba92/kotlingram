@@ -1,19 +1,16 @@
+import com.github.lamba92.kotlingram.gradle.searchPropertyOrNull
+
+plugins {
+    id("io.codearte.nexus-staging")
+}
 
 allprojects {
-    version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull() ?: "1.1.2"
+    version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull() ?: "1.1.3"
     group = "com.github.lamba92"
 }
 
-fun searchPropertyOrNull(name: String, vararg aliases: String): String? {
-
-    fun searchEverywhere(name: String): String? =
-        findProperty(name) as? String? ?: System.getenv(name)
-
-    searchEverywhere(name)?.let { return it }
-
-    aliases.forEach {
-        searchEverywhere(it)?.let { return it }
-    }
-
-    return null
+nexusStaging {
+    packageGroup = group as String
+    username = "Lamba92"
+    password = searchPropertyOrNull("SONATYPE_PASSWORD")
 }

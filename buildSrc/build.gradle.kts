@@ -27,11 +27,12 @@ dependencies {
 
     val dokkaVersion: String by project
     val bintrayPluginVersion: String by project
+    val nexusStagingPluginVersion: String by project
 
     api(kotlin("gradle-plugin"))
     api(kotlin("serialization"))
     api(kotlin("stdlib"))
     api("com.jfrog.bintray.gradle", "gradle-bintray-plugin", bintrayPluginVersion)
     api("org.jetbrains.dokka", "dokka-gradle-plugin", dokkaVersion)
-
+    api("io.codearte.gradle.nexus", "gradle-nexus-staging-plugin", nexusStagingPluginVersion)
 }

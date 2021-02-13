@@ -1,18 +1,13 @@
 package com.github.lamba92.kotlingram.gradle
 
-import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
-import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
-import org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
-import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.bundling.Jar
-import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.*
 import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.SigningPlugin
@@ -65,16 +60,22 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                 }
             }
         }
+
         the<SigningExtension> {
-            val secretKey: String? = rootProject.file("secring.txt").takeIf { it.exists() }?.readText()
+            val secretKey: String? = rootProject.file("secring.txt")
+                .takeIf { it.exists() }
+                ?.readText(Charsets.UTF_16LE)
+                ?.drop(1)
             val password: String? = searchPropertyOrNull("SIGNING_PASSWORD")
-            val publicKeyId: String? = searchPropertyOrNull("SIGNING_PUBLIC_KEY_ID")?.takeLast(8)
             @Suppress("UnstableApiUsage")
-            useInMemoryPgpKeys(publicKeyId, secretKey, password)
+            useInMemoryPgpKeys(secretKey, password)
         }
+
+        val dokkaHtml by tasks.getting(DokkaTask::class)
 
         val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
             archiveClassifier.set("javadoc")
+            from(dokkaHtml.outputDirectory)
         }
 
         the<PublishingExtension> {
@@ -99,11 +100,11 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                     }
             }
             publications {
-
                 withType<MavenPublication> {
                     artifact(javadocJar)
                     artifactId = "${rootProject.name}-$artifactId"
                     pom {
+                        name.set(artifactId)
                         description.set("Telegram Bot APIs for Kotlin Multiplatform")
                         url.set("https://github.com/lamba92/kotlingram")
                         scm {
@@ -123,57 +124,15 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                             }
                         }
                     }
-                    if (System.getenv("CI") == "true")
-                        the<SigningExtension>().sign(this)
+                    the<SigningExtension>().sign(this)
                 }
 
-                val commonPublicationNames = listOf("metadata", "kotlinMultiplatform")
+//                val commonPublicationNames = listOf("metadata", "kotlinMultiplatform")
+//
+//                tasks.filterIsInstance<AbstractPublishToMaven>()
+//                    .filter { it.publication.name in commonPublicationNames }
+//                    .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
 
-                tasks.filterIsInstance<AbstractPublishToMaven>()
-                    .filter { it.publication.name in commonPublicationNames }
-                    .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
-
-            }
-        }
-        the<BintrayExtension> {
-            user = "lamba92"
-            key = searchPropertyOrNull("bintrayApiKey", "BINTRAY_API_KEY")
-            pkg {
-                version {
-                    name = project.version as String
-                }
-                repo = "com.github.lamba92"
-                name = rootProject.name
-                setLicenses("Apache-2.0")
-                vcsUrl = "https://github.com/lamba92/${rootProject.name}"
-                issueTrackerUrl = "https://github.com/lamba92/${rootProject.name}/issues"
-            }
-            publish = true
-            setPublications {
-                when {
-                    OperatingSystem.current().isMacOsX ->
-                        the<PublishingExtension>().publications.names.filter { "mac" in it }
-                    else -> the<PublishingExtension>().publications.names
-                }
-            }
-        }
-
-        tasks {
-            named("publish") {
-                if (enableBintrayPublications)
-                    finalizedBy("bintrayUpload")
-            }
-            withType<BintrayUploadTask> {
-                doFirst {
-                    the<PublishingExtension>().publications.withType<MavenPublication> {
-                        buildDir.resolve("publications/$name/module.json").let {
-                            if (it.exists())
-                                artifact(object : FileBasedMavenArtifact(it) {
-                                    override fun getDefaultExtension() = "module"
-                                })
-                        }
-                    }
-                }
             }
         }
     }

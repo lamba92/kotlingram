@@ -25,8 +25,8 @@ kotlin {
             dependencies {
                 val bufferutilVersion: String by project
                 val utf8ValidateVersion: String by project
-                implementation(npm("bufferutil", bufferutilVersion))
-                implementation(npm("utf-8-validate", utf8ValidateVersion))
+                api(npm("bufferutil", bufferutilVersion))
+                api(npm("utf-8-validate", utf8ValidateVersion))
             }
         }
     }

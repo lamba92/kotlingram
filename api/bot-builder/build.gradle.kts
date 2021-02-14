@@ -4,18 +4,11 @@ plugins {
 
 kotlin {
     sourceSets {
-        val kodeinVersion: String by project
-        val ktorVersion: String by project
         commonMain {
             dependencies {
+                val kodeinVersion: String by project
                 api(project(":api:core"))
                 api("org.kodein.di:kodein-di:$kodeinVersion")
-            }
-        }
-        jvmTest {
-            dependencies {
-                implementation("io.ktor:ktor-client-cio:$ktorVersion")
-                implementation("io.ktor:ktor-client-logging:$ktorVersion")
             }
         }
         all {

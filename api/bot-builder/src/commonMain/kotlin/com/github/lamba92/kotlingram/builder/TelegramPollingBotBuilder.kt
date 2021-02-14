@@ -50,6 +50,7 @@ class TelegramPollingBotBuilder {
     /**
      * Allows to declare the message handlers.
      */
+    @TelegramBotsDSL
     fun handlers(handler: MessageHandlersBuilder.() -> Unit) {
         handlersContainerBuilder = handler
     }
@@ -100,12 +101,12 @@ class TelegramPollingBotBuilder {
             bind<TelegramBotApiClient>() with singleton { client }
         }
         var lastUpdateId = 0
-        val handler = CoroutineExceptionHandler { _, exception ->
+        val exceptionHandler = CoroutineExceptionHandler { _, exception ->
             exception.printStackTrace()
         }
         return coroutineScope.repeatEvery(
             options.pollingInterval,
-            CoroutineName(options.botUsername!!),
+            CoroutineName(options.botUsername!!) + exceptionHandler,
             start
         ) {
             val updates = if (lastUpdateId != 0)
@@ -115,10 +116,14 @@ class TelegramPollingBotBuilder {
             updates.result.lastOrNull()?.updateId?.let { lastUpdateId = it + 1 }
             updates.result.forEach { update ->
                 update.inlineQuery?.let { inlineQuery ->
-                    launch(handler) { handlers.inlineQueriesHandler(InlineQueryContext(inlineQuery, di, coroutineContext)) }
+                    launch(exceptionHandler) {
+                        handlers.inlineQueriesHandler(InlineQueryContext(inlineQuery, di, coroutineContext))
+                    }
                 }
                 update.message?.let { message ->
-                    launch(handler) {handlers.sendMessageHandler(MessageContext(message, di, coroutineContext)) }
+                    launch(exceptionHandler) {
+                        handlers.sendMessageHandler(MessageContext(message, di, coroutineContext))
+                    }
                 }
             }
         }

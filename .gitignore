@@ -4,3 +4,4 @@ build/
 *.iml
 secring.txt
 local.properties
+node_modules/

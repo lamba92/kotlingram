@@ -106,7 +106,7 @@ class TelegramPollingBotBuilder {
         }
         return coroutineScope.repeatEvery(
             options.pollingInterval,
-            CoroutineName(options.botUsername!!) + exceptionHandler,
+            CoroutineName(options.botUsername!!),
             start
         ) {
             val updates = if (lastUpdateId != 0)

@@ -31,8 +31,6 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
             searchPropertyOrNull("enableGithubPublications")?.toBoolean() == true
         val enableSonatypePublications =
             searchPropertyOrNull("enableSonatypePublications")?.toBoolean() == true
-        val enableBintrayPublications =
-            searchPropertyOrNull("enableBintrayPublications")?.toBoolean() == true
 
         the<KotlinMultiplatformExtension> {
 

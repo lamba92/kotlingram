@@ -1,14 +1,27 @@
 package com.github.lamba92.kotlingram.gradle.tasks
 
+import com.github.lamba92.kotlingram.gradle.appendIfMissing
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
 import org.gradle.kotlin.dsl.*
 import java.io.File
+import java.io.Serializable
 
 open class GenerateWebpackConfig : DefaultTask() {
 
+    sealed class ResolveFallback : Serializable {
+        abstract val moduleName: String
+
+        data class ModuleFallback(
+            override val moduleName: String,
+            val resolveModuleName: String
+        ) : ResolveFallback(), Serializable
+
+        data class NoFallback(override val moduleName: String) : ResolveFallback(), Serializable
+    }
+
     enum class Target {
-        NODE, BROWSER
+        NODE, WEB
     }
 
     enum class Mode {
@@ -26,7 +39,10 @@ open class GenerateWebpackConfig : DefaultTask() {
                 filename: '%%%OUTPUT_NAME%%%',
             },
             resolve: {
-                modules: [%%%MODULES_FOLDER%%%]
+                modules: [%%%MODULES_FOLDER%%%],
+                fallback: {
+                    %%%FALLBACKS%%%
+                }
             }
         }];
     """.trimIndent()
@@ -52,12 +68,16 @@ open class GenerateWebpackConfig : DefaultTask() {
     @get:OutputFile
     var outputConfig by project.objects.property<File>()
 
+    @get:Input
+    var fallbacks = project.objects.listProperty(ResolveFallback::class)
+
     init {
         with(project) {
             outputBundleFolder = file("$buildDir\\bundle").absolutePath
             outputBundleName = "bundle.js"
             modulesFolder.set(listOf(file("node_modules")))
             outputConfig = file("$buildDir/config/webpack.config.js")
+            fallbacks.set(emptyList())
         }
     }
 
@@ -73,9 +93,18 @@ open class GenerateWebpackConfig : DefaultTask() {
                     "%%%MODULES_FOLDER%%%",
                     modulesFolder.get().joinToString(",") { "'${it.absolutePath.replace("\\", "\\\\")}'" }
                 )
+                .replace("%%%FALLBACKS%%%", buildString {
+                    fallbacks.get().forEachIndexed { index, f: ResolveFallback ->
+                        when (f) {
+                            is ResolveFallback.ModuleFallback ->
+                                append("'${f.moduleName}': require.resolve('${f.resolveModuleName}')")
+                            is ResolveFallback.NoFallback ->
+                                append("'${f.moduleName}': false")
+                        }
+                        if (index != fallbacks.get().lastIndex)
+                            append(",").append("\n            ")
+                    }
+                })
         )
     }
 }
-
-fun String.appendIfMissing(s: String) =
-    if (endsWith(s)) this else this + s

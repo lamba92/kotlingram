@@ -1,7 +1,7 @@
 # Kotlingram | Telegram bot API for Kotlin/Multiplatform ![CI Publication](https://github.com/lamba92/kotlingram/workflows/CI%20Publication/badge.svg) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.lamba92/kotlingram-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.lamba92/kotlingram-core)
 
 Looking for a Kotlin first Telegram APIs? You are in the right place! This project offers Kotlin/Multiplatform APIs for
-Telegram bots based on Kotlinx.serialization and Ktor client and coroutines.
+Telegram bots based on kotlinx.serialization and Ktor client and coroutines.
 
 ## Usage
 For basic API usage you can use the client available in `kotlingram-core`:
@@ -96,8 +96,7 @@ Platforms available are:
 
 `mingwx64`, `macosx64` and `linuxx64` platform are have some building issues I will work on later. 
 
-Unfortunately I had troubles publishing on Maven Central. I will look on the issue soon. The packages are published on
-GitHub Package Registry as well [here](https://github.com/lamba92?tab=packages&repo_name=kotlingram) but a
+The packages are published on GitHub Package Registry as well [here](https://github.com/lamba92?tab=packages&repo_name=kotlingram), but a
 login is required with a GitHub personal access token (PAT).
 
 ## Extensible

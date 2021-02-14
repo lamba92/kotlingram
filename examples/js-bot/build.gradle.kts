@@ -29,14 +29,12 @@ dependencies {
     val nodejsDeclarationsVersion: String by project
     val bufferutilVersion: String by project
     val utf8ValidateVersion: String by project
-    val nodeFetchVersion: String by project
     implementation(project(":api:bot-builder"))
     implementation("io.ktor", "ktor-client-js", ktorVersion)
     implementation("io.ktor", "ktor-client-logging", ktorVersion)
     implementation("org.jetbrains.kotlinx", "kotlinx-nodejs", nodejsDeclarationsVersion)
     implementation(npm("bufferutil", bufferutilVersion))
     implementation(npm("utf-8-validate", utf8ValidateVersion))
-    implementation(npm("node-fetch", nodeFetchVersion))
 }
 
 val rootPackageJson by rootProject.tasks.getting(RootPackageJsonTask::class)

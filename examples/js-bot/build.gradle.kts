@@ -18,7 +18,7 @@ plugins {
 }
 
 kotlin {
-    js(IR) {
+    js {
         nodejs()
         useCommonJs()
     }
@@ -30,10 +30,6 @@ kotlin {
     }
 }
 
-node {
-    download.set(true)
-}
-
 repositories {
     mavenCentral()
     jcenter()
@@ -43,13 +39,22 @@ repositories {
 dependencies {
     val ktorVersion: String by project
     val nodejsDeclarationsVersion: String by project
+    val webpackVersion: String by project
+    val webpackCliVersion: String by project
     implementation(project(":api:bot-builder"))
     implementation("io.ktor", "ktor-client-js", ktorVersion)
     implementation("io.ktor", "ktor-client-logging", ktorVersion)
     implementation("org.jetbrains.kotlinx", "kotlinx-nodejs", nodejsDeclarationsVersion)
+    implementation(npm("webpack", webpackVersion))
+    implementation(npm("webpack-cli", webpackCliVersion))
 }
 
 val rootPackageJson by rootProject.tasks.getting(RootPackageJsonTask::class)
+
+node {
+    download.set(true)
+    nodeProjectDir.set(rootPackageJson.rootPackageJson.parentFile / "node_modules")
+}
 
 tasks {
     clean {
@@ -70,8 +75,8 @@ tasks {
 
     val webpackExecutable by creating(NodeTask::class) {
         group = "distribution"
-        dependsOn(generateWebpackConfig, compileKotlinJs, rootPackageJson, npmInstall)
-        script.set(file("node_modules/webpack-cli/bin/cli.js"))
+        dependsOn(generateWebpackConfig, compileKotlinJs, rootPackageJson, yarn)
+        script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
         args.set(listOf("-c", generateWebpackConfig.outputConfig.absolutePath))
     }
 

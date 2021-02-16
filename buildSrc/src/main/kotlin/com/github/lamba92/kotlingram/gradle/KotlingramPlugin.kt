@@ -39,7 +39,7 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                     kotlinOptions.jvmTarget = "1.8"
                 }
             }
-            js(IR) {
+            js {
                 nodejs()
             }
 

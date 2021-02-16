@@ -39,7 +39,7 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                     kotlinOptions.jvmTarget = "1.8"
                 }
             }
-            js {
+            js(IR) {
                 nodejs()
             }
 
@@ -47,23 +47,13 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
 //            linuxX64()
 //            macosX64()
 
-            sourceSets {
-                named("commonMain") {
-                    dependencies {
-                        val kotlinxSerializationVersion: String by project
-                        val ktorVersion: String by project
-                        api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
-                        api("io.ktor:ktor-client-serialization:$ktorVersion")
-                    }
-                }
-            }
         }
 
         the<SigningExtension> {
             val secretKey: String? = rootProject.file("secring.txt")
                 .takeIf { it.exists() }
                 ?.readText(Charsets.UTF_16LE)
-                ?.drop(1)
+                ?.drop(1) // mysterious unknown character need to be dropped
             val password: String? = searchPropertyOrNull("SIGNING_PASSWORD")
             @Suppress("UnstableApiUsage")
             useInMemoryPgpKeys(secretKey, password)

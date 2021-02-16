@@ -1,7 +1,7 @@
 package com.github.lamba92.kotlingram.builder
 
 import com.github.lamba92.kotlingram.TelegramBotApiClient
-import com.github.lamba92.kotlingram.api.generated.*
+import com.github.lamba92.kotlingram.api.generated.getUpdates
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.http.*
@@ -128,6 +128,5 @@ class TelegramPollingBotBuilder {
             }
         }
     }
-
 }
 

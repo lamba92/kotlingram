@@ -7,6 +7,12 @@ plugins {
 allprojects {
     version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull() ?: "1.1.3"
     group = "com.github.lamba92"
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven("https://kotlin.bintray.com/kotlinx")
+        maven("https://dl.bintray.com/kodein-framework/kodein-dev")
+    }
 }
 
 nexusStaging {

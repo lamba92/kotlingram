@@ -20,6 +20,12 @@ kotlin {
     sourceSets {
         commonMain {
             kotlin.srcDir("$buildDir/generated/commonMain/kotlin")
+            dependencies {
+                val kotlinxSerializationVersion: String by project
+                val ktorVersion: String by project
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+                api("io.ktor:ktor-client-serialization:$ktorVersion")
+            }
         }
         jsMain {
             dependencies {

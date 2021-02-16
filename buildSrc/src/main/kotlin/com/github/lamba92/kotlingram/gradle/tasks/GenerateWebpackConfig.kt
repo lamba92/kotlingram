@@ -40,9 +40,7 @@ open class GenerateWebpackConfig : DefaultTask() {
             },
             resolve: {
                 modules: [%%%MODULES_FOLDER%%%],
-                fallback: {
-                    %%%FALLBACKS%%%
-                }
+                %%%FALLBACKS%%%
             }
         }];
     """.trimIndent()
@@ -94,6 +92,8 @@ open class GenerateWebpackConfig : DefaultTask() {
                     modulesFolder.get().joinToString(",") { "'${it.absolutePath.replace("\\", "\\\\")}'" }
                 )
                 .replace("%%%FALLBACKS%%%", buildString {
+                    if (fallbacks.get().isNotEmpty())
+                        appendln("                fallback: {")
                     fallbacks.get().forEachIndexed { index, f: ResolveFallback ->
                         when (f) {
                             is ResolveFallback.ModuleFallback ->
@@ -104,6 +104,8 @@ open class GenerateWebpackConfig : DefaultTask() {
                         if (index != fallbacks.get().lastIndex)
                             append(",").append("\n            ")
                     }
+                    if (fallbacks.get().isNotEmpty())
+                        appendln("                }")
                 })
         )
     }

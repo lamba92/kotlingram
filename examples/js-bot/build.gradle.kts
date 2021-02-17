@@ -18,7 +18,7 @@ plugins {
 }
 
 kotlin {
-    js {
+    js(BOTH) {
         nodejs()
         useCommonJs()
     }
@@ -61,29 +61,60 @@ tasks {
         delete("node_modules")
         delete("package-lock.json")
     }
-    val compileKotlinJs by getting(Kotlin2JsCompile::class)
+    val compileKotlinJsLegacy: Kotlin2JsCompile by getting(Kotlin2JsCompile::class)
+    val compileKotlinJsIr: Kotlin2JsCompile by getting(Kotlin2JsCompile::class)
 
-    val generateWebpackConfig by creating(GenerateWebpackConfig::class) {
+    val generateWebpackConfigLegacy: GenerateWebpackConfig by creating(GenerateWebpackConfig::class) {
         group = "distribution"
         target = NODE
         mode = DEVELOPMENT
-        entryFile = compileKotlinJs.outputFile
+        entryFile = compileKotlinJsLegacy.outputFile
         modulesFolder.set(listOf(rootPackageJson.rootPackageJson.parentFile / "node_modules"))
         outputBundleName = project.name + ".js"
         outputBundleFolder = file("$buildDir/distributions").absolutePath
     }
 
-    val webpackExecutable by creating(NodeTask::class) {
+    val webpackExecutableLegacy: NodeTask by creating(NodeTask::class) {
         group = "distribution"
-        dependsOn(generateWebpackConfig, compileKotlinJs, rootPackageJson, yarn)
+        dependsOn(generateWebpackConfigLegacy, compileKotlinJsLegacy, rootPackageJson, yarn)
         script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
-        args.set(listOf("-c", generateWebpackConfig.outputConfig.absolutePath))
+        args.set(listOf("-c", generateWebpackConfigLegacy.outputConfig.absolutePath))
     }
 
-    create<NodeTask>("runWebpackExecutable") {
+    create<NodeTask>("runWebpackExecutableLegacy") {
         group = "distribution"
-        dependsOn(webpackExecutable)
-        script.set(generateWebpackConfig.outputBundleFile)
+        dependsOn(webpackExecutableLegacy)
+        script.set(generateWebpackConfigLegacy.outputBundleFile)
+        Properties().apply { load(rootProject.file("local.properties").bufferedReader()) }
+            .entries.toList()
+            .associate { it.key.toString() to it.value.toString() }
+            .let {
+                @Suppress("UnstableApiUsage")
+                environment.putAll(it)
+            }
+    }
+
+    val generateWebpackConfigIr: GenerateWebpackConfig by creating(GenerateWebpackConfig::class) {
+        group = "distribution"
+        target = NODE
+        mode = DEVELOPMENT
+        entryFile = compileKotlinJsIr.outputFile
+        modulesFolder.set(listOf(rootPackageJson.rootPackageJson.parentFile / "node_modules"))
+        outputBundleName = project.name + ".js"
+        outputBundleFolder = file("$buildDir/distributions").absolutePath
+    }
+
+    val webpackExecutableIr: NodeTask by creating(NodeTask::class) {
+        group = "distribution"
+        dependsOn(generateWebpackConfigIr, compileKotlinJsIr, rootPackageJson, yarn)
+        script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
+        args.set(listOf("-c", generateWebpackConfigIr.outputConfig.absolutePath))
+    }
+
+    create<NodeTask>("runWebpackExecutableIr") {
+        group = "distribution"
+        dependsOn(webpackExecutableIr)
+        script.set(generateWebpackConfigIr.outputBundleFile)
         Properties().apply { load(rootProject.file("local.properties").bufferedReader()) }
             .entries.toList()
             .associate { it.key.toString() to it.value.toString() }

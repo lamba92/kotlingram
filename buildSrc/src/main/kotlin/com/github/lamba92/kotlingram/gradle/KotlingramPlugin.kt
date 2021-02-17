@@ -26,7 +26,6 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
         apply<MavenPublishPlugin>()
         apply<SigningPlugin>()
 
-//        val isCi = System.getenv("CI") == "true"
         val enableGithubPublications =
             searchPropertyOrNull("enableGithubPublications")?.toBoolean() == true
         val enableSonatypePublications =
@@ -53,7 +52,7 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
             val secretKey: String? = rootProject.file("secring.txt")
                 .takeIf { it.exists() }
                 ?.readText(Charsets.UTF_16LE)
-                ?.drop(1) // mysterious unknown character need to be dropped
+                ?.drop(1) // mysterious unknown character needs to be dropped
             val password: String? = searchPropertyOrNull("SIGNING_PASSWORD")
             @Suppress("UnstableApiUsage")
             useInMemoryPgpKeys(secretKey, password)

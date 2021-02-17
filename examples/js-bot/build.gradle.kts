@@ -1,13 +1,10 @@
 import com.github.gradle.node.task.NodeTask
+import com.github.lamba92.kotlingram.gradle.child
 import com.github.lamba92.kotlingram.gradle.div
 import com.github.lamba92.kotlingram.gradle.outputBundleFile
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Mode.DEVELOPMENT
-import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Mode.PRODUCTION
-import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.ResolveFallback.ModuleFallback
-import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.ResolveFallback.NoFallback
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Target.NODE
-import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Target.WEB
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.RootPackageJsonTask
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 import java.util.*
@@ -74,6 +71,35 @@ tasks {
         outputBundleFolder = file("$buildDir/distributions").absolutePath
     }
 
+    // workaround for https://youtrack.jetbrains.com/issue/KTOR-2124
+    val fixWebpackNodeBundleLegacy by creating {
+        doLast {
+            rootPackageJson.rootPackageJson.parentFile
+                .child("node_modules")
+                .child("ktor-ktor-client-core-jsLegacy")
+                .child("ktor-ktor-client-core-jsLegacy.js")
+                .takeIf { it.exists() }
+                ?.apply {
+                    val tmpFile = File(parentFile, "tmp.js")
+                    if (tmpFile.exists())
+                        tmpFile.delete()
+                    tmpFile.createNewFile()
+                    useLines {
+                        it.map {
+                            it.replace(
+                                "return require('node-fetch');",
+                                "return require('node-fetch').default;"
+                            )
+                        }
+                            .chunked(100)
+                            .forEach { tmpFile.appendText(it.joinToString("\n")) }
+                    }
+                    delete()
+                    tmpFile.renameTo(this)
+                }
+        }
+    }
+
     val webpackExecutableLegacy: NodeTask by creating(NodeTask::class) {
         group = "distribution"
         dependsOn(generateWebpackConfigLegacy, compileKotlinJsLegacy, rootPackageJson, yarn)
@@ -83,7 +109,7 @@ tasks {
 
     create<NodeTask>("runWebpackExecutableLegacy") {
         group = "distribution"
-        dependsOn(webpackExecutableLegacy)
+        dependsOn(webpackExecutableLegacy, fixWebpackNodeBundleLegacy)
         script.set(generateWebpackConfigLegacy.outputBundleFile)
         Properties().apply { load(rootProject.file("local.properties").bufferedReader()) }
             .entries.toList()

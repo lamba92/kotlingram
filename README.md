@@ -205,5 +205,5 @@ This error would be solved if compiling with the new IR compiler but there are i
 
 So to sum up, to create a working bot using Kotlin/JS with kotlingram we need to:
 - wait until [Kodein-DI/issues/355](https://github.com/Kodein-Framework/Kodein-DI/issues/355) is solved.
-- fix the compiled version of Ktor client JS as in [KTOR-2124](https://youtrack.jetbrains.com/issue/KTOR-2124).
+- fix the compiled version of Ktor client JS as in [KTOR-2124](https://youtrack.jetbrains.com/issue/KTOR-2124#focus=Comments-27-4696837.0-0).
 

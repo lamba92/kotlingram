@@ -102,7 +102,7 @@ tasks {
 
     val webpackExecutableLegacy: NodeTask by creating(NodeTask::class) {
         group = "distribution"
-        dependsOn(generateWebpackConfigLegacy, compileKotlinJsLegacy, rootPackageJson, yarn)
+        dependsOn(generateWebpackConfigLegacy, compileKotlinJsLegacy, rootPackageJson)
         script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
         args.set(listOf("-c", generateWebpackConfigLegacy.outputConfig.absolutePath))
     }
@@ -132,7 +132,7 @@ tasks {
 
     val webpackExecutableIr: NodeTask by creating(NodeTask::class) {
         group = "distribution"
-        dependsOn(generateWebpackConfigIr, compileKotlinJsIr, rootPackageJson, yarn)
+        dependsOn(generateWebpackConfigIr, compileKotlinJsIr, rootPackageJson)
         script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
         args.set(listOf("-c", generateWebpackConfigIr.outputConfig.absolutePath))
     }

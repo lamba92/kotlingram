@@ -1,4 +1,4 @@
-package com.github.lamba92.kotlingram.examples.jvm
+package com.github.lamba92.kotlingram.examples.js
 
 import NodeJS.get
 import com.github.lamba92.kotlingram.api.generated.InlineQueryResultPhoto

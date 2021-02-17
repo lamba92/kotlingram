@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
+import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("com.github.lamba92.kotlingram-api-generator")
     id("com.github.lamba92.kotlingram-plugin")
@@ -9,14 +13,11 @@ tasks.generateTelegramApi {
     telegramClientPackage = "com.github.lamba92.kotlingram"
 }
 
+tasks.withType<AbstractKotlinCompile<CommonCompilerArguments>> {
+    dependsOn(tasks.generateTelegramApi)
+}
+
 kotlin {
-    targets.all {
-        compilations.all {
-            compileKotlinTaskProvider {
-                dependsOn(tasks.generateTelegramApi)
-            }
-        }
-    }
     sourceSets {
         commonMain {
             kotlin.srcDir("$buildDir/generated/commonMain/kotlin")

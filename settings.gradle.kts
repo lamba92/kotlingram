@@ -19,7 +19,8 @@ include(
     ":api:bot-builder",
     ":api:core",
     ":examples:jvm-bot",
-    ":examples:js-bot"
+    ":examples:js-bot",
+    ":examples:mingwx64-bot"
 )
 
 includeBuild("generator")

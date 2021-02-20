@@ -42,9 +42,9 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                 nodejs()
             }
 
-//            mingwX64()
-//            linuxX64()
-//            macosX64()
+            mingwX64()
+            linuxX64()
+            macosX64()
 
         }
 

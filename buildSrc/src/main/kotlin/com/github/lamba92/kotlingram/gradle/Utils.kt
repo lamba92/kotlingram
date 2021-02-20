@@ -10,9 +10,6 @@ import org.gradle.kotlin.dsl.the
 import java.io.File
 import kotlin.reflect.KClass
 
-inline fun <reified T : Any> Project.the(action: T.() -> Unit) =
-    the<T>().apply(action)
-
 fun Project.searchPropertyOrNull(name: String, vararg aliases: String): String? {
 
     fun searchEverywhere(name: String): String? =

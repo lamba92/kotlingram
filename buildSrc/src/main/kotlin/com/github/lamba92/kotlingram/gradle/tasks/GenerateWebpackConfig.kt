@@ -93,7 +93,7 @@ open class GenerateWebpackConfig : DefaultTask() {
                 )
                 .replace("%%%FALLBACKS%%%", buildString {
                     if (fallbacks.get().isNotEmpty())
-                        appendln("                fallback: {")
+                        appendLine("                fallback: {")
                     fallbacks.get().forEachIndexed { index, f: ResolveFallback ->
                         when (f) {
                             is ResolveFallback.ModuleFallback ->
@@ -105,8 +105,11 @@ open class GenerateWebpackConfig : DefaultTask() {
                             append(",").append("\n            ")
                     }
                     if (fallbacks.get().isNotEmpty())
-                        appendln("                }")
+                        appendLine("                }")
                 })
         )
     }
 }
+
+fun StringBuilder.appendLine(element: String): StringBuilder =
+    append(element).append("\n")

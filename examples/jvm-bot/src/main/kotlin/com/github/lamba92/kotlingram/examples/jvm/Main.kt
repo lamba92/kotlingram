@@ -7,13 +7,15 @@ import com.github.lamba92.kotlingram.builder.respondPhoto
 import com.github.lamba92.kotlingram.builder.respondText
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.logging.*
-import kotlinx.coroutines.runBlocking
-import org.kodein.di.bind
-import org.kodein.di.instance
-import org.kodein.di.singleton
+import kotlinx.coroutines.coroutineScope
 
-fun main(): Unit = runBlocking {
-
+suspend fun main(): Unit = coroutineScope {
+    val customMessage = buildString {
+        append(System.getProperty("java.vm.name"))
+        append(", version ")
+        append(System.getProperty("java.vm.version"))
+    }
+    val media = "https://www.tc-web.it/wp-content/uploads/2019/01/java.jpg"
     buildPollingBot {
 
         options {
@@ -27,14 +29,8 @@ fun main(): Unit = runBlocking {
             }
         }
 
-        di {
-            import(DIModules.strings)
-        }
-
         handlers {
             messages {
-                val customMessage: String by instance("message_response")
-                val media: String by instance("media")
                 respondPhoto(
                     photo = media,
                     caption = "Hi, i'm Kotlingram JVM test bot",
@@ -43,8 +39,6 @@ fun main(): Unit = runBlocking {
                 respondText("You wrote to me \"${message.text}\", my message is $customMessage")
             }
             inlineQueries {
-
-                val media: String by instance("media")
 
                 val responses = buildList {
                     repeat(10) { index ->

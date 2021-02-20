@@ -6,9 +6,6 @@ import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.http.*
 import kotlinx.coroutines.*
-import org.kodein.di.DI
-import org.kodein.di.bind
-import org.kodein.di.singleton
 import kotlin.time.Duration
 import kotlin.time.seconds
 
@@ -38,7 +35,6 @@ class TelegramPollingBotBuilder {
         }
     }
 
-    private var diBuilder: DI.MainBuilder.() -> Unit = {}
     private var handlersContainerBuilder: MessageHandlersBuilder.() -> Unit = {}
     private var allowKodeinOverride: Boolean = false
     private var botOptionsAction: BotOptions.() -> Unit = {}
@@ -53,19 +49,6 @@ class TelegramPollingBotBuilder {
     @TelegramBotsDSL
     fun handlers(handler: MessageHandlersBuilder.() -> Unit) {
         handlersContainerBuilder = handler
-    }
-
-    /**
-     * Allows to configure the Kodein container.
-     * Creates a [DI] instance that will be lazily created upon first access.
-     *
-     * @param allowSilentOverride Whether the configuration block is allowed to non-explicit overrides.
-     * @param init The block of configuration.
-     * @return A lazy property that will yield, when accessed, the new Kodein object, freshly created, and ready for hard work!
-     */
-    fun di(allowSilentOverride: Boolean = false, init: DI.MainBuilder.() -> Unit) {
-        allowKodeinOverride = allowSilentOverride
-        diBuilder = init
     }
 
     /**
@@ -96,10 +79,6 @@ class TelegramPollingBotBuilder {
             )
 
         val handlers = MessageHandlersBuilder().apply(handlersContainerBuilder).build()
-        val di = DI(allowKodeinOverride) {
-            diBuilder()
-            bind<TelegramBotApiClient>() with singleton { client }
-        }
         var lastUpdateId = 0
         val exceptionHandler = CoroutineExceptionHandler { _, exception ->
             exception.printStackTrace()
@@ -117,12 +96,12 @@ class TelegramPollingBotBuilder {
             updates.result.forEach { update ->
                 update.inlineQuery?.let { inlineQuery ->
                     launch(exceptionHandler) {
-                        handlers.inlineQueriesHandler(InlineQueryContext(inlineQuery, di, coroutineContext))
+                        handlers.inlineQueriesHandler(InlineQueryContext(inlineQuery, coroutineContext, client))
                     }
                 }
                 update.message?.let { message ->
                     launch(exceptionHandler) {
-                        handlers.sendMessageHandler(MessageContext(message, di, coroutineContext))
+                        handlers.sendMessageHandler(MessageContext(message, coroutineContext, client))
                     }
                 }
             }

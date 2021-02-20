@@ -31,14 +31,14 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
         val enableSonatypePublications =
             searchPropertyOrNull("enableSonatypePublications")?.toBoolean() == true
 
-        the<KotlinMultiplatformExtension> {
+        configure<KotlinMultiplatformExtension> {
 
             jvm {
                 compilations.all {
                     kotlinOptions.jvmTarget = "1.8"
                 }
             }
-            js(BOTH) {
+            js(IR) {
                 nodejs()
             }
 
@@ -48,7 +48,7 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
 
         }
 
-        the<SigningExtension> {
+        configure<SigningExtension> {
             val secretKey: String? = rootProject.file("secring.txt")
                 .takeIf { it.exists() }
                 ?.readText(Charsets.UTF_16LE)
@@ -65,7 +65,7 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
             from(dokkaHtml.outputDirectory)
         }
 
-        the<PublishingExtension> {
+        configure<PublishingExtension> {
             repositories {
                 if (enableGithubPublications)
                     maven {

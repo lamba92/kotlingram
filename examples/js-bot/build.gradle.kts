@@ -4,7 +4,9 @@ import com.github.lamba92.kotlingram.gradle.div
 import com.github.lamba92.kotlingram.gradle.outputBundleFile
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Mode.DEVELOPMENT
+import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Mode.PRODUCTION
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Target.NODE
+import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.RootPackageJsonTask
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 import java.util.*
@@ -15,9 +17,9 @@ plugins {
 }
 
 kotlin {
-    js(BOTH) {
+    js(IR) {
         nodejs()
-        useCommonJs()
+        binaries.executable()
     }
     sourceSets {
         all {
@@ -54,93 +56,59 @@ node {
 }
 
 tasks {
-    clean {
-        delete("node_modules")
-        delete("package-lock.json")
-    }
-    val compileKotlinJsLegacy: Kotlin2JsCompile by getting(Kotlin2JsCompile::class)
-    val compileKotlinJsIr: Kotlin2JsCompile by getting(Kotlin2JsCompile::class)
 
-    val generateWebpackConfigLegacy: GenerateWebpackConfig by creating(GenerateWebpackConfig::class) {
+    val compileProductionExecutableKotlinJs by getting(KotlinJsIrLink::class)
+
+    val generateWebpackConfig by creating(GenerateWebpackConfig::class) {
         group = "distribution"
         target = NODE
-        mode = DEVELOPMENT
-        entryFile = compileKotlinJsLegacy.outputFile
+        mode = DEVELOPMENT // PRODUCTION will fail
+        entryFile = compileProductionExecutableKotlinJs.outputFile
         modulesFolder.set(listOf(rootPackageJson.rootPackageJson.parentFile / "node_modules"))
         outputBundleName = project.name + ".js"
         outputBundleFolder = file("$buildDir/distributions").absolutePath
     }
 
-    // workaround for https://youtrack.jetbrains.com/issue/KTOR-2124
-    val fixWebpackNodeBundleLegacy by creating {
+    val webpackExecutable: NodeTask by creating(NodeTask::class) {
+        group = "distribution"
+        dependsOn(generateWebpackConfig, compileProductionExecutableKotlinJs, rootPackageJson)
+        script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
+        args.set(listOf("-c", generateWebpackConfig.outputConfig.absolutePath))
         doLast {
-            rootPackageJson.rootPackageJson.parentFile
-                .child("node_modules")
-                .child("ktor-ktor-client-core-jsLegacy")
-                .child("ktor-ktor-client-core-jsLegacy.js")
-                .takeIf { it.exists() }
-                ?.apply {
-                    val tmpFile = File(parentFile, "tmp.js")
-                    if (tmpFile.exists())
-                        tmpFile.delete()
-                    tmpFile.createNewFile()
-                    useLines {
-                        it.map {
+            // workaround for https://youtrack.jetbrains.com/issue/KTOR-2124
+            generateWebpackConfig.outputBundleFile.apply {
+                val tmpFile = File(parentFile, "tmp.js")
+                if (tmpFile.exists())
+                    tmpFile.delete()
+                tmpFile.createNewFile()
+                useLines {
+                    it.map {
+                        // when not minified
+                        it.replace(
+                            "tmp = jsRequireNodeFetch()(input, init);",
+                            "tmp = jsRequireNodeFetch().default(input, init);"
+                        )
+                    }
+                        .map {
+                            // when minified
                             it.replace(
-                                "return require('node-fetch');",
-                                "return require('node-fetch').default;"
+                                "return e}()(e,t)",
+                                "return e}().default(e,t)"
                             )
                         }
-                            .chunked(100)
-                            .forEach { tmpFile.appendText(it.joinToString("\n")) }
-                    }
-                    delete()
-                    tmpFile.renameTo(this)
+                        .chunked(100)
+                        .forEach { tmpFile.appendText(it.joinToString("\n")) }
                 }
+                delete()
+                tmpFile.renameTo(this)
+            }
         }
     }
 
-    val webpackExecutableLegacy: NodeTask by creating(NodeTask::class) {
-        group = "distribution"
-        dependsOn(generateWebpackConfigLegacy, compileKotlinJsLegacy, rootPackageJson)
-        script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
-        args.set(listOf("-c", generateWebpackConfigLegacy.outputConfig.absolutePath))
-    }
-
-    create<NodeTask>("runWebpackExecutableLegacy") {
-        group = "distribution"
-        dependsOn(webpackExecutableLegacy, fixWebpackNodeBundleLegacy)
-        script.set(generateWebpackConfigLegacy.outputBundleFile)
-        Properties().apply { load(rootProject.file("local.properties").bufferedReader()) }
-            .entries.toList()
-            .associate { it.key.toString() to it.value.toString() }
-            .let {
-                @Suppress("UnstableApiUsage")
-                environment.putAll(it)
-            }
-    }
-
-    val generateWebpackConfigIr: GenerateWebpackConfig by creating(GenerateWebpackConfig::class) {
-        group = "distribution"
-        target = NODE
-        mode = DEVELOPMENT
-        entryFile = compileKotlinJsIr.outputFile
-        modulesFolder.set(listOf(rootPackageJson.rootPackageJson.parentFile / "node_modules"))
-        outputBundleName = project.name + ".js"
-        outputBundleFolder = file("$buildDir/distributions").absolutePath
-    }
-
-    val webpackExecutableIr: NodeTask by creating(NodeTask::class) {
-        group = "distribution"
-        dependsOn(generateWebpackConfigIr, compileKotlinJsIr, rootPackageJson)
-        script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
-        args.set(listOf("-c", generateWebpackConfigIr.outputConfig.absolutePath))
-    }
-
-    create<NodeTask>("runWebpackExecutableIr") {
-        group = "distribution"
-        dependsOn(webpackExecutableIr)
-        script.set(generateWebpackConfigIr.outputBundleFile)
+    create<NodeTask>("runWebpackExecutable") {
+        group = "application"
+        dependsOn(webpackExecutable)
+        script.set(generateWebpackConfig.outputBundleFile)
         Properties().apply { load(rootProject.file("local.properties").bufferedReader()) }
             .entries.toList()
             .associate { it.key.toString() to it.value.toString() }

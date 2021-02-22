@@ -118,24 +118,25 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
             }
         }
 
-        tasks {
+        if (isCI)
+            tasks {
 
-            filterIsInstance<AbstractPublishToMaven>()
-                .filter {
-                    it.publication.name in listOf("metadata", "kotlinMultiplatform")
-                        || "linux" in it.name.toLowerCase()
-                }
-                .forEach { it.onlyIf { OperatingSystem.current().isLinux } }
+                filterIsInstance<AbstractPublishToMaven>()
+                    .filter {
+                        it.publication.name in listOf("metadata", "kotlinMultiplatform", "jvm", "js")
+                            || "linux" in it.name.toLowerCase()
+                    }
+                    .forEach { it.onlyIf { OperatingSystem.current().isLinux } }
 
-            filterIsInstance<AbstractPublishToMaven>()
-                .filter { "mingw" in it.name.toLowerCase() }
-                .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
+                filterIsInstance<AbstractPublishToMaven>()
+                    .filter { "mingw" in it.name.toLowerCase() }
+                    .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
 
-            filterIsInstance<AbstractPublishToMaven>()
-                .filter { "macos" in it.name.toLowerCase() }
-                .forEach { it.onlyIf { OperatingSystem.current().isMacOsX } }
+                filterIsInstance<AbstractPublishToMaven>()
+                    .filter { "macos" in it.name.toLowerCase() }
+                    .forEach { it.onlyIf { OperatingSystem.current().isMacOsX } }
 
-        }
+            }
     }
 
 }

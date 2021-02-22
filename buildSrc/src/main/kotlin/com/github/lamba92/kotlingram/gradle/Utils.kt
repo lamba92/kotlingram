@@ -30,3 +30,5 @@ fun File.child(name: String) =
 operator fun File.div(name: String) =
     child(name)
 
+val isCI
+    get() = System.getenv("CI") == "true"

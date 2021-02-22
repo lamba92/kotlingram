@@ -19,5 +19,5 @@ nexusStaging {
     packageGroup = group as String
     username = "Lamba92"
     password = searchPropertyOrNull("SONATYPE_PASSWORD")
-    stagingRepositoryId.set("${project.name}-$version")
+    stagingRepositoryId.set(project.name)
 }

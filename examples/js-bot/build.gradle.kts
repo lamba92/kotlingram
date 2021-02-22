@@ -105,7 +105,7 @@ tasks {
         }
     }
 
-    create<NodeTask>("runWebpackExecutable") {
+    register<NodeTask>("runWebpackExecutable") {
         group = "application"
         dependsOn(webpackExecutable)
         script.set(generateWebpackConfig.outputBundleFile)

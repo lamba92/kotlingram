@@ -1,6 +1,6 @@
 package com.github.lamba92.kotlingram.examples.native
 
-import com.github.lamba92.kotlingram.api.generated.InlineQueryResultPhoto
+import com.github.lamba92.kotlingram.api.generated.*
 import com.github.lamba92.kotlingram.builder.buildPollingBot
 import com.github.lamba92.kotlingram.builder.respond
 import com.github.lamba92.kotlingram.builder.respondPhoto
@@ -37,6 +37,7 @@ fun main(): Unit = runBlocking {
                     replyToMessageId = message.messageId
                 )
                 respondText("You wrote to me \"${message.text}\", my message is $customMessage")
+                api.getMe()
             }
             inlineQueries {
 

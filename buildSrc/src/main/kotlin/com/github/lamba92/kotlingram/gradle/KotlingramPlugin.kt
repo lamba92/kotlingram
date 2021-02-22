@@ -1,13 +1,16 @@
 package com.github.lamba92.kotlingram.gradle
 
-import com.jfrog.bintray.gradle.BintrayPlugin
+import de.marcphilipp.gradle.nexus.NexusPublishExtension
+import de.marcphilipp.gradle.nexus.NexusPublishPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.bundling.Jar
+import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.*
 import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.SigningPlugin
@@ -22,9 +25,9 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
         apply<KotlinMultiplatformPluginWrapper>()
         apply<SerializationGradleSubplugin>()
         apply<DokkaPlugin>()
-        apply<BintrayPlugin>()
         apply<MavenPublishPlugin>()
         apply<SigningPlugin>()
+        apply<NexusPublishPlugin>()
 
         val enableGithubPublications =
             searchPropertyOrNull("enableGithubPublications")?.toBoolean() == true
@@ -65,6 +68,16 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
             from(dokkaHtml.outputDirectory)
         }
 
+        configure<NexusPublishExtension> {
+            repositories {
+                if (enableSonatypePublications)
+                    sonatype {
+                        username.set("Lamba92")
+                        password.set(searchPropertyOrNull("SONATYPE_PASSWORD"))
+                    }
+            }
+        }
+
         configure<PublishingExtension> {
             repositories {
                 if (enableGithubPublications)
@@ -74,15 +87,6 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                         credentials {
                             username = "lamba92"
                             password = searchPropertyOrNull("GITHUB_TOKEN")
-                        }
-                    }
-                if (enableSonatypePublications)
-                    maven {
-                        name = "SonaType"
-                        url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-                        credentials {
-                            username = "Lamba92"
-                            password = searchPropertyOrNull("SONATYPE_PASSWORD")
                         }
                     }
             }
@@ -113,14 +117,26 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                     }
                     the<SigningExtension>().sign(this)
                 }
-
-//                val commonPublicationNames = listOf("metadata", "kotlinMultiplatform")
-//
-//                tasks.filterIsInstance<AbstractPublishToMaven>()
-//                    .filter { it.publication.name in commonPublicationNames }
-//                    .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
-
             }
+        }
+
+        tasks {
+
+            filterIsInstance<AbstractPublishToMaven>()
+                .filter {
+                    it.publication.name in listOf("metadata", "kotlinMultiplatform")
+                        || "linux" in it.name.toLowerCase()
+                }
+                .forEach { it.onlyIf { OperatingSystem.current().isLinux } }
+
+            filterIsInstance<AbstractPublishToMaven>()
+                .filter { "mingw" in it.name.toLowerCase() }
+                .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
+
+            filterIsInstance<AbstractPublishToMaven>()
+                .filter { "macos" in it.name.toLowerCase() }
+                .forEach { it.onlyIf { OperatingSystem.current().isMacOsX } }
+            
         }
     }
 

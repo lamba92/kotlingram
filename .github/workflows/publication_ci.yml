@@ -8,8 +8,8 @@ jobs:
     strategy:
       matrix:
         include:
-#          - os: macos-latest
-#          - os: windows-latest
+          - os: macos-latest
+          - os: windows-latest
           - os: ubuntu-latest
     name: Publish artifacts
     runs-on: ${{ matrix.os }}

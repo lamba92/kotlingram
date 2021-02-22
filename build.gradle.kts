@@ -5,7 +5,7 @@ plugins {
 }
 
 allprojects {
-    version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull() ?: "1.1.3"
+    version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull() ?: "1.2.0-alpha"
     group = "com.github.lamba92"
     repositories {
         mavenCentral()
@@ -19,4 +19,5 @@ nexusStaging {
     packageGroup = group as String
     username = "Lamba92"
     password = searchPropertyOrNull("SONATYPE_PASSWORD")
+    stagingRepositoryId.set("${project.name}-$version")
 }

@@ -22,6 +22,7 @@ import org.jetbrains.kotlinx.serialization.gradle.SerializationGradleSubplugin
 
 open class KotlingramPublishedApiPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
+
         apply<KotlinMultiplatformPluginWrapper>()
         apply<SerializationGradleSubplugin>()
         apply<DokkaPlugin>()
@@ -62,6 +63,7 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
         val dokkaHtml by tasks.getting(DokkaTask::class)
 
         val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
+            dependsOn(dokkaHtml)
             archiveClassifier.set("javadoc")
             from(dokkaHtml.outputDirectory)
         }
@@ -137,6 +139,7 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                     .forEach { it.onlyIf { OperatingSystem.current().isMacOsX } }
 
             }
+
     }
 
 }

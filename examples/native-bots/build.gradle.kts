@@ -5,6 +5,7 @@ plugins {
 }
 
 kotlin {
+
     mingwX64()
     linuxX64()
     macosX64()
@@ -12,7 +13,6 @@ kotlin {
     targets.withType<KotlinNativeTarget> {
         binaries.executable {
             entryPoint = "com.github.lamba92.kotlingram.examples.native.main"
-//            linkerOpts("-L/lib/x86_64-linux-gnu")
         }
     }
 

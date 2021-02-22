@@ -35,37 +35,18 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
             searchPropertyOrNull("enableSonatypePublications")?.toBoolean() == true
 
         configure<KotlinMultiplatformExtension> {
-            if (isCI) {
-                when {
-                    OperatingSystem.current().isLinux -> {
-                        jvm {
-                            compilations.all {
-                                kotlinOptions.jvmTarget = "1.8"
-                            }
-                        }
-                        js(IR) {
-                            nodejs()
-                        }
-
-                        linuxX64()
-                    }
-                    OperatingSystem.current().isWindows -> mingwX64()
-                    OperatingSystem.current().isMacOsX -> macosX64()
+            jvm {
+                compilations.all {
+                    kotlinOptions.jvmTarget = "1.8"
                 }
-            } else {
-                jvm {
-                    compilations.all {
-                        kotlinOptions.jvmTarget = "1.8"
-                    }
-                }
-                js(IR) {
-                    nodejs()
-                }
-
-                linuxX64()
-                mingwX64()
-                macosX64()
             }
+            js(IR) {
+                nodejs()
+            }
+
+            linuxX64()
+            mingwX64()
+            macosX64()
         }
 
         configure<SigningExtension> {
@@ -137,11 +118,24 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
             }
         }
 
-        tasks.filterIsInstance<AbstractPublishToMaven>()
-            .filter { it.publication.name in listOf("metadata", "kotlinMultiplatform") }
-            .forEach { it.onlyIf { OperatingSystem.current().isLinux } }
+        tasks {
 
+            filterIsInstance<AbstractPublishToMaven>()
+                .filter {
+                    it.publication.name in listOf("metadata", "kotlinMultiplatform")
+                        || "linux" in it.name.toLowerCase()
+                }
+                .forEach { it.onlyIf { OperatingSystem.current().isLinux } }
 
+            filterIsInstance<AbstractPublishToMaven>()
+                .filter { "mingw" in it.name.toLowerCase() }
+                .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
+
+            filterIsInstance<AbstractPublishToMaven>()
+                .filter { "macos" in it.name.toLowerCase() }
+                .forEach { it.onlyIf { OperatingSystem.current().isMacOsX } }
+
+        }
     }
 
 }

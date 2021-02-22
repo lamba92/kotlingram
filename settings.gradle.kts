@@ -20,7 +20,7 @@ include(
     ":api:core",
     ":examples:jvm-bot",
     ":examples:js-bot",
-    ":examples:mingwx64-bot"
+    ":examples:native-bots"
 )
 
 includeBuild("generator")

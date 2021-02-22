@@ -13,11 +13,14 @@ tasks.generateTelegramApi {
     telegramClientPackage = "com.github.lamba92.kotlingram"
 }
 
-tasks.withType<AbstractKotlinCompile<CommonCompilerArguments>> {
-    dependsOn(tasks.generateTelegramApi)
-}
-
 kotlin {
+    targets.all {
+        compilations.all {
+            compileKotlinTaskProvider {
+                dependsOn(tasks.generateTelegramApi)
+            }
+        }
+    }
     sourceSets {
         commonMain {
             kotlin.srcDir("$buildDir/generated/commonMain/kotlin")

@@ -73,10 +73,6 @@ Note that `buildPollingBot` is an extension of `CoroutineScope`! To run it you n
 To install add in your Gradle build:
 
 ```kotlin
-repositories {
-    maven("https://dl.bintray.com/lamba92/com.github.lamba92")
-}
-// ...
 dependenceis {
     implementation("com.github.lamba92:kotlingram:{latest_version}")
 }
@@ -84,10 +80,6 @@ dependenceis {
 For Kotlin/Multiplatform:
 
 ```kotlin
-repositories {
-    maven("https://dl.bintray.com/lamba92/com.github.lamba92")
-}
-// ...
 kotlin {
     // ...
     sourceSets {
@@ -108,15 +100,17 @@ Versions used:
 - Kotlin 1.4.30
 - Kotlinx.serialization: 1.0.1
 - Ktor: 1.5.1
-- Kodein 7.3.1
 
 Platforms available are:
-- `jvm`: JVM target 1.8
-- `js`: NodeJS with old compilation backend
+- `jvm`, JVM target 1.8
+- `js`, NodeJS with IR compilation backend
+- `mingwX64`
+- `macosX64`
+- `linuxX64`
 
-`mingwx64`, `macosx64` and `linuxx64` platform are have some building issues I will work on later. 
+`mingwx64`, `macosx64` and `linuxx64` require libcurl version 7.63 or higher installed in your system. 
 
-The packages are published on GitHub Package Registry as well [here](https://github.com/lamba92?tab=packages&repo_name=kotlingram), but a
+The packages are published on Maven Central and snapshots are available on GitHub Package Registry [here](https://github.com/lamba92?tab=packages&repo_name=kotlingram), but a
 login is required with a GitHub personal access token (PAT).
 
 ## Extensible
@@ -179,31 +173,13 @@ When [kotlinx.serialization/issues/195](https://github.com/Kotlin/kotlinx.serial
 
 ### Run on NodeJS
 
-TLDR: do not use JS!
-
-Oh boy... JS is evil and whe all know that! There are many issues in creating a working js application for NodeJS, let's list the ones I've encountered for this project. Also note that those problems are not related to kotlingram but to Kotlin/JS + NodeJS.
-
-#### Bundling everything in a single js file
-
 In the js example [`build.gradle.kts`](/examples/js-bot/build.gradle.kts) file I have created some tasks to webpack the output into a single script (something like a fat jar). 
 
-To do so, I've added webpack dependencies [using the Kotlin/JS npm extension](/examples/js-bot/build.gradle.kts#L45-L46) and then used the `com.github.node-gradle.node` to run webpack from the yarn environment created by the Kotlin/JS plugin in root `build/js`. 
+To do so, I've added webpack dependencies [using the Kotlin/JS npm extension](/examples/js-bot/build.gradle.kts#L47-L48) and then used the `com.github.node-gradle.node` to run webpack from the yarn environment created by the Kotlin/JS plugin in root `build/js`. 
 
-I've created a custom task to generate the webpack config file and it's available in the `buildSrc` [here](buildSrc/src/main/kotlin/com/github/lamba92/kotlingram/gradle/tasks/GenerateWebpackConfig.kt). The Kotlin Team said that one day such functionality will be integrated in the official plugin tho.
+I've created a custom task to generate the webpack config file and it's available in the `buildSrc` [here](buildSrc/src/main/kotlin/com/github/lamba92/kotlingram/gradle/tasks/GenerateWebpackConfig.kt) and then with a `webpackExecutable` task webpack is executed with the generated configuration. The Kotlin Team said that one day such functionality will be integrated in the official plugin tho.
 
-Note that due to how NodeJS handles import and stuff the output of the Ktor client has to be modified a little when bundling it with webpack for NodeJS. More information [here](https://youtrack.jetbrains.com/issue/KTOR-2124).
+Note that due to how NodeJS handles import and stuff the output of the Ktor client has to be modified a little when bundling it with webpack for NodeJS. More information [here](https://youtrack.jetbrains.com/issue/KTOR-2124). The `doLast { }` of `webpackExecutable` does exactly that.
 
-#### It won't work anyway
-
-Even if you managed to follow this JS madness, you may have noticed that what I've described above only works when using the legacy Kotlin/JS compiler and if you run the output you will get a serialization error: 
-```text
-Can't find a method to construct serializer for type TelegramResponse. Make sure this class is marked as @Serializable or provide serializer explicitly.
-```
-That's because the legacy compiler cannot infer form inline functions the generics! More info [here](https://github.com/Kotlin/kotlinx.serialization/issues/1339). 
-
-This error would be solved if compiling with the new IR compiler but there are issues with Kodein when doing so. More details [here](https://github.com/Kodein-Framework/Kodein-DI/issues/355).
-
-So to sum up, to create a working bot using Kotlin/JS with kotlingram we need to:
-- wait until [Kodein-DI/issues/355](https://github.com/Kodein-Framework/Kodein-DI/issues/355) is solved.
-- fix the compiled version of Ktor client JS as in [KTOR-2124](https://youtrack.jetbrains.com/issue/KTOR-2124#focus=Comments-27-4696837.0-0).
+At the moment if webpacking with `mode = DEVELOPMENT` the output has errors. I'll investigate.
 

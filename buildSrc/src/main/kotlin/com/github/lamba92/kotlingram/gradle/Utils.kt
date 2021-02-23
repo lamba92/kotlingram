@@ -34,6 +34,9 @@ operator fun File.div(name: String) =
 val isCI
     get() = System.getenv("CI") == "true"
 
+val GITHUB_SHA: String?
+    get() = System.getenv("GITHUB_SHA")
+
 fun Instant.getVersioningUTCDate(isSnapshot: Boolean = false) =
     toLocalDateTime(TimeZone.currentSystemDefault())
         .run {

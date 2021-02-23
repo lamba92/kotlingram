@@ -9,7 +9,7 @@ plugins {
 
 allprojects {
     version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull().takeIf { it != "master" }
-        ?: GITHUB_SHA?.let { "${it.takeLast(8)}-SNAPSHOT" } //ex ffac537e6cbbf934b08745a378932722df287a53
+        ?: GITHUB_SHA?.let { "${it.take(7)}-SNAPSHOT" } //ex ffac537e6cbbf934b08745a378932722df287a53
         ?: Clock.System.now().getVersioningUTCDate(true) //ex 2020.01.28-12.13-SNAPSHOT
 
     group = "com.github.lamba92"

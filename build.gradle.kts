@@ -23,6 +23,6 @@ nexusStaging {
 
 evaluationDependsOnChildren()
 
-tasks.closeAndReleaseRepository {
+tasks.closeRepository {
     dependsOn(":api:core:publishToSonatype", ":api:bot-builder:publishToSonatype")
 }

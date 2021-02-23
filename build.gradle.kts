@@ -19,5 +19,10 @@ nexusStaging {
     packageGroup = group as String
     username = "Lamba92"
     password = searchPropertyOrNull("SONATYPE_PASSWORD")
-    stagingRepositoryId.set(rootProject.name)
+}
+
+evaluationDependsOnChildren()
+
+tasks.closeAndReleaseRepository {
+    dependsOn(":api:core:publishToSonatype", ":api:bot-builder:publishToSonatype")
 }

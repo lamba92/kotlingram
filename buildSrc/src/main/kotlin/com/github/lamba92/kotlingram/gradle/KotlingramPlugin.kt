@@ -84,14 +84,6 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                         password = searchPropertyOrNull("GITHUB_TOKEN")
                     }
                 }
-                maven {
-                    name = "SonatypeSnapshots"
-                    url = URI("https://oss.sonatype.org/content/repositories/snapshots/")
-                    credentials {
-                        username = "Lamba92"
-                        password = searchPropertyOrNull("SONATYPE_PASSWORD")
-                    }
-                }
             }
             publications {
                 withType<MavenPublication> {

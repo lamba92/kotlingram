@@ -43,5 +43,5 @@ fun Instant.getVersioningUTCDate(isSnapshot: Boolean = false) =
             "$year.$monthNumber.$dayOfMonth" + if (isSnapshot)
                 "-${hour.toString().padStart(2, '0')}.${
                     minute.toString().padStart(2, '0')
-                }-SNAPSHOT" else ""
+                }-SNAP" else ""
         }

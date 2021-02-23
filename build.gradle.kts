@@ -1,16 +1,19 @@
-import com.github.lamba92.kotlingram.gradle.GITHUB_SHA
 import com.github.lamba92.kotlingram.gradle.getVersioningUTCDate
 import com.github.lamba92.kotlingram.gradle.searchPropertyOrNull
 import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 plugins {
     id("io.codearte.nexus-staging")
 }
 
+val versioningFile = file(System.getenv("VERSIONING_FILE_PATH") ?: "$buildDir/versioning.txt")
+
 allprojects {
     version = System.getenv("GITHUB_REF")?.split("/")?.lastOrNull().takeIf { it != "master" }
-        ?: GITHUB_SHA?.let { "${it.take(7)}-SNAPSHOT" } //ex ffac537
-        ?: Clock.System.now().getVersioningUTCDate(true) //ex 2020.01.28-12.13-SNAPSHOT
+        ?: versioningFile.takeIf { it.exists() }?.let { "SNAP.${it.readText()}" } //ex SNAP:20210223.141449
+            ?: Clock.System.now().getVersioningUTCDate(true) //ex 2020.01.28-12.13-SNAPSHOT
 
     group = "com.github.lamba92"
     repositories {
@@ -32,3 +35,18 @@ tasks.closeRepository {
 }
 
 println("Project version is $version")
+
+task("generateProjectVersionFile") {
+    group = "ci"
+    doLast {
+        with(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())) {
+            versioningFile.writeText(
+                    year.toString() + monthNumber.toString().padStart(0, '0') +
+                        dayOfMonth.toString().padStart(0, '0') +
+                        "." + hour.toString().padStart(0, '0') +
+                        minute.toString().padStart(0, '0') +
+                        second.toString().padStart(0, '0')
+                )
+        }
+    }
+}

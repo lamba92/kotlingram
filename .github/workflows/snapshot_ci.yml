@@ -23,7 +23,7 @@ jobs:
       with:
         arguments: generateProjectVersionFile
       env:
-        VERSIONING_FILE_PATH: ~/versioning_file.txt
+        VERSIONING_FILE_PATH: versioning_file.txt
     - uses: actions/upload-artifact@v2
       name: Upload version for publication
       with:

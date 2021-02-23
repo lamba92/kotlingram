@@ -44,8 +44,8 @@ dependencies {
     implementation("io.ktor", "ktor-client-js", ktorVersion)
     implementation("io.ktor", "ktor-client-logging", ktorVersion)
     implementation("org.jetbrains.kotlinx", "kotlinx-nodejs", nodejsDeclarationsVersion)
-    implementation(npm("webpack", webpackVersion))
-    implementation(npm("webpack-cli", webpackCliVersion))
+    implementation(devNpm("webpack", webpackVersion))
+    implementation(devNpm("webpack-cli", webpackCliVersion))
 }
 
 val rootPackageJson by rootProject.tasks.getting(RootPackageJsonTask::class)

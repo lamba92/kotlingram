@@ -14,6 +14,12 @@ All methods and types available in the [Telegram Bot API documentation](https://
 
 For building a polling bot with you can use the builder available in `kotlingram-bot-builder`: 
 ```kotlin
+val customMessage = buildString {
+    append(System.getProperty("java.vm.name"))
+    append(", version ")
+    append(System.getProperty("java.vm.version"))
+}
+val media = "https://www.tc-web.it/wp-content/uploads/2019/01/java.jpg"
 buildPollingBot {
 
     options {
@@ -21,33 +27,17 @@ buildPollingBot {
         botUsername = "KotlingramJvmTestBot"
     }
 
-    di {
-        bind<String>(tag = "message_response") with singleton {
-            buildString {
-                append(System.getProperty("java.vm.name"))
-                append(", version ")
-                append(System.getProperty("java.vm.version"))
-            }
-        }
-        bind<String>(tag = "media") with singleton {
-            "https://www.tc-web.it/wp-content/uploads/2019/01/java.jpg"
-        }
-    }
-
     handlers {
         messages {
-            val customMessage: String by instance("message_response")
-            val media: String by instance("media")
             respondPhoto(
                 photo = media,
                 caption = "Hi, i'm Kotlingram JVM test bot",
                 replyToMessageId = message.messageId
             )
             respondText("You wrote to me \"${message.text}\", my message is $customMessage")
+            val me: User = api.getMe().response
         }
         inlineQueries {
-
-            val media: String by instance("media")
 
             val responses = buildList {
                 repeat(10) { index ->

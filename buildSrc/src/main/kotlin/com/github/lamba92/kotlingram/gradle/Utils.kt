@@ -3,6 +3,7 @@ package com.github.lamba92.kotlingram.gradle
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig
 import org.gradle.api.Project
 import java.io.File
+import kotlinx.datetime.*
 
 fun Project.searchPropertyOrNull(name: String, vararg aliases: String): String? {
 
@@ -32,3 +33,12 @@ operator fun File.div(name: String) =
 
 val isCI
     get() = System.getenv("CI") == "true"
+
+fun Instant.getVersioningUTCDate(isSnapshot: Boolean = false) =
+    toLocalDateTime(TimeZone.currentSystemDefault())
+        .run {
+            "$year.$monthNumber.$dayOfMonth" + if (isSnapshot)
+                "-${hour.toString().padStart(2, '0')}.${
+                    minute.toString().padStart(2, '0')
+                }-SNAPSHOT" else ""
+        }

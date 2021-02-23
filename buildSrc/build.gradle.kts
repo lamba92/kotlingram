@@ -20,6 +20,7 @@ repositories {
     mavenCentral()
     jcenter()
     gradlePluginPortal()
+    maven("https://kotlin.bintray.com/kotlinx")
 }
 
 
@@ -30,6 +31,7 @@ dependencies {
     val nexusPublishPluginVersion: String by project
     val nodePluginVersion: String by project
     val downloadPluginVersion: String by project
+    val kotlinxDatetimeVersion: String by project
 
     api(kotlin("gradle-plugin"))
     api(kotlin("serialization"))
@@ -39,4 +41,5 @@ dependencies {
     api("com.github.node-gradle", "gradle-node-plugin", nodePluginVersion)
     api("de.undercouch", "gradle-download-task", downloadPluginVersion)
     api("de.marcphilipp.gradle", "nexus-publish-plugin", nexusPublishPluginVersion)
+    api("org.jetbrains.kotlinx", "kotlinx-datetime", kotlinxDatetimeVersion)
 }

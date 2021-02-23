@@ -1,7 +1,8 @@
 name: CI Publication
 on:
-  release:
-    types: [ published ]
+  push:
+    branches:
+      - master
 
 jobs:
   deploy:
@@ -27,7 +28,7 @@ jobs:
         id: gradle
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: closeAndReleaseRepository
+          arguments: publishToSonatype
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD}}

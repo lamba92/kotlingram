@@ -28,7 +28,7 @@ jobs:
       name: Upload version for publication
       with:
         name: versioning_file
-        path: ~/versioning_file.txt
+        path: versioning_file.txt
 
   deploy:
     needs: [versioning]
@@ -60,7 +60,7 @@ jobs:
         with:
           arguments: publishAllPublicationsToGitHubPackagesRepository
         env:
-          VERSIONING_FILE_PATH: ~/versioning_file.txt
+          VERSIONING_FILE_PATH: versioning_file.txt
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD}}
           SIGNING_PUBLIC_KEY_ID: ${{secrets.SIGNING_PUBLIC_KEY_ID}}

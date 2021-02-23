@@ -8,6 +8,7 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.internal.os.OperatingSystem
@@ -121,23 +122,25 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
         }
 
         if (isCI)
-            tasks {
+            afterEvaluate {
+                tasks {
 
-                filterIsInstance<AbstractPublishToMaven>()
-                    .filter {
-                        it.publication.name in listOf("metadata", "kotlinMultiplatform", "jvm", "js")
-                            || "linux" in it.name.toLowerCase()
-                    }
-                    .forEach { it.onlyIf { OperatingSystem.current().isLinux } }
+                    filterIsInstance<PublishToMavenRepository>()
+                        .filter {
+                            it.publication.name in listOf("metadata", "kotlinMultiplatform", "jvm", "js")
+                                || "linux" in it.name.toLowerCase()
+                        }
+                        .forEach { it.onlyIf { OperatingSystem.current().isLinux } }
 
-                filterIsInstance<AbstractPublishToMaven>()
-                    .filter { "mingw" in it.name.toLowerCase() }
-                    .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
+                    filterIsInstance<PublishToMavenRepository>()
+                        .filter { "mingw" in it.name.toLowerCase() }
+                        .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
 
-                filterIsInstance<AbstractPublishToMaven>()
-                    .filter { "macos" in it.name.toLowerCase() }
-                    .forEach { it.onlyIf { OperatingSystem.current().isMacOsX } }
+                    filterIsInstance<PublishToMavenRepository>()
+                        .filter { "macos" in it.name.toLowerCase() }
+                        .forEach { it.onlyIf { OperatingSystem.current().isMacOsX } }
 
+                }
             }
 
     }

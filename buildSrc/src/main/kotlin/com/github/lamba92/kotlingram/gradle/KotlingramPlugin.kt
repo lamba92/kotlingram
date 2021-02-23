@@ -20,6 +20,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 import org.jetbrains.kotlinx.serialization.gradle.SerializationGradleSubplugin
+import java.net.URI
 
 open class KotlingramPublishedApiPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
@@ -30,11 +31,6 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
         apply<MavenPublishPlugin>()
         apply<SigningPlugin>()
         apply<NexusPublishPlugin>()
-
-        val enableGithubPublications =
-            searchPropertyOrNull("enableGithubPublications")?.toBoolean() == true
-        val enableSonatypePublications =
-            searchPropertyOrNull("enableSonatypePublications")?.toBoolean() == true
 
         configure<KotlinMultiplatformExtension> {
             jvm {
@@ -71,25 +67,31 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
 
         configure<NexusPublishExtension> {
             repositories {
-                if (enableSonatypePublications)
-                    sonatype {
-                        username.set("Lamba92")
-                        password.set(searchPropertyOrNull("SONATYPE_PASSWORD"))
-                    }
+                sonatype {
+                    username.set("Lamba92")
+                    password.set(searchPropertyOrNull("SONATYPE_PASSWORD"))
+                }
             }
         }
 
         configure<PublishingExtension> {
             repositories {
-                if (enableGithubPublications)
-                    maven {
-                        name = "GitHubPackages"
-                        url = uri("https://maven.pkg.github.com/lamba92/kotlingram")
-                        credentials {
-                            username = "lamba92"
-                            password = searchPropertyOrNull("GITHUB_TOKEN")
-                        }
+                maven {
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/lamba92/kotlingram")
+                    credentials {
+                        username = "lamba92"
+                        password = searchPropertyOrNull("GITHUB_TOKEN")
                     }
+                }
+                maven {
+                    name = "SonatypeSnapshots"
+                    url = URI("https://oss.sonatype.org/content/repositories/snapshots/")
+                    credentials {
+                        username = "Lamba92"
+                        password = searchPropertyOrNull("SONATYPE_PASSWORD")
+                    }
+                }
             }
             publications {
                 withType<MavenPublication> {

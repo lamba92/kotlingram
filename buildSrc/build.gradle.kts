@@ -1,5 +1,6 @@
 plugins {
     `kotlin-dsl`
+    kotlin("jvm") version "1.4.30"
 }
 
 kotlin.target.compilations.all {

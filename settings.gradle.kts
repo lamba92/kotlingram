@@ -16,11 +16,14 @@ rootProject.name = "kotlingram"
 
 include(
     ":api",
-    ":api:bot-builder",
-    ":api:core",
+    ":api:kotlingram-bot-builder",
+    ":api:kotlingram-core",
     ":examples:jvm-bot",
     ":examples:js-bot",
     ":examples:native-bots"
 )
+
+project(":api:kotlingram-bot-builder").projectDir = file("api/bot-builder")
+project(":api:kotlingram-core").projectDir = file("api/core")
 
 includeBuild("generator")

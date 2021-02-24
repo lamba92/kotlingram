@@ -25,7 +25,7 @@ kotlin {
 dependencies {
     val ktorVersion: String by project
     val logbackVersion: String by project
-    implementation(project(":api:bot-builder"))
+    implementation(project(":api:kotlingram-bot-builder"))
     implementation("io.ktor", "ktor-client-cio", ktorVersion)
     implementation("io.ktor", "ktor-client-logging", ktorVersion)
     implementation("ch.qos.logback", "logback-classic", logbackVersion)

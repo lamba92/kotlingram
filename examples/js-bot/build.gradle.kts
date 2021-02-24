@@ -40,7 +40,7 @@ dependencies {
     val nodejsDeclarationsVersion: String by project
     val webpackVersion: String by project
     val webpackCliVersion: String by project
-    implementation(project(":api:bot-builder"))
+    implementation(project(":api:kotlingram-bot-builder"))
     implementation("io.ktor", "ktor-client-js", ktorVersion)
     implementation("io.ktor", "ktor-client-logging", ktorVersion)
     implementation("org.jetbrains.kotlinx", "kotlinx-nodejs", nodejsDeclarationsVersion)

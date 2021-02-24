@@ -2,6 +2,7 @@ package com.github.lamba92.kotlingram.gradle
 
 import de.marcphilipp.gradle.nexus.NexusPublishExtension
 import de.marcphilipp.gradle.nexus.NexusPublishPlugin
+import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
@@ -32,6 +33,14 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
         apply<SigningPlugin>()
         apply<NexusPublishPlugin>()
 
+        val dokkaHtml by tasks.getting(DokkaTask::class)
+
+        val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
+            dependsOn(dokkaHtml)
+            archiveClassifier.set("javadoc")
+            from(dokkaHtml.outputDirectory)
+        }
+
         configure<KotlinMultiplatformExtension> {
             jvm {
                 compilations.all {
@@ -57,14 +66,6 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
             useInMemoryPgpKeys(secretKey, password)
         }
 
-        val dokkaHtml by tasks.getting(DokkaTask::class)
-
-        val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
-            dependsOn(dokkaHtml)
-            archiveClassifier.set("javadoc")
-            from(dokkaHtml.outputDirectory)
-        }
-
         configure<NexusPublishExtension> {
             repositories {
                 sonatype {
@@ -84,13 +85,10 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                         password = searchPropertyOrNull("GITHUB_TOKEN")
                     }
                 }
-            }
-            publications {
-                withType<MavenPublication> {
+                publications.withType<MavenPublication> {
                     artifact(javadocJar)
-                    artifactId = "${rootProject.name}-$artifactId"
                     pom {
-                        name.set(artifactId)
+                        name.set(project.name)
                         description.set("Telegram Bot APIs for Kotlin Multiplatform")
                         url.set("https://github.com/lamba92/kotlingram")
                         scm {
@@ -112,31 +110,32 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
                     }
                     the<SigningExtension>().sign(this)
                 }
+
             }
+
+            if (isCI)
+                afterEvaluate {
+                    tasks {
+
+                        filterIsInstance<PublishToMavenRepository>()
+                            .filter {
+                                it.publication.name in listOf("metadata", "kotlinMultiplatform", "jvm", "js")
+                                    || "linux" in it.name.toLowerCase()
+                            }
+                            .forEach { it.onlyIf { OperatingSystem.current().isLinux } }
+
+                        filterIsInstance<PublishToMavenRepository>()
+                            .filter { "mingw" in it.name.toLowerCase() }
+                            .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
+
+                        filterIsInstance<PublishToMavenRepository>()
+                            .filter { "macos" in it.name.toLowerCase() }
+                            .forEach { it.onlyIf { OperatingSystem.current().isMacOsX } }
+
+                    }
+                }
+
         }
 
-        if (isCI)
-            afterEvaluate {
-                tasks {
-
-                    filterIsInstance<PublishToMavenRepository>()
-                        .filter {
-                            it.publication.name in listOf("metadata", "kotlinMultiplatform", "jvm", "js")
-                                || "linux" in it.name.toLowerCase()
-                        }
-                        .forEach { it.onlyIf { OperatingSystem.current().isLinux } }
-
-                    filterIsInstance<PublishToMavenRepository>()
-                        .filter { "mingw" in it.name.toLowerCase() }
-                        .forEach { it.onlyIf { OperatingSystem.current().isWindows } }
-
-                    filterIsInstance<PublishToMavenRepository>()
-                        .filter { "macos" in it.name.toLowerCase() }
-                        .forEach { it.onlyIf { OperatingSystem.current().isMacOsX } }
-
-                }
-            }
-
     }
-
 }

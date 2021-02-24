@@ -6,7 +6,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(project(":api:core"))
+                api(project(":api:kotlingram-core"))
             }
         }
         all {

@@ -169,7 +169,7 @@ To do so, I've added webpack dependencies [using the Kotlin/JS npm extension](/e
 
 I've created a custom task to generate the webpack config file and it's available in the `buildSrc` [here](buildSrc/src/main/kotlin/com/github/lamba92/kotlingram/gradle/tasks/GenerateWebpackConfig.kt) and then with a `webpackExecutable` task webpack is executed with the generated configuration. The Kotlin Team said that one day such functionality will be integrated in the official plugin tho.
 
-Note that due to how NodeJS handles import and stuff the output of the Ktor client has to be modified a little when bundling it with webpack for NodeJS. More information [here](https://youtrack.jetbrains.com/issue/KTOR-2124). The `doLast { }` of `webpackExecutable` does exactly that.
+Note that due to how NodeJS handles import and stuff the output of the Ktor client has to be modified a little when bundling it with webpack for NodeJS. More information [here](https://youtrack.jetbrains.com/issue/KTOR-2124). The task `:examples:js-bot:fixNodeFetchForWebpack` does exactly that.
 
-At the moment if webpacking with `mode = DEVELOPMENT` the output has errors. I'll investigate.
+At the moment if webpacking with `mode = DEVELOPMENT` the output has errors, followup [here](https://youtrack.jetbrains.com/issue/KTOR-2202)
 

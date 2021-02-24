@@ -21,7 +21,7 @@ kotlin {
             dependencies {
                 val ktorVersion: String by project
                 implementation(project(":api:kotlingram-bot-builder"))
-//                implementation("com.github.lamba92:kotlingram-bot-builder:1.2.0")
+//                implementation("com.github.lamba92:kotlingram-bot-builder:1.2.2")
                 implementation("io.ktor:ktor-client-curl:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
             }

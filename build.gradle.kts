@@ -31,7 +31,7 @@ nexusStaging {
 }
 
 tasks.closeRepository {
-    dependsOn(":api:core:publishToSonatype", ":api:bot-builder:publishToSonatype")
+    dependsOn(":api:kotlingram-core:publishToSonatype", ":api:kotlingram-bot-builder:publishToSonatype")
 }
 
 println("Project version is $version")

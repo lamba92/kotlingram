@@ -1,4 +1,4 @@
-name: CI Publication
+name: Release Publication
 on:
   release:
     types: [ published ]

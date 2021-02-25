@@ -59,6 +59,8 @@ buildPollingBot {
 ```
 Note that `buildPollingBot` is an extension of `CoroutineScope`! To run it you need to either already be in a scope or create one with `coroutineScope {}`.
 
+See other examples [here](/examples)!
+
 ## Install
 To install add in your Gradle build:
 

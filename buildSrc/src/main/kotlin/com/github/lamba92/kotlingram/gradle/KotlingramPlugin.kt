@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 import org.jetbrains.kotlinx.serialization.gradle.SerializationGradleSubplugin
 import java.net.URI
+import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 
 open class KotlingramPublishedApiPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
@@ -44,8 +45,12 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
         configure<KotlinMultiplatformExtension> {
             jvm {
                 compilations.all {
-                    kotlinOptions.jvmTarget = "1.8"
+                    kotlinOptions {
+                        jvmTarget = "1.8"
+                        useIR = true
+                    }
                 }
+
             }
             js(IR) {
                 nodejs()

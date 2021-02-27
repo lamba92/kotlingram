@@ -1,8 +1,6 @@
 package com.github.lamba92.kotlingram.examples.jvm
 
 import com.github.lamba92.kotlingram.api.generated.InlineQueryResultPhoto
-import com.github.lamba92.kotlingram.api.generated.User
-import com.github.lamba92.kotlingram.api.generated.getMe
 import com.github.lamba92.kotlingram.builder.buildPollingBot
 import com.github.lamba92.kotlingram.builder.respond
 import com.github.lamba92.kotlingram.builder.respondPhoto
@@ -10,6 +8,9 @@ import com.github.lamba92.kotlingram.builder.respondText
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.logging.*
 import kotlinx.coroutines.coroutineScope
+import java.io.File
+import kotlin.time.minutes
+import kotlin.time.seconds
 
 suspend fun main(): Unit = coroutineScope {
     val customMessage = buildString {
@@ -23,7 +24,7 @@ suspend fun main(): Unit = coroutineScope {
         options {
             botApiToken = System.getenv("jvmTestBotToken")
             botUsername = "KotlingramJvmTestBot"
-
+            pollingInterval = 1.seconds
             engine(CIO) {
                 install(Logging) {
                     level = LogLevel.ALL

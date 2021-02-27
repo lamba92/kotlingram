@@ -1,7 +1,3 @@
-import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
-import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("com.github.lamba92.kotlingram-api-generator")
     id("com.github.lamba92.kotlingram-plugin")

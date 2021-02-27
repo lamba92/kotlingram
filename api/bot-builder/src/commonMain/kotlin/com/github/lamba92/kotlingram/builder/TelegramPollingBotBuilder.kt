@@ -36,9 +36,9 @@ class TelegramPollingBotBuilder {
     }
 
     private var handlersContainerBuilder: MessageHandlersBuilder.() -> Unit = {}
-    private var allowKodeinOverride: Boolean = false
     private var botOptionsAction: BotOptions.() -> Unit = {}
 
+    @TelegramBotsDSL
     fun options(action: BotOptions.() -> Unit) {
         botOptionsAction = action
     }

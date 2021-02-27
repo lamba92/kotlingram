@@ -80,6 +80,7 @@ tasks {
         .forEach { (mode, modeName) ->
             val generateWebpackConfig =
                 create<GenerateWebpackConfig>("generate${modeName}WebpackConfig") {
+                    dependsOn(fixNodeFetchForWebpack)
                     group = "distribution"
                     target = NODE
                     this.mode = mode // PRODUCTION will fail
@@ -99,10 +100,11 @@ tasks {
 
             val webpackExecutable = create<NodeTask>("${modeName.toLowerCase()}WebpackExecutable") {
                 group = "distribution"
-                inputs.file(generateWebpackConfig.outputConfig)
-                dependsOn(generateWebpackConfig, fixNodeFetchForWebpack, rootPackageJson)
+                dependsOn(generateWebpackConfig)
                 script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
                 args.set(listOf("-c", generateWebpackConfig.outputConfig.absolutePath))
+
+                inputs.file(generateWebpackConfig.outputConfig)
                 outputs.file(generateWebpackConfig.outputBundleFile)
             }
 

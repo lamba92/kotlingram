@@ -16,12 +16,6 @@ allprojects {
             ?: Clock.System.now().getVersioningUTCDate(true) //ex 2020.01.28-12.13-SNAPSHOT
 
     group = "com.github.lamba92"
-    repositories {
-        mavenCentral()
-        jcenter()
-        maven("https://kotlin.bintray.com/kotlinx")
-        maven("https://dl.bintray.com/kodein-framework/kodein-dev")
-    }
 }
 
 nexusStaging {

@@ -3,6 +3,13 @@
 Looking for a Kotlin first Telegram APIs? You are in the right place! This project offers Kotlin/Multiplatform APIs for
 Telegram bots based on kotlinx.serialization and Ktor client and coroutines.
 
+## Index
+ - [Usage](#usage)
+ - [Examples](/examples)
+ - [Install](#install)
+ - [Extensible](#extensible)
+ - [Limitations](#limitations)
+
 ## Usage
 For basic API usage you can use the client available in `kotlingram-core`:
 ```kotlin

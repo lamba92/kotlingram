@@ -12,6 +12,12 @@ gradleEnterprise {
     }
 }
 
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+
 rootProject.name = "kotlingram"
 
 include(

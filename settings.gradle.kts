@@ -15,6 +15,7 @@ gradleEnterprise {
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
+        maven("https://kotlin.bintray.com/kotlinx")
     }
 }
 

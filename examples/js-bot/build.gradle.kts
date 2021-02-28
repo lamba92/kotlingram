@@ -1,5 +1,5 @@
 import com.github.gradle.node.task.NodeTask
-import com.github.lamba92.kotlingram.gradle.child
+import com.github.lamba92.kotlingram.gradle.setNodeModulesPath
 import com.github.lamba92.kotlingram.gradle.div
 import com.github.lamba92.kotlingram.gradle.outputBundleFile
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig
@@ -120,11 +120,9 @@ tasks {
                 script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
                 args.set(listOf("-c", generateWebpackConfig.outputConfig.absolutePath))
 
-                @Suppress("UnstableApiUsage")
-                environment.put(
-                    "NODE_PATH",
-                    rootPackageJson.rootPackageJson.parentFile.child("node_modules").normalize().absolutePath
-                )
+
+                setNodeModulesPath(rootPackageJson.rootPackageJson.parentFile / "node_modules")
+
                 inputs.file(generateWebpackConfig.outputConfig)
                 outputs.file(generateWebpackConfig.outputBundleFile)
             }

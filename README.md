@@ -173,5 +173,5 @@ I've created a custom task to generate the webpack config file and it's availabl
 
 Note that due to how NodeJS handles import and stuff the output of the Ktor client has to be modified a little when bundling it with webpack for NodeJS. More information [here](https://youtrack.jetbrains.com/issue/KTOR-2124). The task `:examples:js-bot:fixNodeFetchForWebpack` does exactly that.
 
-At the moment if webpacking with `mode = DEVELOPMENT` the output has errors, followup [here](https://youtrack.jetbrains.com/issue/KTOR-2202)
+~~At the moment if webpacking with `mode = DEVELOPMENT` the output has errors, followup [here](https://youtrack.jetbrains.com/issue/KTOR-2202)~~ Fixed in [56cb369](https://github.com/lamba92/kotlingram/commit/56cb369eae10117a67f79f20ec3f1bc02beeaa53)
 

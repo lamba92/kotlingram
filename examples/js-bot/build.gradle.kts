@@ -1,10 +1,12 @@
 import com.github.gradle.node.task.NodeTask
+import com.github.lamba92.kotlingram.gradle.child
 import com.github.lamba92.kotlingram.gradle.div
 import com.github.lamba92.kotlingram.gradle.outputBundleFile
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Mode
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Mode.*
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Target.*
+import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.TerserPluginSettings
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.RootPackageJsonTask
 import java.util.*
@@ -40,6 +42,7 @@ dependencies {
     val webpackVersion: String by project
     val webpackCliVersion: String by project
     val ttyVersion: String by project
+    val terserVersion: String by project
 
     implementation(project(":api:kotlingram-bot-builder"))
     implementation("io.ktor", "ktor-client-js", ktorVersion)
@@ -47,6 +50,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx", "kotlinx-nodejs", nodejsDeclarationsVersion)
     implementation(devNpm("webpack", webpackVersion))
     implementation(devNpm("webpack-cli", webpackCliVersion))
+    implementation(devNpm("terser-webpack-plugin", terserVersion))
     implementation(devNpm("tty", ttyVersion))
 }
 
@@ -54,7 +58,7 @@ val rootPackageJson by rootProject.tasks.getting(RootPackageJsonTask::class)
 
 node {
     download.set(true)
-    nodeProjectDir.set(rootPackageJson.rootPackageJson.parentFile / "node_modules")
+    nodeProjectDir.set(rootPackageJson.rootPackageJson.parentFile.normalize())
 }
 
 tasks {
@@ -81,7 +85,7 @@ tasks {
             val generateWebpackConfig =
                 create<GenerateWebpackConfig>("generate${modeName}WebpackConfig") {
                     dependsOn(fixNodeFetchForWebpack)
-                    group = "distribution"
+                    group = "other"
                     target = NODE
                     this.mode = mode // PRODUCTION will fail
                     entryFile = fixNodeFetchForWebpack.destinationDir / "fixed.js"
@@ -96,6 +100,18 @@ tasks {
                     }
                     outputBundleFolder = file("$buildDir/distributions").absolutePath
                     outputConfig = file("$buildDir/webpack/webpack.${modeName.toLowerCase()}.js")
+                    if (mode == PRODUCTION)
+                        terserSettings.set(
+                            TerserPluginSettings(
+                                parallel = true,
+                                terserOptions = TerserPluginSettings.Options(
+                                    mangle = true,
+                                    sourceMaps = false,
+                                    keepClassnames = Regex("AbortSignal"),
+                                    keepFileNames = Regex("AbortSignal")
+                                )
+                            )
+                        )
                 }
 
             val webpackExecutable = create<NodeTask>("${modeName.toLowerCase()}WebpackExecutable") {
@@ -104,6 +120,11 @@ tasks {
                 script.set(rootPackageJson.rootPackageJson.parentFile / "node_modules/webpack-cli/bin/cli.js")
                 args.set(listOf("-c", generateWebpackConfig.outputConfig.absolutePath))
 
+                @Suppress("UnstableApiUsage")
+                environment.put(
+                    "NODE_PATH",
+                    rootPackageJson.rootPackageJson.parentFile.child("node_modules").normalize().absolutePath
+                )
                 inputs.file(generateWebpackConfig.outputConfig)
                 outputs.file(generateWebpackConfig.outputBundleFile)
             }

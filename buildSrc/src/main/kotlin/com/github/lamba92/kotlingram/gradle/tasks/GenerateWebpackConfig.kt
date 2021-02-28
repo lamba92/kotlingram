@@ -28,20 +28,31 @@ open class GenerateWebpackConfig : DefaultTask() {
         PRODUCTION, DEVELOPMENT
     }
 
+    data class TerserPluginSettings(
+        var parallel: Boolean,
+        var terserOptions: Options
+    ) : Serializable {
+        data class Options(
+            val mangle: Boolean,
+            val sourceMaps: Boolean,
+            val keepClassnames: Regex,
+            val keepFileNames: Regex
+        ) : Serializable
+    }
+
     private val template = """
-        module.exports = [{
+        %%%IMPORTS%%%module.exports = [{
             mode: '%%%MODE%%%',
             name: 'server',
             entry: '%%%ENTRY%%%',
-            target: '%%%Mode%%%', // <-- importat part!
+            target: '%%%Mode%%%', // <-- important part!
             output: {
                 path: '%%%OUTPUT_PATH%%%',
                 filename: '%%%OUTPUT_NAME%%%',
             },
             resolve: {
-                modules: [%%%MODULES_FOLDER%%%],
-                %%%FALLBACKS%%%
-            }
+                modules: [%%%MODULES_FOLDER%%%]%%%FALLBACKS%%%
+            }%%%MINIMIZER%%%
         }];
     """.trimIndent()
 
@@ -69,6 +80,10 @@ open class GenerateWebpackConfig : DefaultTask() {
     @get:Input
     var fallbacks = project.objects.listProperty(ResolveFallback::class)
 
+    @get:Input
+    @get:Optional
+    val terserSettings = project.objects.property<TerserPluginSettings>()
+
     init {
         with(project) {
             outputBundleFolder = file("$buildDir\\bundle").absolutePath
@@ -82,34 +97,61 @@ open class GenerateWebpackConfig : DefaultTask() {
     @TaskAction
     fun buildFile() {
         outputConfig.writeText(
-            template.replace("%%%ENTRY%%%", entryFile.absolutePath.replace("\\", "\\\\"))
+            template.replace("%%%ENTRY%%%", entryFile.absolutePath.fixSlashes())
+                .replace("%%%IMPORTS%%%", buildString {
+                    if (terserSettings.isPresent)
+                        appendLine("const TerserPlugin = require('terser-webpack-plugin');")
+                    appendLine()
+                })
                 .replace("%%%Mode%%%", target.name.toLowerCase())
-                .replace("%%%OUTPUT_PATH%%%", outputBundleFolder.replace("\\", "\\\\"))
+                .replace("%%%OUTPUT_PATH%%%", outputBundleFolder.fixSlashes())
                 .replace("%%%OUTPUT_NAME%%%", outputBundleName.appendIfMissing(".js"))
                 .replace("%%%MODE%%%", mode.name.toLowerCase())
                 .replace(
                     "%%%MODULES_FOLDER%%%",
-                    modulesFolder.get().joinToString(",") { "'${it.absolutePath.replace("\\", "\\\\")}'" }
+                    modulesFolder.get().joinToString(",") { "'${it.absolutePath.fixSlashes()}'" }
                 )
                 .replace("%%%FALLBACKS%%%", buildString {
-                    if (fallbacks.get().isNotEmpty())
+                    if (fallbacks.get().isNotEmpty()) {
+                        appendLine(",")
                         appendLine("                fallback: {")
+                    }
                     fallbacks.get().forEachIndexed { index, f: ResolveFallback ->
                         when (f) {
                             is ResolveFallback.ModuleFallback ->
-                                append("'${f.moduleName}': require.resolve('${f.resolveModuleName}')")
+                                append("            '${f.moduleName}': require.resolve('${f.resolveModuleName}')")
                             is ResolveFallback.NoFallback ->
-                                append("'${f.moduleName}': false")
+                                append("            '${f.moduleName}': false")
                         }
                         if (index != fallbacks.get().lastIndex)
-                            append(",").append("\n            ")
+                            append(",")
                     }
                     if (fallbacks.get().isNotEmpty())
                         appendLine("                }")
+                })
+                .replace("%%%MINIMIZER%%%", buildString {
+                    terserSettings.takeIf { it.isPresent }?.get()?.apply {
+                        appendLine(",")
+                        appendLine("    optimization: {")
+                        appendLine("        minimizer: [")
+                        appendLine("            new TerserPlugin({")
+                        appendLine("                parallel: $parallel,")
+                        appendLine("                terserOptions: {")
+                        appendLine("                    mangle: ${terserOptions.mangle},")
+                        appendLine("                    keep_classnames: new RegExp('${terserOptions.keepClassnames.pattern.fixSlashes()}'),")
+                        appendLine("                    keep_fnames: new RegExp('${terserOptions.keepFileNames.pattern.fixSlashes()}')")
+                        appendLine("                }")
+                        appendLine("            })")
+                        appendLine("        ]")
+                        appendLine("    }")
+                    }
                 })
         )
     }
 }
 
-fun StringBuilder.appendLine(element: String): StringBuilder =
+fun StringBuilder.appendLine(element: String = ""): StringBuilder =
     append(element).append("\n")
+
+private fun String.fixSlashes() =
+    replace("\\", "\\\\")

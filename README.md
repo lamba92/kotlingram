@@ -97,7 +97,7 @@ build.
 Versions used:
 
 - Kotlin 1.4.30
-- Kotlinx.serialization: 1.0.1
+- Kotlinx.serialization: 1.1.0
 - Ktor: 1.5.1
 
 Platforms available are:

@@ -16,6 +16,9 @@ kotlin {
     targets.withType<KotlinNativeTarget> {
         binaries.executable {
             entryPoint = "com.github.lamba92.kotlingram.examples.native.main"
+
+            // for debugging the kotlin native linking process
+            // https://youtrack.jetbrains.com/issue/KT-45097
             compilation.kotlinOptions {
                 freeCompilerArgs += listOf("-Xverbose-phases=CStubs")
             }
@@ -29,6 +32,7 @@ kotlin {
             linkTaskProvider {
                 finalizedBy(copyStubs)
             }
+            // end debugging stuff
         }
     }
 

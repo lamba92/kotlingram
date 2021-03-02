@@ -7,12 +7,6 @@ plugins {
     kotlin("multiplatform")
 }
 
-val copyStubs by tasks.creating(Copy::class) {
-    from(rootProject.file("cstubs.c"))
-    into("$buildDir/stubs")
-    doLast { rootProject.file("cstubs.c").delete() }
-}
-
 kotlin {
 
     mingwX64()
@@ -24,6 +18,13 @@ kotlin {
             entryPoint = "com.github.lamba92.kotlingram.examples.native.main"
             compilation.kotlinOptions {
                 freeCompilerArgs += listOf("-Xverbose-phases=CStubs")
+            }
+            val copyStubs = tasks.create<Copy>("copy${linkTask.name.capitalize()}Stubs") {
+                from(rootProject.file("cstubs.c")) {
+                    rename { "${linkTask.name}_$it" }
+                }
+                into("$buildDir/stubs")
+                doLast { rootProject.file("cstubs.c").delete() }
             }
             linkTaskProvider {
                 finalizedBy(copyStubs)

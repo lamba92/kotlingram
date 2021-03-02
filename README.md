@@ -73,7 +73,8 @@ To install add in your Gradle build:
 
 ```kotlin
 dependenceis {
-    implementation("com.github.lamba92:kotlingram:{latest_version}")
+    implementation("com.github.lamba92:kotlingram-core:{latest_version}")
+    implementation("com.github.lamba92:kotlingram-bot-builder:{latest_version}")
 }
 ```
 For Kotlin/Multiplatform:

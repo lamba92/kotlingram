@@ -25,50 +25,6 @@ data class TelegramMethod(val name: String, val parameters: List<TelegramParamet
 
 val sealedClassTypeRegex = Regex("must be ([\\w_]*)")
 
-//fun TelegramObject.generateSourceCode2() {
-//    val isTypedSealedClass =
-//        "type" in fields.map { it.name } && name in inputMediaTypes
-//    val trueFields =
-//        when {
-//            isTypedSealedClass -> fields.filter { it.name != "type" }
-//            "type" in fields.map { it.name } ->
-//                fields.filter { it.name != "type" } + fields[fields.indexOfFirst { it.name == "type" }]
-//
-//            else -> fields
-//        }
-//    val dataClass = buildClass(name) {
-//        addKdoc(description.split("\n").first(), *description.split("\n").drop(1).toTypedArray())
-//        addModifiers(KModifier.DATA)
-//        addAnnotation<Serializable>()
-//        primaryConstructor {
-//            trueFields.forEach { field ->
-//
-//                addParameter(field.name.toCamelCase()) {
-//                    addModifiers()
-//                }
-//            }
-//        }
-//    }
-//}
-//
-//fun FunSpec.Builder.addParameter(name: String, type: String, parameterSpec: ParameterSpec.Builder.() -> Unit = {}) =
-//    addParameter(ParameterSpec.builder(name, ClassName(type)).apply(parameterSpec).build())
-//
-//fun TypeSpec.Builder.primaryConstructor(primaryConstructor: FunSpec.Builder.() -> Unit) =
-//    primaryConstructor(FunSpec.constructorBuilder().apply(primaryConstructor).build())
-//
-//fun buildClass(className: ClassName, action: TypeSpec.Builder.() -> Unit) =
-//    TypeSpec.classBuilder(className).apply(action).build()
-//
-//fun buildClass(className: String, action: TypeSpec.Builder.() -> Unit) =
-//    TypeSpec.classBuilder(className).apply(action).build()
-//
-//fun buildClass(packageName: String, vararg className: String, action: TypeSpec.Builder.() -> Unit) =
-//    TypeSpec.classBuilder(ClassName(packageName, *className)).apply(action).build()
-//
-//inline fun <reified T> TypeSpec.Builder.addAnnotation() =
-//    addAnnotation(T::class)
-
 fun TelegramObject.generateSourceCode() = buildString {
     val isTypedSealedClass =
         "type" in fields.map { it.name } && name in inputMediaTypes

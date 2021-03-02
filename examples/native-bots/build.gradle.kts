@@ -7,6 +7,12 @@ plugins {
     kotlin("multiplatform")
 }
 
+val copyStubs by tasks.creating(Copy::class) {
+    from(rootProject.file("cstubs.c"))
+    into("$buildDir/stubs")
+    doLast { rootProject.file("cstubs.c").delete() }
+}
+
 kotlin {
 
     mingwX64()
@@ -16,21 +22,11 @@ kotlin {
     targets.withType<KotlinNativeTarget> {
         binaries.executable {
             entryPoint = "com.github.lamba92.kotlingram.examples.native.main"
-            with(compilation) {
-                kotlinOptions {
-                    freeCompilerArgs += listOf("-Xverbose-phases=CStubs")
-                }
-                compileKotlinTaskProvider {
-                    doLast {
-                        copy {
-                            from(rootProject.file("cstubs.c")) {
-                                rename { "${konanTarget.name}_$it" }
-                            }
-                            into("$buildDir/stubs")
-                        }
-                        rootProject.file("cstubs.c").delete()
-                    }
-                }
+            compilation.kotlinOptions {
+                freeCompilerArgs += listOf("-Xverbose-phases=CStubs")
+            }
+            linkTaskProvider {
+                finalizedBy(copyStubs)
             }
         }
     }

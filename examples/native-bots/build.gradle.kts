@@ -1,3 +1,6 @@
+@file:Suppress("SuspiciousCollectionReassignment")
+
+import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
@@ -13,11 +16,27 @@ kotlin {
     targets.withType<KotlinNativeTarget> {
         binaries.executable {
             entryPoint = "com.github.lamba92.kotlingram.examples.native.main"
+            with(compilation) {
+                kotlinOptions {
+                    freeCompilerArgs += listOf("-Xverbose-phases=CStubs")
+                }
+                compileKotlinTaskProvider {
+                    doLast {
+                        copy {
+                            from(rootProject.file("cstubs.c")) {
+                                rename { "${konanTarget.name}_$it" }
+                            }
+                            into("$buildDir/stubs")
+                        }
+                        rootProject.file("cstubs.c").delete()
+                    }
+                }
+            }
         }
     }
 
     sourceSets {
-        val commonMain by getting  {
+        val commonMain by getting {
             dependencies {
                 val ktorVersion: String by project
                 implementation(project(":api:kotlingram-bot-builder"))

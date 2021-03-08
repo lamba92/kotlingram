@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TelegramResponse<T>(
-    val result: T,
+    val result: T? = null,
     val ok: Boolean,
     val description: String? = null,
     @SerialName("error_code") val errorCode: Int? = null,
-    val parameters: ResponseParameters? = null,
+    val parameters: ResponseParameters? = null
 )

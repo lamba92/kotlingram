@@ -124,6 +124,7 @@ tasks {
                 setNodeModulesPath(rootPackageJson.rootPackageJson.parentFile / "node_modules")
 
                 inputs.file(generateWebpackConfig.outputConfig)
+                inputs.file(fixNodeFetchForWebpack.destinationDir / "fixed.js")
                 outputs.file(generateWebpackConfig.outputBundleFile)
             }
 

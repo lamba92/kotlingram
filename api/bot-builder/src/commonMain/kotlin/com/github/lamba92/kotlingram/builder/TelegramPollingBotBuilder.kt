@@ -88,12 +88,14 @@ class TelegramPollingBotBuilder {
             CoroutineName(options.botUsername!!),
             start
         ) {
+
             val updates = if (lastUpdateId != 0)
-                client.getUpdates(lastUpdateId)
+                client.getUpdates(lastUpdateId).result
             else
-                client.getUpdates()
-            updates.result.lastOrNull()?.updateId?.let { lastUpdateId = it + 1 }
-            updates.result.forEach { update ->
+                client.getUpdates().result
+
+            updates?.lastOrNull()?.updateId?.let { lastUpdateId = it + 1 }
+            updates?.forEach { update ->
                 update.inlineQuery?.let { inlineQuery ->
                     launch(exceptionHandler) {
                         handlers.inlineQueriesHandler(InlineQueryContext(inlineQuery, coroutineContext, client))
@@ -105,6 +107,7 @@ class TelegramPollingBotBuilder {
                     }
                 }
             }
+
         }
     }
 }

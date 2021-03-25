@@ -15,4 +15,4 @@ pluginManagement {
     }
 }
 
-include(":parser", ":parser:cli")
+include(":parser", ":parser:cli", ":kotlingram-core")

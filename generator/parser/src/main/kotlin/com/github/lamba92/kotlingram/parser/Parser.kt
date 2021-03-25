@@ -69,6 +69,7 @@ val responseTypeRegexes = listOf(
     Regex("Returns the new invite link as (String) on success"),
     Regex("Returns (.*) on success"),
     Regex("as (\\w*) on success"),
+    Regex("invite link as (?:a )?(\\w+) object"),
 )
 
 fun findResponseTypeFromDescription(description: String): String {
@@ -160,7 +161,7 @@ fun Sequence<List<DocElement>>.filterObjects() = filter {
     it.first { it.tagName == "table" }.thead {
         tr {
             th {
-                findFirst { text == "Field" }
+                findFirst { text == "Field" || text == "Parameter" }
             }
         }
     } && it.first { it.tagName == "h4" }.text.first().isUpperCase()

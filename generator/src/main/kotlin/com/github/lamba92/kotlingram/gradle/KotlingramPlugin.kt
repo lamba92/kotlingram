@@ -1,7 +1,5 @@
 package com.github.lamba92.kotlingram.gradle
 
-import de.marcphilipp.gradle.nexus.NexusPublishExtension
-import de.marcphilipp.gradle.nexus.NexusPublishPlugin
 import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -21,8 +19,6 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 import org.jetbrains.kotlinx.serialization.gradle.SerializationGradleSubplugin
-import java.net.URI
-import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 
 open class KotlingramPublishedApiPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
@@ -32,7 +28,6 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
         apply<DokkaPlugin>()
         apply<MavenPublishPlugin>()
         apply<SigningPlugin>()
-        apply<NexusPublishPlugin>()
 
         val dokkaHtml by tasks.getting(DokkaTask::class)
 
@@ -69,15 +64,6 @@ open class KotlingramPublishedApiPlugin : Plugin<Project> {
             val password: String? = searchPropertyOrNull("SIGNING_PASSWORD")
             @Suppress("UnstableApiUsage")
             useInMemoryPgpKeys(secretKey, password)
-        }
-
-        configure<NexusPublishExtension> {
-            repositories {
-                sonatype {
-                    username.set("Lamba92")
-                    password.set(searchPropertyOrNull("SONATYPE_PASSWORD"))
-                }
-            }
         }
 
         configure<PublishingExtension> {

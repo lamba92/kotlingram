@@ -1,11 +1,16 @@
 package com.github.lamba92.kotlingram.gradle.tasks
 
-import com.github.lamba92.kotlingram.gradle.appendIfMissing
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
 import org.gradle.kotlin.dsl.*
 import java.io.File
 import java.io.Serializable
+
+val GenerateWebpackConfig.outputBundleFile
+    get() = File(outputBundleFolder, outputBundleName)
+
+fun String.appendIfMissing(s: String) =
+    if (endsWith(s)) this else this + s
 
 open class GenerateWebpackConfig : DefaultTask() {
 

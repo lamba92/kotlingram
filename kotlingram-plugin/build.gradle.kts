@@ -1,8 +1,6 @@
 plugins {
     `kotlin-dsl`
     kotlin("jvm")
-    id("maven-publish")
-    id("com.gradle.plugin-publish") version "0.12.0"
 }
 
 allprojects {
@@ -22,13 +20,9 @@ dependencies {
 
     val dokkaVersion: String by project
     val nexusPublishPluginVersion: String by project
-    val nodePluginVersion: String by project
-    val downloadPluginVersion: String by project
-    val kotlinxDatetimeVersion: String by project
 
     api(kotlin("gradle-plugin"))
     api(kotlin("serialization"))
-    api(project(":parser"))
     api(kotlin("reflect"))
     api("org.jetbrains.dokka", "dokka-gradle-plugin", dokkaVersion)
     api("io.github.gradle-nexus", "publish-plugin", nexusPublishPluginVersion)

@@ -1,7 +1,6 @@
 package com.github.lamba92.kotlingram.gradle
 
 import com.github.gradle.node.task.NodeTask
-import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig
 import org.gradle.api.Project
 import java.io.File
 import kotlinx.datetime.*
@@ -23,9 +22,6 @@ fun Project.searchPropertyOrNull(name: String, vararg aliases: String): String? 
 fun String.appendIfMissing(s: String) =
     if (endsWith(s)) this else this + s
 
-val GenerateWebpackConfig.outputBundleFile
-    get() = File(outputBundleFolder, outputBundleName)
-
 fun File.child(name: String) =
     File(this, name)
 
@@ -46,11 +42,3 @@ fun Instant.getVersioningUTCDate(isSnapshot: Boolean = false) =
                     minute.toString().padStart(2, '0')
                 }-SNAP" else ""
         }
-
-@Suppress("UnstableApiUsage")
-fun NodeTask.setNodeModulesPath(path: String) =
-    environment.put("NODE_PATH", path)
-
-@Suppress("UnstableApiUsage")
-fun NodeTask.setNodeModulesPath(folder: File) =
-    environment.put("NODE_PATH", folder.normalize().absolutePath)

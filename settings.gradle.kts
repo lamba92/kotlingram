@@ -25,6 +25,7 @@ include(
     ":api",
     ":api:kotlingram-bot-builder",
     ":api:kotlingram-core",
+    ":api:kotlingram-generated-apis",
     ":examples:jvm-bot",
     ":examples:js-bot",
     ":examples:native-bots"
@@ -32,5 +33,7 @@ include(
 
 project(":api:kotlingram-bot-builder").projectDir = file("api/bot-builder")
 project(":api:kotlingram-core").projectDir = file("api/core")
+project(":api:kotlingram-generated-apis").projectDir = file("api/generated")
 
 includeBuild("generator")
+includeBuild("kotlingram-plugin")

@@ -1,7 +1,5 @@
 import com.github.gradle.node.task.NodeTask
-import com.github.lamba92.kotlingram.gradle.setNodeModulesPath
-import com.github.lamba92.kotlingram.gradle.div
-import com.github.lamba92.kotlingram.gradle.outputBundleFile
+import com.github.lamba92.kotlingram.gradle.tasks.outputBundleFile
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Mode
 import com.github.lamba92.kotlingram.gradle.tasks.GenerateWebpackConfig.Mode.*
@@ -143,3 +141,17 @@ tasks {
         }
 
 }
+
+@Suppress("UnstableApiUsage")
+fun NodeTask.setNodeModulesPath(path: String) =
+    environment.put("NODE_PATH", path)
+
+@Suppress("UnstableApiUsage")
+fun NodeTask.setNodeModulesPath(folder: File) =
+    environment.put("NODE_PATH", folder.normalize().absolutePath)
+
+fun File.child(name: String) =
+    File(this, name)
+
+operator fun File.div(name: String) =
+    child(name)
